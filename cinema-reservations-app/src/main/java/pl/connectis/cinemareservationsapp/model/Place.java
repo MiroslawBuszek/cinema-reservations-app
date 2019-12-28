@@ -1,6 +1,13 @@
 package pl.connectis.cinemareservationsapp.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Place {
+    @Id
+    @GeneratedValue
     private long id;
     private Room room;
     private Row row;
