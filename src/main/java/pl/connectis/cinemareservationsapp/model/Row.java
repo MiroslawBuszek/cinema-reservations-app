@@ -3,6 +3,7 @@ package pl.connectis.cinemareservationsapp.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Row {
@@ -63,5 +64,18 @@ public class Row {
                 ", capacity=" + capacity +
                 ", hasSold=" + hasSold +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Row row = (Row) o;
+        return id == row.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
