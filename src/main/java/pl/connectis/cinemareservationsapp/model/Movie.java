@@ -77,24 +77,6 @@ public class Movie {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Movie movie = (Movie) o;
-        return id == movie.id &&
-                length == movie.length &&
-                ageLimit == movie.ageLimit &&
-                name.equals(movie.name) &&
-                category.equals(movie.category) &&
-                description.equals(movie.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, category, length, description, ageLimit);
-    }
-
-    @Override
     public String toString() {
         return "Movie{" +
                 "id=" + id +
