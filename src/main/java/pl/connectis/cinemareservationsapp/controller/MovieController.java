@@ -1,19 +1,18 @@
 package pl.connectis.cinemareservationsapp.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 public class MovieController {
 
-    private final MovieRepository movieRepository;
-
-    public MovieController(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
-    }
+    @Autowired
+    private MovieRepository movieRepository;
 
     @GetMapping("/movies")
     public Iterable<Movie> getAllMovies() {
@@ -26,7 +25,8 @@ public class MovieController {
     }
 
     @PostMapping("/movies")
-    public Movie addMovie(@RequestBody Movie movie) {
+    public Movie addMovie(@Valid @RequestBody Movie movie) {
         return movieRepository.save(movie);
     }
+
 }

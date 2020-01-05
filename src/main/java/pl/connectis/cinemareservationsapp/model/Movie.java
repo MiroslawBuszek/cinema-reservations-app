@@ -1,11 +1,12 @@
 package pl.connectis.cinemareservationsapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@Table(name = "movie")
 public class Movie {
+
     @Id
     @GeneratedValue
     private long id;
@@ -73,6 +74,24 @@ public class Movie {
 
     public void setAgeLimit(int ageLimit) {
         this.ageLimit = ageLimit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return id == movie.id &&
+                length == movie.length &&
+                ageLimit == movie.ageLimit &&
+                name.equals(movie.name) &&
+                category.equals(movie.category) &&
+                description.equals(movie.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, category, length, description, ageLimit);
     }
 
     @Override
