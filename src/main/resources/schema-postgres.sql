@@ -14,6 +14,7 @@ create table employee(
 	Id bigserial primary key,
 	first_name varchar(32) not null,
 	last_name varchar(32) not null
+
 );
 
 create table movie(

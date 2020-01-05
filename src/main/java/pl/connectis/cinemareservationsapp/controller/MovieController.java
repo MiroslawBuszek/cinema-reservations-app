@@ -14,17 +14,17 @@ public class MovieController {
     @Autowired
     private MovieRepository movieRepository;
 
-    @GetMapping("/movies")
+    @GetMapping("/movie/all")
     public Iterable<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
 
-    @GetMapping("/movies/{id}")
+    @GetMapping("/movie/{id}")
     public List<Movie> getMovieById(@PathVariable long id) {
         return movieRepository.findById(id);
     }
 
-    @PostMapping("/movies")
+    @PostMapping("/movie")
     public Movie addMovie(@Valid @RequestBody Movie movie) {
         return movieRepository.save(movie);
     }
