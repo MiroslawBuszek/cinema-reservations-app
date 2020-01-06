@@ -1,7 +1,6 @@
 package pl.connectis.cinemareservationsapp.model;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "movie")
