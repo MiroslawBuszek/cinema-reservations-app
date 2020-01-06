@@ -17,15 +17,16 @@ public class Ticket {
     @JoinColumn
     private Client client;
 
-    @OneToOne
-    @JoinColumn
-    private Place place;
+//    @OneToOne
+//    @JoinColumn
+//  TODO: Change String into instance of Place class
+    private String place;
     private double price;
 
     public Ticket() {
     }
 
-    public Ticket(long id, Session session, Client client, Place place, double price) {
+    public Ticket(long id, Session session, Client client, String place, double price) {
         this.id = id;
         this.session = session;
         this.client = client;
@@ -57,11 +58,11 @@ public class Ticket {
         this.client = client;
     }
 
-    public Place getPlace() {
+    public String getPlace() {
         return place;
     }
 
-    public void setPlace(Place place) {
+    public void setPlace(String place) {
         this.place = place;
     }
 

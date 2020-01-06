@@ -62,6 +62,7 @@ create table ticket(
 	Id bigserial primary key,
 	session_id bigint not null,
 	client_id bigint not null,
-	place_id bigint not null,
+	place varchar(128) not null
+--	place_id bigint not null,
 	price decimal(10,2) not null
 );

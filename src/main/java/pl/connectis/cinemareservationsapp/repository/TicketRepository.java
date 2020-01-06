@@ -2,12 +2,12 @@ package pl.connectis.cinemareservationsapp.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.connectis.cinemareservationsapp.model.Session;
+import pl.connectis.cinemareservationsapp.model.Ticket;
 
 import java.util.List;
 
 @Repository
-public interface SessionRepository extends CrudRepository<Session, Long> {
+public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
-    List<Session> findById(long id);
+    List<Ticket> findById(long id);
 }
