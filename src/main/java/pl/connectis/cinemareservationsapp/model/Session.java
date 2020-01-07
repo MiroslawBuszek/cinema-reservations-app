@@ -1,8 +1,6 @@
 package pl.connectis.cinemareservationsapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -11,7 +9,11 @@ public class Session {
     @Id
     @GeneratedValue
     private long id;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
     private Movie movie;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
     private Room room;
     private LocalDateTime startTime;
 

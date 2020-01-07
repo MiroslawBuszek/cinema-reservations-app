@@ -1,9 +1,6 @@
 package pl.connectis.cinemareservationsapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -11,8 +8,14 @@ public class Ticket {
     @Id
     @GeneratedValue
     private long id;
+    @OneToOne
+    @JoinColumn(name = "session_id", referencedColumnName = "id")
     private Session session;
+    @OneToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
+    @OneToOne
+    @JoinColumn(name = "place_id", referencedColumnName = "id")
     private Place place;
     private double price;
 
