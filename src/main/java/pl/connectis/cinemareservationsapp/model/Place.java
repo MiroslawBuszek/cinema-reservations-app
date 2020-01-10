@@ -11,14 +11,21 @@ public class Place {
 
     @ManyToOne
     @JoinColumn
-    private Row row;
+    private Room room;
+
+    @ManyToOne
+    @JoinColumn
+    private Session session;
+    private boolean isSold;
 
     public Place() {
     }
 
-    public Place(long id, Row row) {
+    public Place(long id, Room room, Session session, boolean isSold) {
         this.id = id;
-        this.row = row;
+        this.room = room;
+        this.session = session;
+        this.isSold = isSold;
     }
 
     public long getId() {
@@ -29,19 +36,37 @@ public class Place {
         this.id = id;
     }
 
-    public Row getRow() {
-        return row;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRow(Row row) {
-        this.row = row;
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public boolean isSold() {
+        return isSold;
+    }
+
+    public void setSold(boolean sold) {
+        isSold = sold;
     }
 
     @Override
     public String toString() {
         return "Place{" +
                 "id=" + id +
-                ", row=" + row +
+                ", room=" + room +
+                ", session=" + session +
+                ", isSold=" + isSold +
                 '}';
     }
 }
