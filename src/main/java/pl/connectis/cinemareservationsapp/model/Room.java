@@ -1,6 +1,7 @@
 package pl.connectis.cinemareservationsapp.model;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 public class Room {
@@ -9,16 +10,16 @@ public class Room {
     @GeneratedValue
     private long id;
 
-    private String name;
     private int capacity;
+    private int[] layout;
 
     public Room() {
     }
 
-    public Room(long id, String name, int capacity) {
+    public Room(long id, int capacity, int[] layout) {
         this.id = id;
-        this.name = name;
         this.capacity = capacity;
+        this.layout = layout;
     }
 
     public long getId() {
@@ -29,14 +30,6 @@ public class Room {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getCapacity() {
         return capacity;
     }
@@ -45,12 +38,21 @@ public class Room {
         this.capacity = capacity;
     }
 
+    public int[] getLayout() {
+        return layout;
+    }
+
+    public void setLayout(int[] layout) {
+        this.layout = layout;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", capacity=" + capacity +
+                ", layout=" + Arrays.toString(layout) +
                 '}';
     }
+
 }

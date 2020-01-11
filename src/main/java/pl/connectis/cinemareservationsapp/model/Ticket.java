@@ -17,20 +17,19 @@ public class Ticket {
     @JoinColumn
     private Client client;
 
-//    @OneToOne
-//    @JoinColumn
-//  TODO: Change String into instance of Place class
-    private String place;
+    private int rowNumber;
+    private int seatNumber;
     private double price;
 
     public Ticket() {
     }
 
-    public Ticket(long id, Session session, Client client, String place, double price) {
+    public Ticket(long id, Session session, Client client, int rowNumber, int seatNumber, double price) {
         this.id = id;
         this.session = session;
         this.client = client;
-        this.place = place;
+        this.rowNumber = rowNumber;
+        this.seatNumber = seatNumber;
         this.price = price;
     }
 
@@ -58,12 +57,20 @@ public class Ticket {
         this.client = client;
     }
 
-    public String getPlace() {
-        return place;
+    public int getRowNumber() {
+        return rowNumber;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setRowNumber(int rowNumber) {
+        this.rowNumber = rowNumber;
+    }
+
+    public int getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(int seatNumber) {
+        this.seatNumber = seatNumber;
     }
 
     public double getPrice() {
@@ -80,8 +87,10 @@ public class Ticket {
                 "id=" + id +
                 ", session=" + session +
                 ", client=" + client +
-                ", place=" + place +
+                ", rowNumber=" + rowNumber +
+                ", seatNumber=" + seatNumber +
                 ", price=" + price +
                 '}';
     }
+
 }

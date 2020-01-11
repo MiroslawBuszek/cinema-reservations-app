@@ -34,27 +34,22 @@ create table movie(
 create table place(
 	Id bigserial primary key,
 	room_id bigint not null,
-	row_id bigint not null,
+	session_id bigint not null,
+	row_nuber smallint not null,
+	seat_number smallint not null,
 	is_sold bool not null default false
 );
 
 create table room(
 	Id bigserial primary key,
-	name varchar(64) not null,
-	capacity smallint not null
-);
-
-create table row(
-	Id bigserial primary key,
 	capacity smallint not null,
-	has_sold bool not null default false
+	layout smallint[] not null
 );
 
 create table session(
 	Id bigserial primary key,
 	movie_id bigint not null,
 	room_id bigint not null,
---	employee_id bigint not null,
 	start_time timestamp not null
 );
 
@@ -62,7 +57,7 @@ create table ticket(
 	Id bigserial primary key,
 	session_id bigint not null,
 	client_id bigint not null,
-	place varchar(128) not null
---	place_id bigint not null,
+	row_number smallint not null,
+	seat_number smallint not null,
 	price decimal(10,2) not null
 );
