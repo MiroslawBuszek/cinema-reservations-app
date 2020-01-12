@@ -29,4 +29,20 @@ public class MovieController {
         return movieRepository.save(movie);
     }
 
+    @PostMapping("/movie/many")
+    public Iterable<Movie> addMovieList(@Valid @RequestBody Iterable<Movie> movieList) {
+        return movieRepository.saveAll(movieList);
+    }
+
+    @DeleteMapping("/movie/{id}")
+    public void deleteMovie(@PathVariable long id) {
+        movieRepository.deleteById(id);
+    }
+
+    // TODO: fix the updateMovie method
+    @PutMapping("/movie/{id}")
+    public Movie updateMovie(@Valid @RequestBody Movie updatedMovie, @PathVariable long id) {
+        return movieRepository.save(updatedMovie);
+    }
+
 }

@@ -1,12 +1,3 @@
-drop table if exists client;
-drop table if exists employee;
-drop table if exists movie;
-drop table if exists place;
-drop table if exists room;
-drop table if exists row;
-drop table if exists session;
-drop table if exists ticket;
-
 create table client(
 	Id bigserial primary key,
 	firs_name varchar(32),
@@ -24,7 +15,7 @@ create table employee(
 
 create table movie(
 	Id bigserial primary key,
-	name varchar(128) not null,
+	title varchar(128) not null,
 	category varchar(64) not null,
 	length smallint not null,
 	description varchar(2048),
