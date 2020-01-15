@@ -3,22 +3,24 @@ package pl.connectis.cinemareservationsapp.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 public class Room {
     @Id
     @GeneratedValue
     private long id;
-    private String name;
     private int capacity;
+    private int[] layout;
 
     public Room() {
     }
 
-    public Room(long id, String name, int capacity) {
+    public Room(long id, int capacity, int[] layout) {
         this.id = id;
-        this.name = name;
         this.capacity = capacity;
+        this.layout = layout;
     }
 
     public long getId() {
@@ -29,12 +31,12 @@ public class Room {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int[] getLayout() {
+        return layout;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLayout(int[] layout) {
+        this.layout = layout;
     }
 
     public int getCapacity() {
@@ -49,8 +51,21 @@ public class Room {
     public String toString() {
         return "Room{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", capacity=" + capacity +
+                ", layout=" + Arrays.toString(layout) +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return id == room.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

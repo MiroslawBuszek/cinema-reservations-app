@@ -1,16 +1,21 @@
 package pl.connectis.cinemareservationsapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Ticket {
     @Id
     @GeneratedValue
     private long id;
+    @ManyToOne
+    @JoinColumn(name = "session_id")
     private Session session;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
     private Client client;
+    @OneToOne
+    @JoinColumn(name = "place_id", referencedColumnName = "id")
     private Place place;
     private double price;
 
@@ -74,5 +79,18 @@ public class Ticket {
                 ", place=" + place +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return id == ticket.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
