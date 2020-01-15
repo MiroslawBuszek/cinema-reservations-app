@@ -3,7 +3,7 @@ package pl.connectis.cinemareservationsapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.model.Movie;
-import pl.connectis.cinemareservationsapp.repository.MovieRepository;
+import pl.connectis.cinemareservationsapp.service.MovieService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -12,37 +12,37 @@ import java.util.List;
 public class MovieController {
 
     @Autowired
-    private MovieRepository movieRepository;
+    private MovieService movieService;
 
     @GetMapping("/movie/all")
     public Iterable<Movie> getAllMovies() {
-        return movieRepository.findAll();
+        return movieService.findAll();
     }
 
     @GetMapping("/movie/{id}")
     public List<Movie> getMovieById(@PathVariable long id) {
-        return movieRepository.findById(id);
+        return movieService.findById(id);
     }
 
     @PostMapping("/movie")
     public Movie addMovie(@Valid @RequestBody Movie movie) {
-        return movieRepository.save(movie);
+        return movieService.save(movie);
     }
 
     @PostMapping("/movie/many")
     public Iterable<Movie> addMovieList(@Valid @RequestBody Iterable<Movie> movieList) {
-        return movieRepository.saveAll(movieList);
+        return movieService.saveAll(movieList);
     }
 
     @DeleteMapping("/movie/{id}")
     public void deleteMovie(@PathVariable long id) {
-        movieRepository.deleteById(id);
+        movieService.deleteById(id);
     }
 
     // TODO: fix the updateMovie method
     @PutMapping("/movie/{id}")
-    public Movie updateMovie(@Valid @RequestBody Movie updatedMovie, @PathVariable long id) {
-        return movieRepository.save(updatedMovie);
+    public Movie updateMovie(@PathVariable long id, @Valid @RequestBody Movie updatedMovie) {
+        return movieService.updateMovie(id, updatedMovie);
     }
 
 }
