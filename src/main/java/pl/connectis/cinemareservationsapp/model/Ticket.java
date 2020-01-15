@@ -8,11 +8,11 @@ public class Ticket {
     @Id
     @GeneratedValue
     private long id;
-    @OneToOne
-    @JoinColumn(name = "session_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "session_id")
     private Session session;
-    @OneToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "client_id")
     private Client client;
     @OneToOne
     @JoinColumn(name = "place_id", referencedColumnName = "id")

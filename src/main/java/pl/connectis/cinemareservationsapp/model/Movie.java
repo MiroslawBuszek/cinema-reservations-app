@@ -10,7 +10,7 @@ public class Movie {
     @Id
     @GeneratedValue
     private long id;
-    private String name;
+    private String title;
     private String category;
     private int length;
     private String description;
@@ -19,9 +19,9 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(long id, String name, String category, int length, String description, int ageLimit) {
+    public Movie(long id, String title, String category, int length, String description, int ageLimit) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.category = category;
         this.length = length;
         this.description = description;
@@ -36,12 +36,12 @@ public class Movie {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String gettitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void settitle(String title) {
+        this.title = title;
     }
 
     public String getCategory() {
@@ -80,7 +80,7 @@ public class Movie {
     public String toString() {
         return "Movie{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", category='" + category + '\'' +
                 ", length=" + length +
                 ", description='" + description + '\'' +
