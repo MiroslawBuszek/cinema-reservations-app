@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
+import pl.connectis.cinemareservationsapp.service.SessionService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -12,20 +13,20 @@ import java.util.List;
 public class SessionController {
 
     @Autowired
-    private SessionRepository sessionRepository;
+    private SessionService sessionService;
 
     @GetMapping("/session/all")
     public Iterable<Session> getAllSessions() {
-        return sessionRepository.findAll();
+        return sessionService.findAll();
     }
 
     @GetMapping("/session/{id}")
     public List<Session> getSessionById(@PathVariable long id) {
-        return sessionRepository.findById(id);
+        return sessionService.findById(id);
     }
 
     @PostMapping("/session")
     public Session addSession(@Valid @RequestBody Session session) {
-        return sessionRepository.save(session);
+        return sessionService.save(session);
     }
 }
