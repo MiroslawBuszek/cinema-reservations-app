@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import pl.connectis.cinemareservationsapp.model.Employee;
 import pl.connectis.cinemareservationsapp.repository.EmployeeRepository;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
