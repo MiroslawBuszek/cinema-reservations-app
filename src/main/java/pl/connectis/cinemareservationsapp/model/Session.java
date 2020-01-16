@@ -18,15 +18,17 @@ public class Session {
     @JoinColumn
     private Room room;
 
+    private int[] reservedSeats;
     private LocalDateTime startTime;
 
     public Session() {
     }
 
-    public Session(long id, Movie movie, Room room, LocalDateTime startTime) {
+    public Session(long id, Movie movie, Room room, int[] reservedSeats, LocalDateTime startTime) {
         this.id = id;
         this.movie = movie;
         this.room = room;
+        this.reservedSeats = reservedSeats;
         this.startTime = startTime;
     }
 
@@ -52,6 +54,14 @@ public class Session {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public int[] getReservedSeats() {
+        return reservedSeats;
+    }
+
+    public void setReservedSeats(int[] reservedSeats) {
+        this.reservedSeats = reservedSeats;
     }
 
     public LocalDateTime getStartTime() {
