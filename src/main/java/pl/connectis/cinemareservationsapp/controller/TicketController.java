@@ -28,4 +28,15 @@ public class TicketController {
     public Ticket addTicket(@Valid @RequestBody Ticket ticket) {
         return ticketService.save(ticket);
     }
+
+    @PostMapping("/ticket/many")
+    public Iterable<Ticket> addTicketList(@Valid @RequestBody Iterable<Ticket> ticketList) {
+        return ticketService.saveAll(ticketList);
+    }
+
+    @DeleteMapping("/ticket/{id}")
+    public void deleteTicket(@PathVariable long id) {
+        ticketService.deleteById(id);
+    }
+
 }

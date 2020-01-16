@@ -2,8 +2,6 @@ package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.repository.TicketRepository;
 
@@ -25,5 +23,13 @@ public class TicketService {
 
     public Ticket save(Ticket ticket) {
         return ticketRepository.save(ticket);
+    }
+
+    public Iterable<Ticket> saveAll(Iterable<Ticket> ticketList) {
+        return ticketRepository.saveAll(ticketList);
+    }
+
+    public void deleteById(long id) {
+        ticketRepository.deleteById(id);
     }
 }
