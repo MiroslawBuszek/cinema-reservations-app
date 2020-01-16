@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.model.Client;
 import pl.connectis.cinemareservationsapp.repository.ClientRepository;
+import pl.connectis.cinemareservationsapp.service.ClientService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -12,21 +13,21 @@ import java.util.List;
 public class ClientController {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     @GetMapping("/client/all")
     public Iterable<Client> getAllClients() {
-        return clientRepository.findAll();
+        return clientService.findAll();
     }
 
     @GetMapping("/client/{id}")
     public List<Client> getClientById(@PathVariable long id) {
-        return clientRepository.findById(id);
+        return clientService.findById(id);
     }
 
     @PostMapping("/client")
     public Client addClient(@Valid @RequestBody Client client) {
-        return clientRepository.save(client);
+        return clientService.save(client);
     }
 
 }
