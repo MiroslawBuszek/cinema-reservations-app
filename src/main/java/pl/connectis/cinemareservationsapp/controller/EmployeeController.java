@@ -29,13 +29,13 @@ public class EmployeeController {
         return employeeService.save(employee);
     }
 
-    @PostMapping("/client/many")
-    public Iterable<Employee> addClientList(@Valid @RequestBody Iterable<Employee> employeeList) {
+    @PostMapping("/employee/many")
+    public Iterable<Employee> addEmployeeList(@Valid @RequestBody Iterable<Employee> employeeList) {
         return employeeService.saveAll(employeeList);
     }
 
-    @DeleteMapping("/client/{id}")
-    public void deleteClient(@PathVariable long id) {
+    @DeleteMapping("/employee/{id}")
+    public void deleteEmployee(@PathVariable long id) {
         employeeService.deleteById(id);
     }
 

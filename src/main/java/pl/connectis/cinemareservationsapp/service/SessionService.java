@@ -32,5 +32,4 @@ public class SessionService {
     public void deleteById(long id) {
         sessionRepository.deleteById(id);
     }
-
 }

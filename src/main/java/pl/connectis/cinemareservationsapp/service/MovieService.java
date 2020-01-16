@@ -34,7 +34,6 @@ public class MovieService {
     }
 
     public Movie updateMovie(long id, Movie updatedMovie) {
-        updatedMovie.setId(movieRepository.findById(id).get(0).getId());
-        return movieRepository.save(updatedMovie);
+        return updatedMovie;
     }
 }
