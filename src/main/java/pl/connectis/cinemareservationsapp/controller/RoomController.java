@@ -28,4 +28,15 @@ public class RoomController {
     public Room addRoom(@Valid @RequestBody Room room) {
         return roomService.save(room);
     }
+
+    @PostMapping("/room/many")
+    public Iterable<Room> addRoomList(@Valid @RequestBody Iterable<Room> roomList) {
+        return roomService.saveAll(roomList);
+    }
+
+    @DeleteMapping("/room/{id}")
+    public void deleteRoom(@PathVariable long id) {
+        roomService.deleteById(id);
+    }
+
 }

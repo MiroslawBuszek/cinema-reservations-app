@@ -2,8 +2,6 @@ package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 
@@ -27,4 +25,11 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
+    public Iterable<Room> saveAll(Iterable<Room> roomList) {
+        return roomRepository.saveAll(roomList);
+    }
+
+    public void deleteById(long id) {
+        roomRepository.deleteById(id);
+    }
 }
