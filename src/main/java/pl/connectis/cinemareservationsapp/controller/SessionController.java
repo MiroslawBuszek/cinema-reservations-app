@@ -28,4 +28,14 @@ public class SessionController {
     public Session addSession(@Valid @RequestBody Session session) {
         return sessionService.save(session);
     }
+
+    @PostMapping("/session/many")
+    public Iterable<Session> addSessionList(@Valid @RequestBody Iterable<Session> sessionList) {
+        return sessionService.saveAll(sessionList);
+    }
+
+    @DeleteMapping("/session/{id}")
+    public void deleteSession(@PathVariable long id) {
+        sessionService.deleteById(id);
+    }
 }

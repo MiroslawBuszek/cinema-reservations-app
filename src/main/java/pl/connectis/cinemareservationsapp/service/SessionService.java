@@ -25,4 +25,12 @@ public class SessionService {
         return sessionRepository.save(session);
     }
 
+    public Iterable<Session> saveAll(Iterable<Session> sessionList) {
+        return sessionRepository.saveAll(sessionList);
+    }
+
+    public void deleteById(long id) {
+        sessionRepository.deleteById(id);
+    }
+
 }
