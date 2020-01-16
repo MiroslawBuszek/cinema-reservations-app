@@ -3,7 +3,6 @@ package pl.connectis.cinemareservationsapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.model.Session;
-import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import pl.connectis.cinemareservationsapp.service.SessionService;
 
 import javax.validation.Valid;
