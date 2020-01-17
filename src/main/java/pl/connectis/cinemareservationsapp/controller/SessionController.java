@@ -32,16 +32,9 @@ public class SessionController {
         return sessionService.findById(id);
     }
 
-    @PostMapping("/session")
-    public Session addSession(@Valid @RequestBody Session session) {
-        return sessionService.save(session);
-    }
-
-    @PostMapping("/session/{roomId}/{movieId}")
-    public Session makeReservation(@PathVariable("roomId") long roomId, @PathVariable("movieId") long movieId, @Valid @RequestBody Session session) {
-        session.setRoom(roomService.findById(roomId).get(0));
-        session.setMovie(movieService.findById(movieId).get(0));
-        return sessionService.save(session);
+    @PostMapping("/session/")
+    public Session makeReservation(@RequestParam(value = "room") long roomId, @RequestParam(value = "movie") long movieId, @Valid @RequestBody Session session) {
+        return sessionService.createSession(roomId, movieId, session);
     }
 
     @PostMapping("/session/many")
