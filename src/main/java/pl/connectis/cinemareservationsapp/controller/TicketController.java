@@ -24,9 +24,16 @@ public class TicketController {
         return ticketService.findById(id);
     }
 
+    @GetMapping("/ticket")
+    public List<Ticket> getTicketByClientIdOrSessionId(
+            @RequestParam(value = "client", required = false) Long clientId,
+            @RequestParam(value = "session", required = false) Long sessionId) {
+        return ticketService.findByClientIdOrSessionId(clientId, sessionId);
+    }
+
     @PostMapping("/ticket")
-    public Ticket addTicket(@Valid @RequestBody Ticket ticket) {
-        return ticketService.save(ticket);
+    public Ticket addTicket(@RequestParam(value = "session") long sessionId, @Valid @RequestBody Ticket ticket) {
+        return ticketService.createTicket(sessionId, ticket);
     }
 
     @PostMapping("/ticket/many")

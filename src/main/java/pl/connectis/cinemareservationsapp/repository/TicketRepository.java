@@ -10,4 +10,8 @@ import java.util.List;
 public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
     List<Ticket> findById(long id);
+
+    List<Ticket> findByClientId(long roomId);
+
+    List<Ticket> findBySessionId(long sessionId);
 }

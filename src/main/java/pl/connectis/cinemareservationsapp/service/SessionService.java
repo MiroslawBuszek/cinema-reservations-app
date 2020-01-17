@@ -7,6 +7,7 @@ import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,8 +26,26 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public List<Session> findById(long id) {
-        return sessionRepository.findById(id);
+    public List<Session> findById(long sessionId) {
+        return sessionRepository.findById(sessionId);
+    }
+
+    public List<Session> findByRoomId(long roomId) {
+        return sessionRepository.findByRoomId(roomId);
+    }
+
+    public List<Session> findByMovieId(long movieId) {
+        return sessionRepository.findByMovieId(movieId);
+    }
+
+    public List<Session> findByRoomIdOrMovieId(Long roomId, Long movieId) {
+        if(movieId != null) {
+            return findByMovieId(movieId);
+        }
+        if(roomId != null) {
+            return findByRoomId(roomId);
+        }
+        return new ArrayList<>();
     }
 
     public Session save(Session session) {
@@ -36,6 +55,7 @@ public class SessionService {
     public Session createSession(long roomId, long movieId, Session session) {
         session.setRoom(roomRepository.findById(roomId).get(0));
         session.setMovie(movieRepository.findById(movieId).get(0));
+        session.setReservedSeats(new int[roomRepository.findById(roomId).get(0).getCapacity()]);
         return sessionRepository.save(session);
     }
 

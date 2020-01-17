@@ -3,8 +3,6 @@ package pl.connectis.cinemareservationsapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.model.Session;
-import pl.connectis.cinemareservationsapp.service.MovieService;
-import pl.connectis.cinemareservationsapp.service.RoomService;
 import pl.connectis.cinemareservationsapp.service.SessionService;
 
 import javax.validation.Valid;
@@ -16,12 +14,6 @@ public class SessionController {
     @Autowired
     private SessionService sessionService;
 
-    @Autowired
-    private RoomService roomService;
-
-    @Autowired
-    private MovieService movieService;
-
     @GetMapping("/session/all")
     public Iterable<Session> getAllSessions() {
         return sessionService.findAll();
@@ -32,8 +24,15 @@ public class SessionController {
         return sessionService.findById(id);
     }
 
-    @PostMapping("/session/")
-    public Session makeReservation(@RequestParam(value = "room") long roomId, @RequestParam(value = "movie") long movieId, @Valid @RequestBody Session session) {
+    @GetMapping("/session")
+    public List<Session> getSessionsByRoomIdOrRoomId(
+            @RequestParam(value = "room", required = false) Long roomId,
+            @RequestParam(value = "movie", required = false) Long movieId) {
+        return sessionService.findByRoomIdOrMovieId(roomId, movieId);
+    }
+
+    @PostMapping("/session")
+    public Session createSession(@RequestParam(value = "room") long roomId, @RequestParam(value = "movie") long movieId, @Valid @RequestBody Session session) {
         return sessionService.createSession(roomId, movieId, session);
     }
 
