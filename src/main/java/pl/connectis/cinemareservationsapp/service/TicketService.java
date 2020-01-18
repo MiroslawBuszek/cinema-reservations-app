@@ -2,7 +2,6 @@ package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.repository.*;
 
@@ -17,12 +16,6 @@ public class TicketService {
 
     @Autowired
     SessionRepository sessionRepository;
-
-    @Autowired
-    RoomRepository roomRepository;
-
-    @Autowired
-    MovieRepository movieRepository;
 
     public Iterable<Ticket> findAll() {
         return ticketRepository.findAll();
@@ -50,6 +43,18 @@ public class TicketService {
         return new ArrayList<>();
     }
 
+    public void setEmptySeatsInSession(long sessionId) {
+        List<Ticket> tickets = findBySessionId(sessionId);
+        int[] reservedSeats = new int[tickets.size()];
+        int ticketCounter = 0;
+        for (Ticket ticket : tickets) {
+            int rowNumber = ticket.getRowNumber();
+            int seatNumber = ticket.getSeatNumber();
+            reservedSeats[ticketCounter++] = rowNumber*1000+seatNumber;
+        }
+        sessionRepository.findById(sessionId).get(0).setReservedSeats(reservedSeats);
+    }
+
     public Ticket save(Ticket ticket) {
         return ticketRepository.save(ticket);
     }
@@ -57,11 +62,6 @@ public class TicketService {
     public Ticket createTicket(long sessionId, Ticket ticket) {
         ticket.setSession(sessionRepository.findById(sessionId).get(0));
         return ticketRepository.save(ticket);
-//        int ticketRow = ticket.getRowNumber();
-//        int ticketSeat = ticket.getSeatNumber();
-//        int sessionSeat = ticketRow*1000+ticketSeat;
-//        Session session = sessionRepository.findById(sessionId).get(0);
-//        int[] reservedSeats = session.getReservedSeats();
     }
 
     public Iterable<Ticket> saveAll(Iterable<Ticket> ticketList) {
