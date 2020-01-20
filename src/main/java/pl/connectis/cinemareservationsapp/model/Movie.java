@@ -2,10 +2,8 @@ package pl.connectis.cinemareservationsapp.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NoArgsConstructor
@@ -20,14 +18,17 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private String title;
 
     private String category;
 
+    @Column(nullable = false)
     private int length;
 
     private String description;
 
+    @Column(nullable = false)
     private int ageLimit;
 
 }

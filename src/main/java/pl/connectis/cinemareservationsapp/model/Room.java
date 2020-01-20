@@ -2,10 +2,8 @@ package pl.connectis.cinemareservationsapp.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NoArgsConstructor
@@ -22,6 +20,7 @@ public class Room {
 
     private int capacity;
 
+    @Column(nullable = false)
     private int[] layout;
 
 }

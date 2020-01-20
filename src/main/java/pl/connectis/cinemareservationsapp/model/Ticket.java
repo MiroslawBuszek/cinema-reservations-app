@@ -3,6 +3,7 @@ package pl.connectis.cinemareservationsapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NoArgsConstructor
@@ -18,17 +19,20 @@ public class Ticket {
     private long id;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(nullable = false)
     private Session session;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(nullable = false)
     private Client client;
 
+    @Column(nullable = false)
     private int rowNumber;
 
+    @Column(nullable = false)
     private int seatNumber;
 
+    @Column(nullable = false)
     private double price;
 
 }

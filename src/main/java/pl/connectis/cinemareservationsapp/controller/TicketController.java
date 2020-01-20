@@ -32,8 +32,10 @@ public class TicketController {
     }
 
     @PostMapping("/ticket")
-    public Ticket addTicket(@RequestParam(value = "session") long sessionId, @Valid @RequestBody Ticket ticket) {
-        return ticketService.createTicket(sessionId, ticket);
+    public Ticket addTicket(@RequestParam(value = "session") long sessionId,
+                            @RequestParam(value = "client") long clientId,
+                            @Valid @RequestBody Ticket ticket) {
+        return ticketService.createTicket(sessionId, clientId, ticket);
     }
 
     @PostMapping("/ticket/many")

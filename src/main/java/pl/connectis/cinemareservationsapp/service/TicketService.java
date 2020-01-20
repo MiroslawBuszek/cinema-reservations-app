@@ -17,6 +17,9 @@ public class TicketService {
     @Autowired
     SessionRepository sessionRepository;
 
+    @Autowired
+    ClientRepository clientRepository;
+
     public Iterable<Ticket> findAll() {
         return ticketRepository.findAll();
     }
@@ -59,8 +62,9 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
-    public Ticket createTicket(long sessionId, Ticket ticket) {
+    public Ticket createTicket(long sessionId, long clientId, Ticket ticket) {
         ticket.setSession(sessionRepository.findById(sessionId).get(0));
+        ticket.setClient(clientRepository.findById(clientId).get(0));
         return ticketRepository.save(ticket);
     }
 
