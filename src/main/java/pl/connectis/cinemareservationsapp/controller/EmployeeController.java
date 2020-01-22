@@ -1,12 +1,15 @@
 package pl.connectis.cinemareservationsapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceExistsException;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Employee;
 import pl.connectis.cinemareservationsapp.service.EmployeeService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class EmployeeController {
@@ -20,23 +23,40 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/{id}")
-    public List<Employee> getEmployeeById(@PathVariable long id) {
-        return employeeService.findById(id);
+    public Employee getEmployeeById(@PathVariable long id) {
+        Employee employee = employeeService.findById(id);
+        if (employee == null) {
+            throw new ResourceNotFoundException("employee {id=" + id + "} was not found");
+        }
+        return employee;
     }
 
     @PostMapping("/employee")
-    public Employee addEmployee(@Valid @RequestBody Employee employee) {
-        return employeeService.save(employee);
+    public ResponseEntity<Employee> addEmployee(@Valid @RequestBody Employee employee) {
+        if (employeeService.findByLogin(employee.getLogin()) != null) {
+            throw new ResourceExistsException("employee {login=" + employee.getLogin() + "} was found");
+        }
+        return new ResponseEntity<>(employeeService.save(employee), HttpStatus.CREATED);
     }
 
     @PostMapping("/employee/many")
-    public Iterable<Employee> addEmployeeList(@Valid @RequestBody Iterable<Employee> employeeList) {
-        return employeeService.saveAll(employeeList);
+    public ResponseEntity<Iterable> addEmployeeList(@Valid @RequestBody Iterable<Employee> employeeList) {
+        for (Employee employee : employeeList) {
+            if (employeeService.findByLogin(employee.getLogin()) != null) {
+                throw new ResourceExistsException("employy {login=" + employee.getLogin() + "} was found");
+            }
+        }
+        return new ResponseEntity<>(employeeService.saveAll(employeeList), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/employee/{id}")
-    public void deleteEmployee(@PathVariable long id) {
+    public ResponseEntity deleteEmployee(@PathVariable long id) {
+        Employee employee = employeeService.findById(id);
+        if (employee == null) {
+            throw new ResourceNotFoundException("employee {id=" + id + "} was not found");
+        }
         employeeService.deleteById(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }

@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.model.Employee;
 import pl.connectis.cinemareservationsapp.repository.EmployeeRepository;
 
-import java.util.List;
-
 @Service
 public class EmployeeService {
 
@@ -17,8 +15,12 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public List<Employee> findById(long id) {
+    public Employee findById(long id) {
         return employeeRepository.findById(id);
+    }
+
+    public Employee findByLogin(String login) {
+        return employeeRepository.findByLogin(login);
     }
 
     public Employee save(Employee employee) {
