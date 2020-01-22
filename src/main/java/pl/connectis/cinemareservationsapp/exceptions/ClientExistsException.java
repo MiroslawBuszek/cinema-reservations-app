@@ -3,10 +3,10 @@ package pl.connectis.cinemareservationsapp.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value= HttpStatus.NOT_FOUND)
-public class ClientNotFoundException extends RuntimeException {
+@ResponseStatus(value= HttpStatus.BAD_REQUEST)
+public class ClientExistsException extends RuntimeException {
 
-    public ClientNotFoundException(String message) {
+    public ClientExistsException(String message) {
         super(message);
     }
 }

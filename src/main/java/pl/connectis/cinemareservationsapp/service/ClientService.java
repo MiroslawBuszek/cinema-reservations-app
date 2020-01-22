@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.model.Client;
 import pl.connectis.cinemareservationsapp.repository.ClientRepository;
 
-import java.util.List;
-
 @Service
 public class ClientService {
 
@@ -19,6 +17,10 @@ public class ClientService {
 
     public Client findById(long id) {
         return clientRepository.findById(id);
+    }
+
+    public Client findByEmail(String email) {
+        return clientRepository.findByEmail(email);
     }
 
     public Client save(Client client) {

@@ -4,7 +4,6 @@ package pl.connectis.cinemareservationsapp.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.io.Serializable;
 
 @Entity
@@ -30,7 +29,6 @@ public class Client implements Serializable {
     private int age;
 
     @Column(nullable = false)
-    @Email(message = "email should be a valid email")
     private String email;
 
 }

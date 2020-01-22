@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.exceptions.ClientExistsException;
 import pl.connectis.cinemareservationsapp.exceptions.ClientNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Client;
 import pl.connectis.cinemareservationsapp.service.ClientService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class ClientController {
@@ -26,24 +26,37 @@ public class ClientController {
     public Client getClientById(@PathVariable long id) {
         Client client = clientService.findById(id);
         if (client == null) {
-            throw new ClientNotFoundException(id);
+            throw new ClientNotFoundException("client {id=" + id + "} was not found");
         }
-        return clientService.findById(id);
+        return client;
     }
 
     @PostMapping("/client")
-    public Client addClient(@Valid @RequestBody Client client) {
-        return clientService.save(client);
+    public ResponseEntity<Client> addClient(@Valid @RequestBody Client client) {
+        if (clientService.findByEmail(client.getEmail()) != null) {
+            throw new ClientExistsException("client {email=" + client.getEmail() + "} was found");
+        }
+        return new ResponseEntity<>(clientService.save(client), HttpStatus.CREATED);
     }
 
     @PostMapping("/client/many")
-    public Iterable<Client> addClientList(@Valid @RequestBody Iterable<Client> clientList) {
-        return clientService.saveAll(clientList);
+    public ResponseEntity<Iterable> addClientList(@Valid @RequestBody Iterable<Client> clientList) {
+        for (Client client : clientList) {
+            if (clientService.findByEmail(client.getEmail()) != null) {
+                throw new ClientExistsException("client {email=" + client.getEmail() + "} was found");
+            }
+        }
+        return new ResponseEntity<>(clientService.saveAll(clientList), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/client/{id}")
-    public void deleteClient(@PathVariable long id) {
+    public ResponseEntity deleteClient(@PathVariable long id) {
+        Client client = clientService.findById(id);
+        if (client == null) {
+            throw new ClientNotFoundException("client {id=" + id + "} was not found");
+        }
         clientService.deleteById(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }
