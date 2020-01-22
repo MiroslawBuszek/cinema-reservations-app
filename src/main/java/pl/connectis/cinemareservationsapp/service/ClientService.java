@@ -2,6 +2,7 @@ package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.model.Client;
 import pl.connectis.cinemareservationsapp.repository.ClientRepository;
 
@@ -29,6 +30,15 @@ public class ClientService {
 
     public Iterable<Client> saveAll(Iterable<Client> clientList) {
         return clientRepository.saveAll(clientList);
+    }
+
+    @Transactional
+    public Client updateById(long id, Client client) {
+        Client existingClient = clientRepository.findById(id);
+        existingClient.setFirstName(client.getFirstName());
+        existingClient.setLastName(client.getLastName());
+        existingClient.setAge(client.getAge());
+        return existingClient;
     }
 
     public void deleteById(long id) {
