@@ -12,11 +12,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class UserPrincipal implements UserDetails {
 
     private Use_r user;
+
+    public UserPrincipal(Use_r user) {
+        this.user = user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

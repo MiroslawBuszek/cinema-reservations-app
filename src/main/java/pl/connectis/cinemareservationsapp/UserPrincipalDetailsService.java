@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.model.Use_r;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Service
 public class UserPrincipalDetailsService implements UserDetailsService {
     private UserRepository userRepository;
+
+    public UserPrincipalDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
