@@ -17,3 +17,4 @@ insert into movie (title, category, length, description, age_limit ) values
 ('Judy', 'Dramat', 118, 'Zima 1968 roku. Ciesząca się ogromną popularnością Judy Garland przybywa do Londynu na serię koncertów.', 15),
 ('Oficer i szpieg', 'Thriller szpiegowski', 132, 'Historia francuskiego kapitana Alfreda Dreyfusa, który został niesłusznie oskarżony o zdradę stanu i skazany na dożywotnie więzienie.', 15),
 ('Jumanji: Przygoda w dżungli', 'Familijny', 123, 'Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.', 12);
+
