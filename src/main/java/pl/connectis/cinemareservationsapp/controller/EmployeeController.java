@@ -49,6 +49,18 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.saveAll(employeeList), HttpStatus.CREATED);
     }
 
+    @PutMapping("/employee/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @Valid @RequestBody Employee employee) {
+        Employee existingEmployee = employeeService.findById(id);
+        if (existingEmployee == null) {
+            throw new ResourceNotFoundException("employee {id=" + id + "} was not found");
+        } else if (employeeService.findByLogin(employee.getLogin()) == null) {
+            throw new ResourceNotFoundException("employee {login=" + employee.getLogin() + "} was not found");
+        } else {
+            return new ResponseEntity<>(employeeService.updateById(id, employee), HttpStatus.CREATED);
+        }
+    }
+
     @DeleteMapping("/employee/{id}")
     public ResponseEntity deleteEmployee(@PathVariable long id) {
         Employee employee = employeeService.findById(id);
