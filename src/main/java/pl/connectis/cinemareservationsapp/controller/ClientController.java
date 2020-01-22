@@ -1,7 +1,10 @@
 package pl.connectis.cinemareservationsapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.exceptions.ClientNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Client;
 import pl.connectis.cinemareservationsapp.service.ClientService;
 
@@ -20,7 +23,11 @@ public class ClientController {
     }
 
     @GetMapping("/client/{id}")
-    public List<Client> getClientById(@PathVariable long id) {
+    public Client getClientById(@PathVariable long id) {
+        Client client = clientService.findById(id);
+        if (client == null) {
+            throw new ClientNotFoundException(id);
+        }
         return clientService.findById(id);
     }
 

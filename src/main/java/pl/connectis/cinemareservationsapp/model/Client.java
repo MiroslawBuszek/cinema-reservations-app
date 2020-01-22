@@ -4,6 +4,8 @@ package pl.connectis.cinemareservationsapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
@@ -12,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @EqualsAndHashCode(of = "id")
 @ToString
-public class Client {
+public class Client implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +30,7 @@ public class Client {
     private int age;
 
     @Column(nullable = false)
+    @Email(message = "email should be a valid email")
     private String email;
 
 }

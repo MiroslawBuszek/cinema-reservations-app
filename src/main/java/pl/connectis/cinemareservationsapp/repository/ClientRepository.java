@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    List<Client> findById(long id);
+    Client findById(long id);
 
 }

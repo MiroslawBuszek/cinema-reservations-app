@@ -64,7 +64,7 @@ public class TicketService {
 
     public Ticket createTicket(long sessionId, long clientId, Ticket ticket) {
         ticket.setSession(sessionRepository.findById(sessionId).get(0));
-        ticket.setClient(clientRepository.findById(clientId).get(0));
+        ticket.setClient(clientRepository.findById(clientId));
         return ticketRepository.save(ticket);
     }
 
