@@ -45,6 +45,16 @@ public class RoomController {
         return new ResponseEntity<>(roomService.saveAll(roomList), HttpStatus.CREATED);
     }
 
+    @PutMapping("/room/{id}")
+    public ResponseEntity<Room> updateById(@PathVariable long id, @Valid @RequestBody Room room) {
+        Room existingRoom = roomService.findById(id);
+        if(existingRoom == null) {
+            throw new ResourceNotFoundException("room {id=" + id + "} was not found");
+        }
+        validateRoom(room);
+        return new ResponseEntity<>(roomService.updateById(id, room), HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/room/{id}")
     public ResponseEntity deleteRoom(@PathVariable long id) {
         Room room = roomService.findById(id);
