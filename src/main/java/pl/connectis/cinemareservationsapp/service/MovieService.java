@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 
-import java.util.List;
-
 @Service
 public class MovieService {
 
@@ -17,8 +15,12 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
-    public List<Movie> findById(long id) {
+    public Movie findById(long id) {
         return movieRepository.findById(id);
+    }
+
+    public Movie findByTitle(String title) {
+        return movieRepository.findByTitle(title);
     }
 
     public Movie save(Movie movie) {

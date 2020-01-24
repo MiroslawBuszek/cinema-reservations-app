@@ -1,12 +1,15 @@
 package pl.connectis.cinemareservationsapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceExistsException;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.service.MovieService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class MovieController {
@@ -20,29 +23,40 @@ public class MovieController {
     }
 
     @GetMapping("/movie/{id}")
-    public List<Movie> getMovieById(@PathVariable long id) {
-        return movieService.findById(id);
+    public Movie getMovieById(@PathVariable long id) {
+        Movie movie = movieService.findById(id);
+        if (movie == null) {
+            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
+        }
+        return movie;
     }
 
     @PostMapping("/movie")
-    public Movie addMovie(@Valid @RequestBody Movie movie) {
-        return movieService.save(movie);
+    public ResponseEntity<Movie> addMovie(@Valid @RequestBody Movie movie) {
+        if (movieService.findByTitle(movie.getTitle())  == null) {
+            throw new ResourceExistsException("movie {title=" + movie.getTitle() + "} was found");
+        }
+        return new ResponseEntity<>(movieService.save(movie), HttpStatus.CREATED);
     }
 
     @PostMapping("/movie/many")
-    public Iterable<Movie> addMovieList(@Valid @RequestBody Iterable<Movie> movieList) {
-        return movieService.saveAll(movieList);
+    public ResponseEntity<Iterable> addMovieList(@Valid @RequestBody Iterable<Movie> movieList) {
+        for (Movie movie : movieList) {
+            if (movieService.findByTitle(movie.getTitle()) != null) {
+                throw new ResourceExistsException("movie {title=" + movie.getTitle() + "} was found");
+            }
+        }
+        return new ResponseEntity<>(movieService.saveAll(movieList), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/movie/{id}")
-    public void deleteMovie(@PathVariable long id) {
+    public ResponseEntity deleteMovie(@PathVariable long id) {
+        Movie movie = movieService.findById(id);
+        if (movie == null) {
+            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
+        }
         movieService.deleteById(id);
-    }
-
-    // TODO: fix the updateMovie method
-    @PutMapping("/movie/{id}")
-    public Movie updateMovie(@PathVariable long id, @Valid @RequestBody Movie updatedMovie) {
-        return movieService.updateMovie(id, updatedMovie);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }
