@@ -30,11 +30,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/").authenticated()
+        http.csrf().disable()
+                .authorizeRequests()/*.anyRequest().permitAll()*/
+                .antMatchers("/").permitAll()
                 .antMatchers("/employee/**").hasRole("EMPLOYEE")
                 .antMatchers("/client/**").hasRole("CLIENT")
+                .antMatchers("/movie/**").hasAnyAuthority("EMPLOYEE_ACCESS")
+                .antMatchers("/room/**").hasAnyAuthority("EMPLOYEE_ACCESS")
+                .antMatchers("/session/**").hasAnyAuthority("EMPLOYEE_ACCESS")
+                .antMatchers("/ticket").hasAnyAuthority("CLIENT_ACCESS","EMPLOYEE_ACCESS")
+                .antMatchers("/ticket/**").hasAnyAuthority("EMPLOYEE_ACCESS")
                 .and()
                 .httpBasic();
     }
