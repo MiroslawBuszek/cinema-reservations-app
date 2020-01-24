@@ -49,6 +49,16 @@ public class MovieController {
         return new ResponseEntity<>(movieService.saveAll(movieList), HttpStatus.CREATED);
     }
 
+    @PutMapping("/movie")
+    public ResponseEntity<Movie> updateMovie(@PathVariable long id, @Valid @RequestBody Movie movie) {
+        Movie existingMovie = movieService.findById(id);
+        if (existingMovie == null) {
+            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
+        } else {
+            return new ResponseEntity(movieService.updateById(id, movie), HttpStatus.CREATED);
+        }
+    }
+
     @DeleteMapping("/movie/{id}")
     public ResponseEntity deleteMovie(@PathVariable long id) {
         Movie movie = movieService.findById(id);

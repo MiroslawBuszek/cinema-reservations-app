@@ -2,6 +2,7 @@ package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 
@@ -29,6 +30,17 @@ public class MovieService {
 
     public Iterable<Movie> saveAll(Iterable<Movie> movieList) {
         return movieRepository.saveAll(movieList);
+    }
+
+    @Transactional
+    public Movie updateById(long id, Movie movie) {
+        Movie existingMovie = movieRepository.findById(id);
+        existingMovie.setTitle(movie.getTitle());
+        existingMovie.setCategory(movie.getCategory());
+        existingMovie.setLength(movie.getLength());
+        existingMovie.setDescription(movie.getDescription());
+        existingMovie.setAgeLimit(movie.getAgeLimit());
+        return existingMovie;
     }
 
     public void deleteById(long id) {
