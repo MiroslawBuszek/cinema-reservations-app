@@ -35,9 +35,15 @@ public class ClientService {
     @Transactional
     public Client updateById(long id, Client client) {
         Client existingClient = clientRepository.findById(id);
-        existingClient.setFirstName(client.getFirstName());
-        existingClient.setLastName(client.getLastName());
-        existingClient.setAge(client.getAge());
+        if (client.getFirstName() != null) {
+            existingClient.setFirstName(client.getFirstName());
+        }
+        if (client.getLastName() != null) {
+            existingClient.setLastName(client.getLastName());
+        }
+        if (client.getAge() != 0) {
+            existingClient.setAge(client.getAge());
+        }
         return existingClient;
     }
 

@@ -31,8 +31,10 @@ public class RoomService {
     @Transactional
     public Room updateById(long id, Room room) {
         Room existingRoom = roomRepository.findById(id);
-        existingRoom.setCapacity(room.getCapacity());
-        existingRoom.setLayout(room.getLayout());
+        if (room.getLayout() != null) {
+            existingRoom.setLayout(room.getLayout());
+        }
+        setCapacityFromLayout(existingRoom);
         return existingRoom;
     }
 

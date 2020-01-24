@@ -35,8 +35,12 @@ public class EmployeeService {
     @Transactional
     public Employee updateById(long id, Employee employee) {
         Employee existingEmployee = employeeRepository.findById(id);
-        existingEmployee.setFirstName(employee.getFirstName());
-        existingEmployee.setLastName(employee.getLastName());
+        if (employee.getFirstName() != null) {
+            existingEmployee.setFirstName(employee.getFirstName());
+        }
+        if (employee.getLastName() != null) {
+            existingEmployee.setLastName(employee.getLastName());
+        }
         return existingEmployee;
     }
 

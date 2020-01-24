@@ -35,11 +35,21 @@ public class MovieService {
     @Transactional
     public Movie updateById(long id, Movie movie) {
         Movie existingMovie = movieRepository.findById(id);
-        existingMovie.setTitle(movie.getTitle());
-        existingMovie.setCategory(movie.getCategory());
-        existingMovie.setLength(movie.getLength());
-        existingMovie.setDescription(movie.getDescription());
-        existingMovie.setAgeLimit(movie.getAgeLimit());
+        if (movie.getTitle() != null) {
+            existingMovie.setTitle(movie.getTitle());
+        }
+        if (movie.getCategory() != null) {
+            existingMovie.setCategory(movie.getCategory());
+        }
+        if (movie.getLength() != 0) {
+            existingMovie.setLength(movie.getLength());
+        }
+        if (movie.getDescription() != null) {
+            existingMovie.setDescription(movie.getDescription());
+        }
+        if (movie.getAgeLimit() != 0) {
+            existingMovie.setAgeLimit(movie.getAgeLimit());
+        }
         return existingMovie;
     }
 
