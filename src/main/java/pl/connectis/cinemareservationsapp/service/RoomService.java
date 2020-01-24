@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 
-import java.util.List;
-
 @Service
 public class RoomService {
 
@@ -17,7 +15,7 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public List<Room> findById(long id) {
+    public Room findById(long id) {
         return roomRepository.findById(id);
     }
 
@@ -31,5 +29,22 @@ public class RoomService {
 
     public void deleteById(long id) {
         roomRepository.deleteById(id);
+    }
+
+    public boolean validateCapacity(Room room) {
+        return getCapacityFromLayout(room) == room.getCapacity();
+    }
+
+    public int getCapacityFromLayout(Room room) {
+        int capacity = 0;
+        int[] layout = room.getLayout();
+        for (int i = 0; i < layout.length; i++) {
+            capacity += layout[i];
+        }
+        return capacity;
+    }
+
+    public void setCapacityFromLayout(Room room) {
+        room.setCapacity(getCapacityFromLayout(room));
     }
 }
