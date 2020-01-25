@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.connectis.cinemareservationsapp.exceptions.ResourceExistsException;
+import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.service.MovieService;
@@ -34,7 +34,7 @@ public class MovieController {
     @PostMapping("/movie")
     public ResponseEntity<Movie> addMovie(@Valid @RequestBody Movie movie) {
         if (movieService.findByTitle(movie.getTitle())  == null) {
-            throw new ResourceExistsException("movie {title=" + movie.getTitle() + "} was found");
+            throw new BadRequestException("movie {title=" + movie.getTitle() + "} was found");
         }
         return new ResponseEntity<>(movieService.save(movie), HttpStatus.CREATED);
     }
@@ -43,7 +43,7 @@ public class MovieController {
     public ResponseEntity<Iterable> addMovieList(@Valid @RequestBody Iterable<Movie> movieList) {
         for (Movie movie : movieList) {
             if (movieService.findByTitle(movie.getTitle()) != null) {
-                throw new ResourceExistsException("movie {title=" + movie.getTitle() + "} was found");
+                throw new BadRequestException("movie {title=" + movie.getTitle() + "} was found");
             }
         }
         return new ResponseEntity<>(movieService.saveAll(movieList), HttpStatus.CREATED);

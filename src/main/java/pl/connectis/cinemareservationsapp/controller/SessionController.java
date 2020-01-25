@@ -1,11 +1,16 @@
 package pl.connectis.cinemareservationsapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.service.SessionService;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,29 +25,48 @@ public class SessionController {
     }
 
     @GetMapping("/session/{id}")
-    public List<Session> getSessionById(@PathVariable long id) {
-        return sessionService.findById(id);
+    public Session getSessionById(@PathVariable long id) {
+        Session session = sessionService.findById(id);
+        if (session == null) {
+            throw new ResourceNotFoundException("session {id=" + id + "} was not found");
+        }
+        return session;
     }
 
     @GetMapping("/session")
     public List<Session> getSessionsByRoomIdOrRoomId(
             @RequestParam(value = "room", required = false) Long roomId,
             @RequestParam(value = "movie", required = false) Long movieId) {
+        if (roomId != null && !sessionService.validateRoomExists(roomId)) {
+            throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
+        }
+        if (movieId != null && !sessionService.validateMovieExists(movieId)) {
+            throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
+        }
         return sessionService.findByRoomIdOrMovieId(roomId, movieId);
     }
 
     @PostMapping("/session")
-    public Session createSession(@RequestParam(value = "room") long roomId, @RequestParam(value = "movie") long movieId, @Valid @RequestBody Session session) {
-        return sessionService.createSession(roomId, movieId, session);
-    }
-
-    @PostMapping("/session/many")
-    public Iterable<Session> addSessionList(@Valid @RequestBody Iterable<Session> sessionList) {
-        return sessionService.saveAll(sessionList);
+    public ResponseEntity createSession(@RequestParam(value = "room") long roomId, @RequestParam(value = "movie") long movieId, @Valid @RequestBody Session session) {
+        if (!sessionService.validateRoomExists(roomId)) {
+            throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
+        }
+        if (!sessionService.validateMovieExists(movieId)) {
+            throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
+        }
+        if (session.getStartTime().isBefore(LocalDateTime.now())) {
+            throw new BadRequestException("start time should be in future");
+        }
+        return new ResponseEntity(sessionService.createSession(roomId, movieId, session), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/session/{id}")
-    public void deleteSession(@PathVariable long id) {
+    public ResponseEntity deleteSession(@PathVariable long id) {
+        Session session = sessionService.findById(id);
+        if (session == null) {
+            throw new ResourceNotFoundException("session {id=" + id + "} was not found");
+        }
         sessionService.deleteById(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

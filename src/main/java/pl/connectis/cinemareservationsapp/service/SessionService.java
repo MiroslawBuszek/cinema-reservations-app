@@ -2,6 +2,8 @@ package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.connectis.cinemareservationsapp.model.Movie;
+import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
@@ -26,7 +28,7 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public List<Session> findById(long sessionId) {
+    public Session findById(long sessionId) {
         return sessionRepository.findById(sessionId);
     }
 
@@ -53,8 +55,9 @@ public class SessionService {
     }
 
     public Session createSession(long roomId, long movieId, Session session) {
-        session.setRoom(roomRepository.findById(roomId).get(0));
-        session.setMovie(movieRepository.findById(movieId).get(0));
+
+        session.setRoom(roomRepository.findById(roomId));
+        session.setMovie(movieRepository.findById(movieId));
         return sessionRepository.save(session);
     }
 
@@ -65,4 +68,21 @@ public class SessionService {
     public void deleteById(long id) {
         sessionRepository.deleteById(id);
     }
+
+    public boolean validateRoomExists(long roomId) {
+        Room room = roomRepository.findById(roomId);
+        if (room == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validateMovieExists(long movieId) {
+        Movie movie = movieRepository.findById(movieId);
+        if (movie == null) {
+            return false;
+        }
+        return true;
+    }
+
 }
