@@ -2,6 +2,7 @@ package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.model.Session;
@@ -63,6 +64,21 @@ public class SessionService {
 
     public Iterable<Session> saveAll(Iterable<Session> sessionList) {
         return sessionRepository.saveAll(sessionList);
+    }
+
+    @Transactional
+    public Session updateById(long sessionId, Long roomId, Long movieId, Session session) {
+        Session existingSession = sessionRepository.findById(sessionId);
+        if (roomId != null) {
+            existingSession.setRoom(roomRepository.findById((long)roomId));
+        }
+        if (movieId != null) {
+            existingSession.setMovie(movieRepository.findById((long)movieId));
+        }
+        if (session.getStartTime() != null) {
+            existingSession.setStartTime(session.getStartTime());
+        }
+        return existingSession;
     }
 
     public void deleteById(long id) {
