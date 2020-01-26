@@ -1024,6 +1024,20 @@
 			"item": [
 				{
 					"name": "/movie/all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "08c34304-f586-4a81-8a3e-862bd95adba8",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1043,6 +1057,63 @@
 				},
 				{
 					"name": "/movie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a770ede7-dba3-493f-abcd-6c360ca4ca92",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Joker\",\n    \"category\": \"Dramat\",\n    \"length\": 122,\n    \"description\": \"Historia jednego z cieszących się najgorszą sławą superprzestępców uniwersum DC — Jokera. Przedstawiony przez Phillipsa obraz śledzi losy kultowego czarnego charakteru, człowieka zepchniętego na margines.\",\n    \"ageLimit\": 15\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/movie",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/movie (title exists in the database)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "66809181-003c-465b-8319-8455be23aae5",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1072,6 +1143,64 @@
 				},
 				{
 					"name": "/movie/many",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4d384506-fd9e-4718-ba4c-6dea253cb0d1",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t    \"title\": \"Psy 3. W imię zasad\",\n\t    \"category\": \"Akcja\",\n\t    \"length\": 126,\n\t    \"description\": \"Po 25 latach odsiadki Franz Maurer wkracza w nową Polskę, gdzie nic nie jest takie, jak zapamiętał. Wkrótce ponownie spotyka Nowego.\",\n\t    \"ageLimit\": 15\n\t},\n\t{\n\t    \"title\": \"Gorący temat\",\n\t    \"category\": \"Dramat\",\n\t    \"length\": 109,\n\t    \"description\": \"Historia kobiet, które przeciwstawiły się toksycznej atmosferze w słynnej sieci informacyjnej.\",\n\t    \"ageLimit\": 15\n\t}\n]"
+						},
+						"url": {
+							"raw": "localhost:8080/movie/many",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movie",
+								"many"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/movie/many (title exists in the database)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "83f77482-8be9-4011-b69e-8175b608fc80",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1102,6 +1231,20 @@
 				},
 				{
 					"name": "/movie/4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "113e9090-4045-40f1-91a7-22949114a2cf",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1120,7 +1263,54 @@
 					"response": []
 				},
 				{
+					"name": "/movie/54 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "113e9090-4045-40f1-91a7-22949114a2cf",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/movie/54",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movie",
+								"54"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/movie/4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c0e24b11-9ff9-4e18-ac4f-6fbe6740cdd9",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1133,6 +1323,160 @@
 							"path": [
 								"movie",
 								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/movie/4 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "113e9090-4045-40f1-91a7-22949114a2cf",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/movie/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movie",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/movie/4 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c0e24b11-9ff9-4e18-ac4f-6fbe6740cdd9",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/movie/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movie",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/movie/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a770ede7-dba3-493f-abcd-6c360ca4ca92",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/movie/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movie",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/movie/69 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a770ede7-dba3-493f-abcd-6c360ca4ca92",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/movie/69",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movie",
+								"69"
 							]
 						}
 					},

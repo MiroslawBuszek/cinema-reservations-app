@@ -33,7 +33,7 @@ public class MovieController {
 
     @PostMapping("/movie")
     public ResponseEntity<Movie> addMovie(@Valid @RequestBody Movie movie) {
-        if (movieService.findByTitle(movie.getTitle())  == null) {
+        if (movieService.findByTitle(movie.getTitle()) != null) {
             throw new BadRequestException("movie {title=" + movie.getTitle() + "} was found");
         }
         return new ResponseEntity<>(movieService.save(movie), HttpStatus.CREATED);
@@ -49,7 +49,7 @@ public class MovieController {
         return new ResponseEntity<>(movieService.saveAll(movieList), HttpStatus.CREATED);
     }
 
-    @PutMapping("/movie")
+    @PutMapping("/movie/{id}")
     public ResponseEntity<Movie> updateMovie(@PathVariable long id, @Valid @RequestBody Movie movie) {
         Movie existingMovie = movieService.findById(id);
         if (existingMovie == null) {
