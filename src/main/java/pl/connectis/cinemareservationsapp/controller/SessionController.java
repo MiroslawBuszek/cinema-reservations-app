@@ -10,7 +10,9 @@ import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.service.SessionService;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -33,13 +35,22 @@ public class SessionController {
         return session;
     }
 
+    @GetMapping("/session/search-by-date/{startDate}")
+    public List<Session> getSessionsByDate(@PathVariable String startDate) {
+        try {
+            return sessionService.findByStartDate(LocalDate.parse(startDate));
+        } catch (DateTimeParseException exception) {
+            throw new BadRequestException("inappropriate data format");
+        }
+    }
+
     @GetMapping("/session")
     public List<Session> getSessionsByRoomIdOrRoomId(
             @RequestParam(value = "room", required = false) Long roomId,
             @RequestParam(value = "movie", required = false) Long movieId) {
-                                    if (roomId == null && movieId == null) {
-                                        throw new BadRequestException("request does not contain neither room id nor movie id");
-                                    }
+        if (roomId == null && movieId == null) {
+            throw new BadRequestException("request does not contain neither room id nor movie id");
+        }
         if (roomId != null && !sessionService.validateRoomExists(roomId)) {
             throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
         }

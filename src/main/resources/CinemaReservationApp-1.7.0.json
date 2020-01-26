@@ -2923,6 +2923,74 @@
 					"response": []
 				},
 				{
+					"name": "/session/search-by-date/2020-02-20",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0f0d118-1872-4dfa-b13e-74fbf39efdec",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/session/search-by-date/2020-02-10",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"search-by-date",
+								"2020-02-10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session/search-by-date/2020.02.20 (inappropriate data format)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0f0d118-1872-4dfa-b13e-74fbf39efdec",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/session/search-by-date/2020.02.10",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"search-by-date",
+								"2020.02.10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/session (request does not contain neither room id nor movie id)",
 					"event": [
 						{

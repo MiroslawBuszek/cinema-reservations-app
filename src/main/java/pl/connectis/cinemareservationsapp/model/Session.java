@@ -3,6 +3,7 @@ package pl.connectis.cinemareservationsapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +33,7 @@ public class Session {
 
     @Column(nullable = false)
     private LocalDateTime startTime;
+
+    private LocalDate startDate;
 
 }

@@ -10,6 +10,7 @@ import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,10 @@ public class SessionService {
         return sessionRepository.findByMovieId(movieId);
     }
 
+    public List<Session> findByStartDate(LocalDate localDate) {
+        return sessionRepository.findByStartDate(localDate);
+    }
+
     public List<Session> findByRoomIdOrMovieId(Long roomId, Long movieId) {
         if(movieId != null) {
             return findByMovieId(movieId);
@@ -60,6 +65,7 @@ public class SessionService {
         session.setRoom(roomRepository.findById(roomId));
         session.setMovie(movieRepository.findById(movieId));
         session.setReservedSeats(new ArrayList<>());
+        session.setStartDate(session.getStartTime().toLocalDate());
         return sessionRepository.save(session);
     }
 
@@ -78,6 +84,7 @@ public class SessionService {
         }
         if (session.getStartTime() != null) {
             existingSession.setStartTime(session.getStartTime());
+            existingSession.setStartDate(session.getStartTime().toLocalDate());
         }
         return existingSession;
     }
