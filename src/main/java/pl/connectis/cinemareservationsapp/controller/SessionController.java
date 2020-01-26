@@ -1,6 +1,7 @@
 package pl.connectis.cinemareservationsapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +15,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class SessionController {
 
     @Autowired
     private SessionService sessionService;
-
-    @GetMapping("/session/all")
-    public Iterable<Session> getAllSessions() {
-        return sessionService.findAll();
-    }
 
     @GetMapping("/session/{id}")
     public Session getSessionById(@PathVariable long id) {
@@ -35,29 +32,27 @@ public class SessionController {
         return session;
     }
 
-    @GetMapping("/session/search-by-date/{startDate}")
-    public List<Session> getSessionsByDate(@PathVariable String startDate) {
-        try {
-            return sessionService.findByStartDate(LocalDate.parse(startDate));
-        } catch (DateTimeParseException exception) {
-            throw new BadRequestException("inappropriate data format");
-        }
-    }
-
     @GetMapping("/session")
-    public List<Session> getSessionsByRoomIdOrRoomId(
-            @RequestParam(value = "room", required = false) Long roomId,
-            @RequestParam(value = "movie", required = false) Long movieId) {
-        if (roomId == null && movieId == null) {
-            throw new BadRequestException("request does not contain neither room id nor movie id");
+    public Iterable<Session> getSessionsByExample(@RequestParam Map<String, String> params) {
+
+        Session session = new Session();
+
+        if (params.containsKey("id")) {
+            session.setId(Long.parseLong(params.get("id"))); ;
         }
-        if (roomId != null && !sessionService.validateRoomExists(roomId)) {
-            throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
+        if (params.containsKey("movie")) {
+            session.setMovie(sessionService.findMovieById(Long.parseLong(params.get("movie"))));
         }
-        if (movieId != null && !sessionService.validateMovieExists(movieId)) {
-            throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
+        if (params.containsKey("room")) {
+            session.setRoom(sessionService.findRoomById(Long.parseLong(params.get("room"))));
         }
-        return sessionService.findByRoomIdOrMovieId(roomId, movieId);
+        if (params.containsKey("date")) {
+            session.setStartDate(LocalDate.parse(params.get("date")));
+        }
+        
+        Example<Session> exampleSession = Example.of(session);
+
+        return sessionService.findAll(exampleSession);
     }
 
     @PostMapping("/session")

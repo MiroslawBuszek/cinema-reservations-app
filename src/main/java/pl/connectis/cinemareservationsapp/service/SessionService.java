@@ -1,6 +1,7 @@
 package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.model.Movie;
@@ -26,12 +27,20 @@ public class SessionService {
     @Autowired
     MovieRepository movieRepository;
 
-    public Iterable<Session> findAll() {
+    public Iterable<Session> findAll(Example<Session> exampleSession) {
         return sessionRepository.findAll();
     }
 
     public Session findById(long sessionId) {
         return sessionRepository.findById(sessionId);
+    }
+
+    public Movie findMovieById(long movieId) {
+        return movieRepository.findById(movieId);
+    }
+
+    public Room findRoomById(long roomId) {
+        return roomRepository.findById(roomId);
     }
 
     public List<Session> findByRoomId(long roomId) {
