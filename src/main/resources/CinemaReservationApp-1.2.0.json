@@ -70,12 +70,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 45,\n    \"email\": \"maria.kozak@gmail.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 45,\n    \"email\": \"maria.kozak@gmail.com\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/client",
@@ -118,12 +113,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 45,\n    \"email\": \"maria.kozak@gmail.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 45,\n    \"email\": \"maria.kozak@gmail.com\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/client",
@@ -166,7 +156,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n\t{\n\t    \"firstName\": \"Mateusz\",\n\t    \"lastName\": \"Włodarczyk\",\n\t    \"age\": 19,\n\t    \"email\": \"mateusz.włodarczyk@gmail.com\"\n\t},\n\t{\n\t    \"firstName\": \"Filip\",\n\t    \"lastName\": \"Chmielewski\",\n\t    \"age\": 99,\n\t    \"email\": \"filip.chmielewski@gmail.com\"\n\t}\n]"
+							"raw": "[\n\t{\n\t    \"firstName\": \"Mateusz\",\n\t    \"lastName\": \"Włodarczyk\",\n\t    \"age\": 19,\n\t    \"email\": \"mateusz.włodarczyk@gmail.com\"\n\t},\n\t{\n\t    \"firstName\": \"Filip\",\n\t    \"lastName\": \"Chmielewski\",\n\t    \"age\": 99,\n\t    \"email\": \"filip.chmielewski@gmail.com\"\n\t}\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/client/many",
@@ -419,12 +414,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak@gmail.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak@gmail.com\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/client/9",
@@ -441,7 +431,7 @@
 					"response": []
 				},
 				{
-					"name": "/client/9 {wrong email in the body)",
+					"name": "/client/9 (wrong email in the body)",
 					"event": [
 						{
 							"listen": "test",
@@ -468,12 +458,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak76@gmail.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak76@gmail.com\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/client/9",
@@ -517,12 +502,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak76@gmail.com\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak76@gmail.com\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/client/76",
@@ -546,6 +526,20 @@
 			"item": [
 				{
 					"name": "/employee/all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90329720-4e33-4906-b046-dccbb4a78278",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -565,6 +559,20 @@
 				},
 				{
 					"name": "/employee/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d65389d6-f4fe-43b0-869c-07f0a930c67d",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -577,12 +585,51 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Magdalena\",\n    \"lastName\": \"Lewandowska\",\n    \"login\": \"mlewandowska\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+							"raw": "{\n    \"firstName\": \"Magdalena\",\n    \"lastName\": \"Lewandowska\",\n    \"login\": \"mlewandowska\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/employee/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"employee",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/employee/ (login exists in the database}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ef94bb23-2db2-404d-9862-f0a6a3051fdf",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
 							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Magdalena\",\n    \"lastName\": \"Lewandowska\",\n    \"login\": \"mlewandowska\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/employee/",
@@ -600,6 +647,64 @@
 				},
 				{
 					"name": "/employee/many",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b4d9eec-3c5e-43d0-a02c-902a0a6605c2",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t    \"firstName\": \"Michał\",\n\t    \"lastName\": \"Przybylski\",\n\t    \"login\": \"mprzybylski\"\n\t},\n\t{\n\t    \"firstName\": \"Anna\",\n\t    \"lastName\": \"Głowacka\",\n\t    \"login\": \"aglowacka\"\n\t}\n]"
+						},
+						"url": {
+							"raw": "localhost:8080/employee/many",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"employee",
+								"many"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/employee/many (login exists in the database}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c39546f0-38d3-4d0b-a294-02c61eccf412",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -630,6 +735,20 @@
 				},
 				{
 					"name": "/employee/5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0188c98d-8c90-4412-9c88-e25ae765a490",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -642,6 +761,39 @@
 							"path": [
 								"employee",
 								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/employee/128 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0189f22f-218d-45a7-8dd4-b09c9eaa27e9",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/employee/128",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"employee",
+								"128"
 							]
 						}
 					},
@@ -661,6 +813,204 @@
 							"path": [
 								"employee",
 								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/employee/5 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c65745e6-dd1e-4fab-8085-a441b5d75910",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/employee/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"employee",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/employee/5 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b9652188-5d1f-40ab-b2bc-fdb18d866dd8",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/employee/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"employee",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/employee/3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d65389d6-f4fe-43b0-869c-07f0a930c67d",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Paweł\",\n    \"lastName\": \"Krakowski\",\n    \"login\": \"pkrakowski\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/employee/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"employee",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/employee/3 (wrong login in the body)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d65389d6-f4fe-43b0-869c-07f0a930c67d",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Paweł\",\n    \"lastName\": \"Krakowski\",\n    \"login\": \"ukrakowski\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/employee/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"employee",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/employee/64 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d65389d6-f4fe-43b0-869c-07f0a930c67d",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Paweł\",\n    \"lastName\": \"Krakowski\",\n    \"login\": \"pkrakowski\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/employee/64",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"employee",
+								"64"
 							]
 						}
 					},
@@ -705,12 +1055,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Joker\",\n    \"category\": \"Dramat\",\n    \"length\": 122,\n    \"description\": \"Historia jednego z cieszących się najgorszą sławą superprzestępców uniwersum DC — Jokera. Przedstawiony przez Phillipsa obraz śledzi losy kultowego czarnego charakteru, człowieka zepchniętego na margines.\",\n    \"ageLimit\": 15\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"title\": \"Joker\",\n    \"category\": \"Dramat\",\n    \"length\": 122,\n    \"description\": \"Historia jednego z cieszących się najgorszą sławą superprzestępców uniwersum DC — Jokera. Przedstawiony przez Phillipsa obraz śledzi losy kultowego czarnego charakteru, człowieka zepchniętego na margines.\",\n    \"ageLimit\": 15\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/movie",
@@ -739,12 +1084,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n\t{\n\t    \"title\": \"Psy 3. W imię zasad\",\n\t    \"category\": \"Akcja\",\n\t    \"length\": 126,\n\t    \"description\": \"Po 25 latach odsiadki Franz Maurer wkracza w nową Polskę, gdzie nic nie jest takie, jak zapamiętał. Wkrótce ponownie spotyka Nowego.\",\n\t    \"ageLimit\": 15\n\t},\n\t{\n\t    \"title\": \"Gorący temat\",\n\t    \"category\": \"Dramat\",\n\t    \"length\": 109,\n\t    \"description\": \"Historia kobiet, które przeciwstawiły się toksycznej atmosferze w słynnej sieci informacyjnej.\",\n\t    \"ageLimit\": 15\n\t}\n]",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "[\n\t{\n\t    \"title\": \"Psy 3. W imię zasad\",\n\t    \"category\": \"Akcja\",\n\t    \"length\": 126,\n\t    \"description\": \"Po 25 latach odsiadki Franz Maurer wkracza w nową Polskę, gdzie nic nie jest takie, jak zapamiętał. Wkrótce ponownie spotyka Nowego.\",\n\t    \"ageLimit\": 15\n\t},\n\t{\n\t    \"title\": \"Gorący temat\",\n\t    \"category\": \"Dramat\",\n\t    \"length\": 109,\n\t    \"description\": \"Historia kobiet, które przeciwstawiły się toksycznej atmosferze w słynnej sieci informacyjnej.\",\n\t    \"ageLimit\": 15\n\t}\n]"
 						},
 						"url": {
 							"raw": "localhost:8080/movie/many",
@@ -837,12 +1177,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"capacity\": 200,\n    \"layout\": [25, 25, 25, 25, 25, 25, 25, 25]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"capacity\": 200,\n    \"layout\": [25, 25, 25, 25, 25, 25, 25, 25]\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/room",
@@ -1003,12 +1338,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T16:00:00.000\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n\t\"startTime\": \"2020-02-10T16:00:00.000\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/session?room=2&movie=2",
@@ -1395,12 +1725,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 4,\r\n\t\"seatNumber\": 10,\r\n\t\"price\": 14.99\r\n}    ",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\r\n    \"rowNumber\": 4,\r\n\t\"seatNumber\": 10,\r\n\t\"price\": 14.99\r\n}    "
 						},
 						"url": {
 							"raw": "localhost:8080/ticket?session=4&client=1",
