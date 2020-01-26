@@ -1,6 +1,8 @@
 package pl.connectis.cinemareservationsapp;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +14,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
 class CinemaReservationsAppApplicationTests {
@@ -20,21 +21,14 @@ class CinemaReservationsAppApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    void ifGetClientRequestIsCorrectShouldReturnCode200() throws Exception {
-        mockMvc.perform(get("/client/1")
+    @ParameterizedTest
+    @CsvFileSource(resources = "/data.csv", delimiter = ';')
+    void findClientIdOK(int id, String expectedJson) throws Exception {
+        mockMvc.perform(get("/client/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(matchAll(
                         status().is2xxSuccessful(),
-                        content().json("[\n" +
-                                "    {\n" +
-                                "        \"id\": 1,\n" +
-                                "        \"firstName\": \"Adrian\",\n" +
-                                "        \"lastName\": \"Budny\",\n" +
-                                "        \"age\": 39,\n" +
-                                "        \"email\": \"adrian.budny@gmail.com\"\n" +
-                                "    }\n" +
-                                "]")
+                        content().json(expectedJson)
                 ));
     }
 }
