@@ -33,23 +33,23 @@ public class SessionController {
     }
 
     @GetMapping("/session")
-    public Iterable<Session> getSessionsByExample(@RequestParam Map<String, String> params) {
+    public Iterable<Session> getSessionsByExample(@RequestParam Map<String, String> requestParams) {
 
         Session session = new Session();
 
-        if (params.containsKey("id")) {
-            session.setId(Long.parseLong(params.get("id"))); ;
+        if (requestParams.containsKey("id")) {
+            session.setId(Long.parseLong(requestParams.get("id"))); ;
         }
-        if (params.containsKey("movie")) {
-            session.setMovie(sessionService.findMovieById(Long.parseLong(params.get("movie"))));
+        if (requestParams.containsKey("movie")) {
+            session.setMovie(sessionService.findMovieById(Long.parseLong(requestParams.get("movie"))));
         }
-        if (params.containsKey("room")) {
-            session.setRoom(sessionService.findRoomById(Long.parseLong(params.get("room"))));
+        if (requestParams.containsKey("room")) {
+            session.setRoom(sessionService.findRoomById(Long.parseLong(requestParams.get("room"))));
         }
-        if (params.containsKey("date")) {
-            session.setStartDate(LocalDate.parse(params.get("date")));
+        if (requestParams.containsKey("date")) {
+            session.setStartDate(LocalDate.parse(requestParams.get("date")));
         }
-        
+
         Example<Session> exampleSession = Example.of(session);
 
         return sessionService.findAll(exampleSession);

@@ -1,6 +1,7 @@
 package pl.connectis.cinemareservationsapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,17 +12,13 @@ import pl.connectis.cinemareservationsapp.service.TicketService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class TicketController {
 
     @Autowired
     private TicketService ticketService;
-
-    @GetMapping("/ticket/all")
-    public Iterable<Ticket> getAllTickets() {
-        return ticketService.findAll();
-    }
 
     @GetMapping("/ticket/{id}")
     public Ticket getTicketById(@PathVariable long id) {
@@ -33,19 +30,24 @@ public class TicketController {
     }
 
     @GetMapping("/ticket")
-    public List<Ticket> getTicketByClientIdOrSessionId(
-            @RequestParam(value = "client", required = false) Long clientId,
-            @RequestParam(value = "session", required = false) Long sessionId) {
-        if (clientId == null && sessionId == null) {
-            throw new BadRequestException("request does not contain neither client id nor session id");
+    public Iterable<Ticket> getTicketByExample(@RequestParam Map<String, String> requestParams) {
+
+        Ticket ticket = new Ticket();
+
+
+        if (requestParams.containsKey("id")) {
+            ticket.setId(Long.parseLong(requestParams.get("id")));
         }
-        if (clientId != null && !ticketService.validateClientExists(clientId)) {
-            throw new ResourceNotFoundException("client {id=" + clientId + "} was not found");
+        if (requestParams.containsKey("client")) {
+            ticket.setClient(ticketService.findClientById(Long.parseLong(requestParams.get("client"))));
         }
-        if (sessionId != null && !ticketService.validateSessionExists(sessionId)) {
-            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+        if (requestParams.containsKey("session")) {
+            ticket.setSession(ticketService.findSessionById(Long.parseLong(requestParams.get("session"))));
         }
-        return ticketService.findByClientIdOrSessionId(clientId, sessionId);
+
+        Example<Ticket> exampleTicket = Example.of(ticket);
+
+        return ticketService.findAll(exampleTicket);
     }
 
     @PostMapping("/ticket")
