@@ -1490,6 +1490,20 @@
 			"item": [
 				{
 					"name": "/room/all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a62d4440-1eb8-47af-bb4c-ad50cc616785",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1509,6 +1523,20 @@
 				},
 				{
 					"name": "/room",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ba6282ca-bd9b-4725-b011-fe186909d374",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1537,7 +1565,64 @@
 					"response": []
 				},
 				{
+					"name": "/room (capacity does not correspond to layout)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9872c99f-8fb4-458a-bb3d-8820270763fa",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"capacity\": 225,\n    \"layout\": [25, 25, 25, 25, 25, 25, 25, 25]\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/room",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/room/many",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9e31dfd-ed7b-499f-a01d-11e89308ff6e",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1568,6 +1653,20 @@
 				},
 				{
 					"name": "/room/5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c8c9eeed-9962-4ed4-a17c-880254eb5ca9",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1586,7 +1685,54 @@
 					"response": []
 				},
 				{
+					"name": "/room/84 (resource does not exists)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c8c9eeed-9962-4ed4-a17c-880254eb5ca9",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/room/84",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"84"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/room/5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a47f8fd6-7048-4067-ab18-5319b23e675c",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1599,6 +1745,219 @@
 							"path": [
 								"room",
 								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/room/5 (resource does not exists)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c8c9eeed-9962-4ed4-a17c-880254eb5ca9",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/room/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/room/5 (resource does not exists)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "70cd591f-516d-4a13-9a0b-2287ff0a7c4a",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/room/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/room/3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e6c1a788-4a81-4762-a660-fa6eff9f3792",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"capacity\": 55,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/room/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/room/3 (capacity does not correspond to layout)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e6c1a788-4a81-4762-a660-fa6eff9f3792",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"capacity\": 66,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/room/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/room/163 (resource does not exists)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e6c1a788-4a81-4762-a660-fa6eff9f3792",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"capacity\": 55,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/room/163",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"163"
 							]
 						}
 					},
