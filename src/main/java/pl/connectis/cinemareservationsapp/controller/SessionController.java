@@ -37,9 +37,9 @@ public class SessionController {
     public List<Session> getSessionsByRoomIdOrRoomId(
             @RequestParam(value = "room", required = false) Long roomId,
             @RequestParam(value = "movie", required = false) Long movieId) {
-        if (roomId == null && movieId == null) {
-            throw new BadRequestException("request does not contain neither room id nor movie id");
-        }
+                                    if (roomId == null && movieId == null) {
+                                        throw new BadRequestException("request does not contain neither room id nor movie id");
+                                    }
         if (roomId != null && !sessionService.validateRoomExists(roomId)) {
             throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
         }
@@ -50,7 +50,7 @@ public class SessionController {
     }
 
     @PostMapping("/session")
-    public ResponseEntity createSession(@RequestParam(value = "room") long roomId,
+    public ResponseEntity<Session> createSession(@RequestParam(value = "room") long roomId,
                                         @RequestParam(value = "movie") long movieId,
                                         @Valid @RequestBody Session session) {
         if (!sessionService.validateRoomExists(roomId)) {
@@ -62,7 +62,7 @@ public class SessionController {
         if (session.getStartTime().isBefore(LocalDateTime.now())) {
             throw new BadRequestException("start time should be in the future");
         }
-        return new ResponseEntity(sessionService.createSession(roomId, movieId, session), HttpStatus.CREATED);
+        return new ResponseEntity<>(sessionService.createSession(roomId, movieId, session), HttpStatus.CREATED);
     }
 
     @PutMapping("/session/{id}")

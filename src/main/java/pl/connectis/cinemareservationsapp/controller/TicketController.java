@@ -36,6 +36,9 @@ public class TicketController {
     public List<Ticket> getTicketByClientIdOrSessionId(
             @RequestParam(value = "client", required = false) Long clientId,
             @RequestParam(value = "session", required = false) Long sessionId) {
+        if (clientId == null && sessionId == null) {
+            throw new BadRequestException("request does not contain neither client id nor session id");
+        }
         if (clientId != null && !ticketService.validateClientExists(clientId)) {
             throw new ResourceNotFoundException("client {id=" + clientId + "} was not found");
         }
@@ -46,7 +49,7 @@ public class TicketController {
     }
 
     @PostMapping("/ticket")
-    public Ticket addTicket(@RequestParam(value = "session") long sessionId,
+    public ResponseEntity<Ticket> addTicket(@RequestParam(value = "session") long sessionId,
                             @RequestParam(value = "client") long clientId,
                             @Valid @RequestBody Ticket ticket) {
         if (!ticketService.validateClientExists(clientId)) {
@@ -57,9 +60,9 @@ public class TicketController {
         }
         if (!ticketService.validateSeatUnoccupied(ticket, sessionId)) {
             throw new BadRequestException("seat " + ticket.getSeatNumber() +
-                    " in row " + ticket.getRowNumber() + " is occupied");
+                    " in row " + ticket.getRowNumber() + " is reserved");
         }
-        return ticketService.createTicket(sessionId, clientId, ticket);
+        return new ResponseEntity<>(ticketService.createTicket(sessionId, clientId, ticket), HttpStatus.CREATED);
     }
 
     @PostMapping("/ticket/many")

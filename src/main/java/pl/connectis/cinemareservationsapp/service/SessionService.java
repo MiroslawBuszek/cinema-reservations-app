@@ -59,6 +59,7 @@ public class SessionService {
 
         session.setRoom(roomRepository.findById(roomId));
         session.setMovie(movieRepository.findById(movieId));
+        session.setReservedSeats(new ArrayList<>());
         return sessionRepository.save(session);
     }
 

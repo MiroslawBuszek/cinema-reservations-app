@@ -75,7 +75,7 @@ public class TicketService {
     public boolean validateSeatUnoccupied(Ticket ticket, long sessionId) {
         int ticketNumber = ticket.getRowNumber() * 1000 + ticket.getSeatNumber();
         ArrayList<Integer> reservedSeats = sessionRepository.findById(sessionId).getReservedSeats();
-        return reservedSeats.contains(ticketNumber);
+        return !reservedSeats.contains(ticketNumber);
     }
 
     public boolean validateSessionExists(long sessionId) {
