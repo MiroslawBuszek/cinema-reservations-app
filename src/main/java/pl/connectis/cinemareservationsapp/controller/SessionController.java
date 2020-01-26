@@ -37,6 +37,9 @@ public class SessionController {
     public List<Session> getSessionsByRoomIdOrRoomId(
             @RequestParam(value = "room", required = false) Long roomId,
             @RequestParam(value = "movie", required = false) Long movieId) {
+        if (roomId == null && movieId == null) {
+            throw new BadRequestException("request does not contain neither room id nor movie id");
+        }
         if (roomId != null && !sessionService.validateRoomExists(roomId)) {
             throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
         }
@@ -46,7 +49,7 @@ public class SessionController {
         return sessionService.findByRoomIdOrMovieId(roomId, movieId);
     }
 
-    @PostMapping("/session/{id}")
+    @PostMapping("/session")
     public ResponseEntity createSession(@RequestParam(value = "room") long roomId,
                                         @RequestParam(value = "movie") long movieId,
                                         @Valid @RequestBody Session session) {
@@ -57,7 +60,7 @@ public class SessionController {
             throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
         }
         if (session.getStartTime().isBefore(LocalDateTime.now())) {
-            throw new BadRequestException("start time should be in future");
+            throw new BadRequestException("start time should be in the future");
         }
         return new ResponseEntity(sessionService.createSession(roomId, movieId, session), HttpStatus.CREATED);
     }
@@ -68,7 +71,7 @@ public class SessionController {
                                                  @RequestParam(value = "movie", required = false) Long movieId,
                                                  @Valid @RequestBody Session session) {
         Session existingSession = sessionService.findById(sessionId);
-        if (session == null) {
+        if (existingSession == null) {
             throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
         }
         if (roomId != null && !sessionService.validateRoomExists(roomId)) {

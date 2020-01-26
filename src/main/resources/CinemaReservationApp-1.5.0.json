@@ -1971,6 +1971,20 @@
 			"item": [
 				{
 					"name": "/session/all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d1fe173e-8a43-46c0-bfaa-f42894a29a8b",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1990,6 +2004,20 @@
 				},
 				{
 					"name": "/session?room=1&movie=5 @ 15.00",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5b647176-46e7-4941-b5a5-b2fe6473173f",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2029,6 +2057,20 @@
 				},
 				{
 					"name": "/session?room=2&movie=2 @ 16.00",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "01e3da02-c099-4828-bf8f-abbcf5d3b8b7",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2068,6 +2110,20 @@
 				},
 				{
 					"name": "/session?room=4&movie=1 @ 17.00",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "08bae3f6-36af-4171-924c-a654c4161c1d",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2107,6 +2163,20 @@
 				},
 				{
 					"name": "/session?room=1&movie=7 @ 18.00",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f99453bd-3267-44ed-80f5-35f588d80399",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2146,6 +2216,20 @@
 				},
 				{
 					"name": "/session?room=3&movie=2 @ 18.30",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "709c9cc4-70d0-4215-8be3-158c1924145a",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2185,6 +2269,20 @@
 				},
 				{
 					"name": "/session?room=2&movie=2 @ 21.00",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "52cad62a-264c-499b-8d3d-efb21258d0e6",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2224,6 +2322,20 @@
 				},
 				{
 					"name": "/session?room=3&movie=2 @ 21.00",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e0c0994f-9533-4b15-9dd0-bcd8aa3edc66",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2263,6 +2375,20 @@
 				},
 				{
 					"name": "/session?room=1&movie=3 @ 21.00",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9813dec6-e2bf-42d9-8e55-b3411d5854cf",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -2301,7 +2427,180 @@
 					"response": []
 				},
 				{
+					"name": "/session?room=1&movie=3 @ 21.00 (start in the past)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9813dec6-e2bf-42d9-8e55-b3411d5854cf",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startTime\": \"2019-02-10T21:00:00.000\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/session?room=1&movie=3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session"
+							],
+							"query": [
+								{
+									"key": "room",
+									"value": "1"
+								},
+								{
+									"key": "movie",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session?room=45&movie=2 @ 21.00 (room does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e0c0994f-9533-4b15-9dd0-bcd8aa3edc66",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/session?room=45&movie=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session"
+							],
+							"query": [
+								{
+									"key": "room",
+									"value": "45"
+								},
+								{
+									"key": "movie",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session?room=3&movie=77 @ 18.30 (movie does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "709c9cc4-70d0-4215-8be3-158c1924145a",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startTime\": \"2020-02-10T18:30:00.000\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/session?room=3&movie=77",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session"
+							],
+							"query": [
+								{
+									"key": "room",
+									"value": "3"
+								},
+								{
+									"key": "movie",
+									"value": "77"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/session/7",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "457db744-6a67-4b8b-b75e-2a2324197b4b",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -2320,7 +2619,120 @@
 					"response": []
 				},
 				{
+					"name": "/session/81 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b2fb03b5-20d5-4529-b65f-87b40e12bec7",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/session/81",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/session/7",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "344222e6-6318-4912-9662-e39470b8ca3d",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/session/7",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session/7 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "988e59ec-45ad-4922-a71f-27f734d5b7d4",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/session/7",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session/7 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "344222e6-6318-4912-9662-e39470b8ca3d",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -2340,6 +2752,20 @@
 				},
 				{
 					"name": "/session?room=2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0f0d118-1872-4dfa-b13e-74fbf39efdec",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -2363,7 +2789,59 @@
 					"response": []
 				},
 				{
+					"name": "/session?room=48 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0f0d118-1872-4dfa-b13e-74fbf39efdec",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/session?room=48",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session"
+							],
+							"query": [
+								{
+									"key": "room",
+									"value": "48"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/session?movie=2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f7ca6cc0-c5a0-4547-a8be-6d02bb04aede",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer"
@@ -2380,6 +2858,352 @@
 								"session"
 							],
 							"query": [
+								{
+									"key": "movie",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session?movie=73 (resource does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f7ca6cc0-c5a0-4547-a8be-6d02bb04aede",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/session?movie=73",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session"
+							],
+							"query": [
+								{
+									"key": "movie",
+									"value": "73"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session (request does not contain neither room id nor movie id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f7ca6cc0-c5a0-4547-a8be-6d02bb04aede",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/session",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session/1?room=1&movie=5 @ 15.00",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5b647176-46e7-4941-b5a5-b2fe6473173f",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startTime\": \"2020-02-10T14:30:00.000\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/session/1?room=1&movie=6",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"1"
+							],
+							"query": [
+								{
+									"key": "room",
+									"value": "1"
+								},
+								{
+									"key": "movie",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session/27?room=1&movie=5 @ 15.00 (session does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5b647176-46e7-4941-b5a5-b2fe6473173f",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startTime\": \"2020-02-10T15:00:00.000\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/session/27?room=3&movie=3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"27"
+							],
+							"query": [
+								{
+									"key": "room",
+									"value": "3"
+								},
+								{
+									"key": "movie",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session/1?room=1&movie=5 @ 15.00 (start in the past)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5b647176-46e7-4941-b5a5-b2fe6473173f",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startTime\": \"2019-02-10T14:30:00.000\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/session/1?room=1&movie=6",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"1"
+							],
+							"query": [
+								{
+									"key": "room",
+									"value": "1"
+								},
+								{
+									"key": "movie",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session/5?room=3&movie=2 @ 18.30 (movie does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "709c9cc4-70d0-4215-8be3-158c1924145a",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startTime\": \"2020-02-10T18:30:00.000\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/session/5?room=3&movie=29",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"5"
+							],
+							"query": [
+								{
+									"key": "room",
+									"value": "3"
+								},
+								{
+									"key": "movie",
+									"value": "29"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session/7?room=93&movie=2 @ 21.00 (room does not exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e0c0994f-9533-4b15-9dd0-bcd8aa3edc66",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/session/7?room=93&movie=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"7"
+							],
+							"query": [
+								{
+									"key": "room",
+									"value": "93"
+								},
 								{
 									"key": "movie",
 									"value": "2"
