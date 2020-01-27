@@ -12,18 +12,19 @@ import pl.connectis.cinemareservationsapp.service.EmployeeService;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/employee")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/employee/all")
+    @GetMapping("/all")
     public Iterable<Employee> getAllEmployees() {
         return employeeService.findAll();
     }
 
-    @GetMapping("/employee/{id}")
-    public Employee getEmployeeById(@PathVariable long id) {
+    @GetMapping
+    public Employee getEmployeeById(@RequestParam long id) {
         Employee employee = employeeService.findById(id);
         if (employee == null) {
             throw new ResourceNotFoundException("employee {id=" + id + "} was not found");
@@ -31,7 +32,7 @@ public class EmployeeController {
         return employee;
     }
 
-    @PostMapping("/employee")
+    @PostMapping
     public ResponseEntity<Employee> addEmployee(@Valid @RequestBody Employee employee) {
         if (employeeService.findByLogin(employee.getLogin()) != null) {
             throw new BadRequestException("employee {login=" + employee.getLogin() + "} was found");
@@ -39,7 +40,7 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.save(employee), HttpStatus.CREATED);
     }
 
-    @PostMapping("/employee/many")
+    @PostMapping("/many")
     public ResponseEntity<Iterable> addEmployeeList(@Valid @RequestBody Iterable<Employee> employeeList) {
         for (Employee employee : employeeList) {
             if (employeeService.findByLogin(employee.getLogin()) != null) {
@@ -49,20 +50,21 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.saveAll(employeeList), HttpStatus.CREATED);
     }
 
-    @PutMapping("/employee/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @Valid @RequestBody Employee employee) {
+    @PutMapping
+    public ResponseEntity<Employee> updateEmployee(@RequestParam long id, @Valid @RequestBody Employee employee) {
         Employee existingEmployee = employeeService.findById(id);
         if (existingEmployee == null) {
             throw new ResourceNotFoundException("employee {id=" + id + "} was not found");
-        } else if (employeeService.findByLogin(employee.getLogin()) == null) {
-            throw new ResourceNotFoundException("employee {login=" + employee.getLogin() + "} was not found");
+        } else if (!employee.getLogin().equals(existingEmployee.getLogin())) {
+            throw new BadRequestException("{login=" + employee.getLogin() +
+                    "} does not correspond to employee of {id=" + id + "}");
         } else {
             return new ResponseEntity<>(employeeService.updateById(id, employee), HttpStatus.CREATED);
         }
     }
 
-    @DeleteMapping("/employee/{id}")
-    public ResponseEntity deleteEmployee(@PathVariable long id) {
+    @DeleteMapping
+    public ResponseEntity deleteEmployee(@RequestParam long id) {
         Employee employee = employeeService.findById(id);
         if (employee == null) {
             throw new ResourceNotFoundException("employee {id=" + id + "} was not found");

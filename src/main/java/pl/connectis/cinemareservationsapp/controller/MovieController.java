@@ -12,18 +12,19 @@ import pl.connectis.cinemareservationsapp.service.MovieService;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/movie")
 public class MovieController {
 
     @Autowired
     private MovieService movieService;
 
-    @GetMapping("/movie/all")
+    @GetMapping("/all")
     public Iterable<Movie> getAllMovies() {
         return movieService.findAll();
     }
 
-    @GetMapping("/movie/{id}")
-    public Movie getMovieById(@PathVariable long id) {
+    @GetMapping
+    public Movie getMovieById(@RequestParam long id) {
         Movie movie = movieService.findById(id);
         if (movie == null) {
             throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
@@ -31,7 +32,7 @@ public class MovieController {
         return movie;
     }
 
-    @PostMapping("/movie")
+    @PostMapping
     public ResponseEntity<Movie> addMovie(@Valid @RequestBody Movie movie) {
         if (movieService.findByTitle(movie.getTitle()) != null) {
             throw new BadRequestException("movie {title=" + movie.getTitle() + "} was found");
@@ -39,7 +40,7 @@ public class MovieController {
         return new ResponseEntity<>(movieService.save(movie), HttpStatus.CREATED);
     }
 
-    @PostMapping("/movie/many")
+    @PostMapping("/many")
     public ResponseEntity<Iterable> addMovieList(@Valid @RequestBody Iterable<Movie> movieList) {
         for (Movie movie : movieList) {
             if (movieService.findByTitle(movie.getTitle()) != null) {
@@ -49,8 +50,8 @@ public class MovieController {
         return new ResponseEntity<>(movieService.saveAll(movieList), HttpStatus.CREATED);
     }
 
-    @PutMapping("/movie/{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable long id, @Valid @RequestBody Movie movie) {
+    @PutMapping
+    public ResponseEntity<Movie> updateMovie(@RequestParam long id, @Valid @RequestBody Movie movie) {
         Movie existingMovie = movieService.findById(id);
         if (existingMovie == null) {
             throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
@@ -59,8 +60,8 @@ public class MovieController {
         }
     }
 
-    @DeleteMapping("/movie/{id}")
-    public ResponseEntity deleteMovie(@PathVariable long id) {
+    @DeleteMapping
+    public ResponseEntity deleteMovie(@RequestParam long id) {
         Movie movie = movieService.findById(id);
         if (movie == null) {
             throw new ResourceNotFoundException("movie {id=" + id + "} was not found");

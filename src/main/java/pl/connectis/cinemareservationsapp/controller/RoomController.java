@@ -12,18 +12,19 @@ import pl.connectis.cinemareservationsapp.service.RoomService;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/room")
 public class RoomController {
 
     @Autowired
     private RoomService roomService;
 
-    @GetMapping("/room/all")
+    @GetMapping("/all")
     public Iterable<Room> getAllRooms() {
         return roomService.findAll();
     }
 
-    @GetMapping("/room/{id}")
-    public Room getRoomById(@PathVariable long id) {
+    @GetMapping
+    public Room getRoomById(@RequestParam long id) {
         Room room = roomService.findById(id);
         if(room == null) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
@@ -31,13 +32,13 @@ public class RoomController {
         return room;
     }
 
-    @PostMapping("/room")
+    @PostMapping
     public ResponseEntity<Room> addRoom(@Valid @RequestBody Room room) {
         validateRoom(room);
         return new ResponseEntity<>(roomService.save(room), HttpStatus.CREATED);
     }
 
-    @PostMapping("/room/many")
+    @PostMapping("/many")
     public ResponseEntity<Iterable> addRoomList(@Valid @RequestBody Iterable<Room> roomList) {
         for (Room room : roomList) {
             validateRoom(room);
@@ -45,8 +46,8 @@ public class RoomController {
         return new ResponseEntity<>(roomService.saveAll(roomList), HttpStatus.CREATED);
     }
 
-    @PutMapping("/room/{id}")
-    public ResponseEntity<Room> updateById(@PathVariable long id, @Valid @RequestBody Room room) {
+    @PutMapping
+    public ResponseEntity<Room> updateById(@RequestParam long id, @Valid @RequestBody Room room) {
         Room existingRoom = roomService.findById(id);
         if(existingRoom == null) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
@@ -55,8 +56,8 @@ public class RoomController {
         return new ResponseEntity<>(roomService.updateById(id, room), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/room/{id}")
-    public ResponseEntity deleteRoom(@PathVariable long id) {
+    @DeleteMapping
+    public ResponseEntity deleteRoom(@RequestParam long id) {
         Room room = roomService.findById(id);
         if (room == null) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");

@@ -11,16 +11,16 @@ import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.service.TicketService;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/ticket")
 public class TicketController {
 
     @Autowired
     private TicketService ticketService;
 
-    @GetMapping("/ticket/{id}")
+    @GetMapping("/{id}")
     public Ticket getTicketById(@PathVariable long id) {
         Ticket ticket = ticketService.findById(id);
         if (ticket == null) {
@@ -29,11 +29,10 @@ public class TicketController {
         return ticket;
     }
 
-    @GetMapping("/ticket")
+    @GetMapping
     public Iterable<Ticket> getTicketByExample(@RequestParam Map<String, String> requestParams) {
 
         Ticket ticket = new Ticket();
-
 
         if (requestParams.containsKey("id")) {
             ticket.setId(Long.parseLong(requestParams.get("id")));
@@ -50,7 +49,7 @@ public class TicketController {
         return ticketService.findAll(exampleTicket);
     }
 
-    @PostMapping("/ticket")
+    @PostMapping
     public ResponseEntity<Ticket> addTicket(@RequestParam(value = "session") long sessionId,
                             @RequestParam(value = "client") long clientId,
                             @Valid @RequestBody Ticket ticket) {
@@ -67,12 +66,12 @@ public class TicketController {
         return new ResponseEntity<>(ticketService.createTicket(sessionId, clientId, ticket), HttpStatus.CREATED);
     }
 
-    @PostMapping("/ticket/many")
+    @PostMapping("/many")
     public Iterable<Ticket> addTicketList(@Valid @RequestBody Iterable<Ticket> ticketList) {
         return ticketService.saveAll(ticketList);
     }
 
-    @DeleteMapping("/ticket/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteTicket(@PathVariable long id) {
         Ticket ticket = ticketService.findById(id);
         if (ticket == null) {

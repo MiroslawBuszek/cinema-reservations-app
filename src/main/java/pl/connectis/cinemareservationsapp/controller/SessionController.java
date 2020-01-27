@@ -13,17 +13,16 @@ import pl.connectis.cinemareservationsapp.service.SessionService;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/session")
 public class SessionController {
 
     @Autowired
     private SessionService sessionService;
 
-    @GetMapping("/session/{id}")
+    @GetMapping("/{id}")
     public Session getSessionById(@PathVariable long id) {
         Session session = sessionService.findById(id);
         if (session == null) {
@@ -32,7 +31,7 @@ public class SessionController {
         return session;
     }
 
-    @GetMapping("/session")
+    @GetMapping
     public Iterable<Session> getSessionsByExample(@RequestParam Map<String, String> requestParams) {
 
         Session session = new Session();
@@ -55,7 +54,7 @@ public class SessionController {
         return sessionService.findAll(exampleSession);
     }
 
-    @PostMapping("/session")
+    @PostMapping
     public ResponseEntity<Session> createSession(@RequestParam(value = "room") long roomId,
                                         @RequestParam(value = "movie") long movieId,
                                         @Valid @RequestBody Session session) {
@@ -71,7 +70,7 @@ public class SessionController {
         return new ResponseEntity<>(sessionService.createSession(roomId, movieId, session), HttpStatus.CREATED);
     }
 
-    @PutMapping("/session/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Session> updateSession(@PathVariable(name = "id") long sessionId,
                                                  @RequestParam(value = "room", required = false) Long roomId,
                                                  @RequestParam(value = "movie", required = false) Long movieId,
@@ -92,7 +91,7 @@ public class SessionController {
         return new ResponseEntity(sessionService.updateById(sessionId, roomId, movieId, session), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/session/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteSession(@PathVariable long id) {
         Session session = sessionService.findById(id);
         if (session == null) {

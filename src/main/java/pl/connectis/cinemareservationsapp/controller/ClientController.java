@@ -12,18 +12,19 @@ import pl.connectis.cinemareservationsapp.service.ClientService;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/client")
 public class ClientController {
 
     @Autowired
     private ClientService clientService;
 
-    @GetMapping("/client/all")
+    @GetMapping("/all")
     public Iterable<Client> getAllClients() {
         return clientService.findAll();
     }
 
-    @GetMapping("/client/{id}")
-    public Client getClientById(@PathVariable long id) {
+    @GetMapping
+    public Client getClientById(@RequestParam long id) {
         Client client = clientService.findById(id);
         if (client == null) {
             throw new ResourceNotFoundException("client {id=" + id + "} was not found");
@@ -31,7 +32,7 @@ public class ClientController {
         return client;
     }
 
-    @PostMapping("/client")
+    @PostMapping
     public ResponseEntity<Client> addClient(@Valid @RequestBody Client client) {
         if (clientService.findByEmail(client.getEmail()) != null) {
             throw new BadRequestException("client {email=" + client.getEmail() + "} was found");
@@ -39,7 +40,7 @@ public class ClientController {
         return new ResponseEntity<>(clientService.save(client), HttpStatus.CREATED);
     }
 
-    @PostMapping("/client/many")
+    @PostMapping("/many")
     public ResponseEntity<Iterable> addClientList(@Valid @RequestBody Iterable<Client> clientList) {
         for (Client client : clientList) {
             if (clientService.findByEmail(client.getEmail()) != null) {
@@ -49,20 +50,21 @@ public class ClientController {
         return new ResponseEntity<>(clientService.saveAll(clientList), HttpStatus.CREATED);
     }
 
-    @PutMapping("/client/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable long id, @Valid @RequestBody Client client) {
+    @PutMapping
+    public ResponseEntity<Client> updateClient(@RequestParam long id, @Valid @RequestBody Client client) {
         Client existingClient = clientService.findById(id);
         if (existingClient == null) {
             throw new ResourceNotFoundException("client {id=" + id + "} was not found");
-        } else if (clientService.findByEmail(client.getEmail()) == null) {
-            throw new ResourceNotFoundException("client {email=" + client.getEmail() + "} was not found");
+        } else if (!client.getEmail().equals(existingClient.getEmail())) {
+            throw new BadRequestException("{email=" + client.getEmail() +
+                    "} does not correspond to client of {id=" + id + "}");
         } else {
             return new ResponseEntity<>(clientService.updateById(id, client), HttpStatus.CREATED);
         }
     }
 
-    @DeleteMapping("/client/{id}")
-    public ResponseEntity deleteClient(@PathVariable long id) {
+    @DeleteMapping
+    public ResponseEntity deleteClient(@RequestParam long id) {
         Client client = clientService.findById(id);
         if (client == null) {
             throw new ResourceNotFoundException("client {id=" + id + "} was not found");

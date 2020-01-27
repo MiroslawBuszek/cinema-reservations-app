@@ -222,7 +222,7 @@
 					"response": []
 				},
 				{
-					"name": "/client/2",
+					"name": "/client?id=2",
 					"event": [
 						{
 							"listen": "test",
@@ -241,21 +241,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/client/2",
+							"raw": "localhost:8080/client?id=2",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"client",
-								"2"
+								"client"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/client/99 (resource does not exist)",
+					"name": "/client?id=99 (client does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -274,21 +279,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/client/99",
+							"raw": "localhost:8080/client?id=99",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"client",
-								"99"
+								"client"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "99"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/client/2",
+					"name": "/client?id=2",
 					"event": [
 						{
 							"listen": "test",
@@ -307,21 +317,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/client/2",
+							"raw": "localhost:8080/client?id=2",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"client",
-								"2"
+								"client"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/client/2 (resource does not exist)",
+					"name": "/client?id=2 (client does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -340,21 +355,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/client/2",
+							"raw": "localhost:8080/client?id=2",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"client",
-								"2"
+								"client"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/client/2 (resource does not exist)",
+					"name": "/client?id=2 (client does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -373,21 +393,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/client/2",
+							"raw": "localhost:8080/client?id=2",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"client",
-								"2"
+								"client"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/client/9",
+					"name": "/client?id=9",
 					"event": [
 						{
 							"listen": "test",
@@ -414,24 +439,29 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak@gmail.com\"\n}"
+							"raw": "{\n    \"firstName\": \"Filip\",\n    \"lastName\": \"Chmielewski\",\n    \"age\": 98,\n    \"email\": \"filip.chmielewski@gmail.com\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/client/9",
+							"raw": "localhost:8080/client?id=9",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"client",
-								"9"
+								"client"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/client/9 (wrong email in the body)",
+					"name": "/client?id=9 (wrong email in the body)",
 					"event": [
 						{
 							"listen": "test",
@@ -439,7 +469,7 @@
 								"id": "18133b00-6881-42ab-a13a-281233dfd4d9",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(404);\r",
+									"    pm.response.to.have.status(400);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -458,33 +488,39 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak76@gmail.com\"\n}"
+							"raw": "{\n        \"firstName\": \"Filip\",\n        \"lastName\": \"Chmielewski\",\n        \"age\": 99,\n        \"email\": \"filipek.chmielewski@gmail.com\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/client/9",
+							"raw": "localhost:8080/client?id=9",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"client",
-								"9"
+								"client"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/client/76 (resource does not exist)",
+					"name": "/client?id=76 (client does not exist)",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "507e49f4-af51-42d0-ae5f-b3f9b0d5ca2f",
 								"exec": [
-									"pm.test(\"Status test\", function () {\r",
+									"pm.test(\"HTTP Status\", function () {\r",
 									"    pm.response.to.have.status(404);\r",
-									"});"
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -505,14 +541,19 @@
 							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak76@gmail.com\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/client/76",
+							"raw": "localhost:8080/client?id=76",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"client",
-								"76"
+								"client"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "76"
+								}
 							]
 						}
 					},
@@ -734,7 +775,7 @@
 					"response": []
 				},
 				{
-					"name": "/employee/5",
+					"name": "/employee?id=5",
 					"event": [
 						{
 							"listen": "test",
@@ -753,21 +794,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/employee/5",
+							"raw": "localhost:8080/employee?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"employee",
-								"5"
+								"employee"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/employee/128 (resource does not exist)",
+					"name": "/employee?id=128 (employee does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -786,21 +832,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/employee/128",
+							"raw": "localhost:8080/employee?id=128",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"employee",
-								"128"
+								"employee"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "128"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/employee/5",
+					"name": "/employee?id=5",
 					"event": [
 						{
 							"listen": "test",
@@ -819,21 +870,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/employee/5",
+							"raw": "localhost:8080/employee?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"employee",
-								"5"
+								"employee"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/employee/5 (resource does not exist)",
+					"name": "/employee?id=5 (employee does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -852,21 +908,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/employee/5",
+							"raw": "localhost:8080/employee?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"employee",
-								"5"
+								"employee"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/employee/5 (resource does not exist)",
+					"name": "/employee?id=5 (employee does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -885,21 +946,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/employee/5",
+							"raw": "localhost:8080/employee?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"employee",
-								"5"
+								"employee"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/employee/3",
+					"name": "/employee?id=3",
 					"event": [
 						{
 							"listen": "test",
@@ -929,21 +995,26 @@
 							"raw": "{\n    \"firstName\": \"Paweł\",\n    \"lastName\": \"Krakowski\",\n    \"login\": \"pkrakowski\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/employee/3",
+							"raw": "localhost:8080/employee?id=3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"employee",
-								"3"
+								"employee"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/employee/3 (wrong login in the body)",
+					"name": "/employee?id=3 (wrong login in the body)",
 					"event": [
 						{
 							"listen": "test",
@@ -951,7 +1022,7 @@
 								"id": "d65389d6-f4fe-43b0-869c-07f0a930c67d",
 								"exec": [
 									"pm.test(\"Status test\", function () {",
-									"    pm.response.to.have.status(404);",
+									"    pm.response.to.have.status(400);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -973,21 +1044,26 @@
 							"raw": "{\n    \"firstName\": \"Paweł\",\n    \"lastName\": \"Krakowski\",\n    \"login\": \"ukrakowski\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/employee/3",
+							"raw": "localhost:8080/employee?id=3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"employee",
-								"3"
+								"employee"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/employee/64 (resource does not exist)",
+					"name": "/employee?id=64 (employee does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -1017,14 +1093,19 @@
 							"raw": "{\n    \"firstName\": \"Paweł\",\n    \"lastName\": \"Krakowski\",\n    \"login\": \"pkrakowski\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/employee/64",
+							"raw": "localhost:8080/employee?id=64",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"employee",
-								"64"
+								"employee"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "64"
+								}
 							]
 						}
 					},
@@ -1244,7 +1325,7 @@
 					"response": []
 				},
 				{
-					"name": "/movie/4",
+					"name": "/movie?id=4",
 					"event": [
 						{
 							"listen": "test",
@@ -1263,21 +1344,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/movie/4",
+							"raw": "localhost:8080/movie?id=4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"movie",
-								"4"
+								"movie"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/movie/54 (resource does not exist)",
+					"name": "/movie?id=54 (movie does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -1296,21 +1382,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/movie/54",
+							"raw": "localhost:8080/movie?id=54",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"movie",
-								"54"
+								"movie"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "54"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/movie/4",
+					"name": "/movie?id=4",
 					"event": [
 						{
 							"listen": "test",
@@ -1329,21 +1420,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/movie/4",
+							"raw": "localhost:8080/movie?id=4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"movie",
-								"4"
+								"movie"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/movie/4 (resource does not exist)",
+					"name": "/movie?id=4 (movie does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -1362,21 +1458,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/movie/4",
+							"raw": "localhost:8080/movie?id=4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"movie",
-								"4"
+								"movie"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/movie/4 (resource does not exist)",
+					"name": "/movie?id=4 (movie does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -1395,21 +1496,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/movie/4",
+							"raw": "localhost:8080/movie?id=4",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"movie",
-								"4"
+								"movie"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/movie/1",
+					"name": "/movie?id=1",
 					"event": [
 						{
 							"listen": "test",
@@ -1430,8 +1536,8 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1439,21 +1545,26 @@
 							"raw": "{\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/movie/1",
+							"raw": "localhost:8080/movie?id=1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"movie",
-								"1"
+								"movie"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/movie/69 (resource does not exist)",
+					"name": "/movie?id=69 (movie does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -1474,8 +1585,8 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1483,14 +1594,19 @@
 							"raw": "{\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/movie/69",
+							"raw": "localhost:8080/movie?id=69",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"movie",
-								"69"
+								"movie"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "69"
+								}
 							]
 						}
 					},
@@ -1666,7 +1782,7 @@
 					"response": []
 				},
 				{
-					"name": "/room/5",
+					"name": "/room?id=5",
 					"event": [
 						{
 							"listen": "test",
@@ -1685,21 +1801,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/room/5",
+							"raw": "localhost:8080/room?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"room",
-								"5"
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/room/84 (resource does not exists)",
+					"name": "/room?id=84 (room does not exists)",
 					"event": [
 						{
 							"listen": "test",
@@ -1718,21 +1839,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/room/84",
+							"raw": "localhost:8080/room?id=84",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"room",
-								"84"
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "84"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/room/5",
+					"name": "/room?id=5",
 					"event": [
 						{
 							"listen": "test",
@@ -1751,21 +1877,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/room/5",
+							"raw": "localhost:8080/room?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"room",
-								"5"
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/room/5 (resource does not exists)",
+					"name": "/room?id=5 (room does not exists)",
 					"event": [
 						{
 							"listen": "test",
@@ -1784,21 +1915,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/room/5",
+							"raw": "localhost:8080/room?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"room",
-								"5"
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/room/5 (resource does not exists)",
+					"name": "/room?id=5 (room does not exists)",
 					"event": [
 						{
 							"listen": "test",
@@ -1817,21 +1953,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/room/5",
+							"raw": "localhost:8080/room?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"room",
-								"5"
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/room/3",
+					"name": "/room?id=3",
 					"event": [
 						{
 							"listen": "test",
@@ -1852,8 +1993,8 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1866,21 +2007,26 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/room/3",
+							"raw": "localhost:8080/room?id=3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"room",
-								"3"
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/room/3 (capacity does not correspond to layout)",
+					"name": "/room?id=3 (capacity does not correspond to layout)",
 					"event": [
 						{
 							"listen": "test",
@@ -1901,8 +2047,8 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1915,21 +2061,26 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/room/3",
+							"raw": "localhost:8080/room?id=3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"room",
-								"3"
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/room/163 (resource does not exists)",
+					"name": "/room?id=163 (room does not exists)",
 					"event": [
 						{
 							"listen": "test",
@@ -1950,8 +2101,8 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1964,14 +2115,19 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/room/163",
+							"raw": "localhost:8080/room?id=163",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"room",
-								"163"
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "163"
+								}
 							]
 						}
 					},
@@ -2600,7 +2756,7 @@
 					"response": []
 				},
 				{
-					"name": "/session/7",
+					"name": "/session?id=7",
 					"event": [
 						{
 							"listen": "test",
@@ -2619,14 +2775,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/session/7",
+							"raw": "localhost:8080/session?id=7",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"7"
+								"session"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "7"
+								}
 							]
 						}
 					},
@@ -2652,14 +2813,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/session/81",
+							"raw": "localhost:8080/session?id=81",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"81"
+								"session"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "81"
+								}
 							]
 						}
 					},
@@ -2784,7 +2950,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/session?room=2",
+							"raw": "localhost:8080/session?room=2&data=20-02-10",
 							"host": [
 								"localhost"
 							],
@@ -2796,6 +2962,10 @@
 								{
 									"key": "room",
 									"value": "2"
+								},
+								{
+									"key": "data",
+									"value": "20-02-10"
 								}
 							]
 						}

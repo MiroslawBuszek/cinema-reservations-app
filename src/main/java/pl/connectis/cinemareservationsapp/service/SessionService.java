@@ -43,28 +43,6 @@ public class SessionService {
         return roomRepository.findById(roomId);
     }
 
-    public List<Session> findByRoomId(long roomId) {
-        return sessionRepository.findByRoomId(roomId);
-    }
-
-    public List<Session> findByMovieId(long movieId) {
-        return sessionRepository.findByMovieId(movieId);
-    }
-
-    public List<Session> findByStartDate(LocalDate localDate) {
-        return sessionRepository.findByStartDate(localDate);
-    }
-
-    public List<Session> findByRoomIdOrMovieId(Long roomId, Long movieId) {
-        if(movieId != null) {
-            return findByMovieId(movieId);
-        }
-        if(roomId != null) {
-            return findByRoomId(roomId);
-        }
-        return new ArrayList<>();
-    }
-
     public Session save(Session session) {
         return sessionRepository.save(session);
     }
