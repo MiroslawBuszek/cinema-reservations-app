@@ -1,6 +1,5 @@
 package pl.connectis.cinemareservationsapp.service;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,15 +27,8 @@ public class SessionService {
     @Autowired
     MovieRepository movieRepository;
 
-    @Autowired
-    ModelMapper modelMapper;
-
-    public Iterable<Session> findAll(Example<Session> exampleSession) {
+    public List<Session> findAll(Example<Session> exampleSession) {
         return sessionRepository.findAll();
-    }
-
-    public SessionDTO findDTOById(long sessionId) {
-        return convertToDTO(sessionRepository.findById(sessionId));
     }
 
     public Session findById(long sessionId) {
@@ -56,6 +47,12 @@ public class SessionService {
         return sessionRepository.save(session);
     }
 
+    public SessionDTO save(SessionDTO sessionDTO) {
+        Session session = convertToEntity(sessionDTO);
+        sessionRepository.save(session);
+        return convertToDTO(session);
+    }
+
     public Session createSession(long roomId, long movieId, Session session) {
 
         session.setRoom(roomRepository.findById(roomId));
@@ -70,23 +67,31 @@ public class SessionService {
     }
 
     @Transactional
-    public Session updateById(long sessionId, Long roomId, Long movieId, Session session) {
-        Session existingSession = sessionRepository.findById(sessionId);
-        if (roomId != null) {
-            existingSession.setRoom(roomRepository.findById((long)roomId));
+    public SessionDTO updateById(SessionDTO sessionDTO) {
+        Session existingSession = sessionRepository.findById(sessionDTO.getId());
+        if (sessionDTO.getRoomId() != 0) {
+            existingSession.setRoom(roomRepository.findById(sessionDTO.getRoomId()));
         }
-        if (movieId != null) {
-            existingSession.setMovie(movieRepository.findById((long)movieId));
+        if (sessionDTO.getMovieId() != 0) {
+            existingSession.setMovie(movieRepository.findById(sessionDTO.getMovieId()));
         }
-        if (session.getStartTime() != null) {
-            existingSession.setStartTime(session.getStartTime());
-            existingSession.setStartDate(session.getStartTime().toLocalDate());
+        if (sessionDTO.getStartTime() != null) {
+            existingSession.setStartTime(sessionDTO.getStartTime());
+            existingSession.setStartDate(sessionDTO.getStartTime().toLocalDate());
         }
-        return existingSession;
+        return convertToDTO(existingSession);
     }
 
     public void deleteById(long id) {
         sessionRepository.deleteById(id);
+    }
+
+    public boolean validateSessionExists(long sessionId) {
+        Session session = sessionRepository.findById(sessionId);
+        if (session == null) {
+            return false;
+        }
+        return true;
     }
 
     public boolean validateRoomExists(long roomId) {
@@ -106,13 +111,40 @@ public class SessionService {
     }
 
     public SessionDTO convertToDTO(Session session) {
-        modelMapper.addMappings(Session::getMovie.getId, SessionDTO::setMovieId);
-        modelMapper.addMappings(Session::getRoom.getId, SessionDTO::getRoomId);
-        return modelMapper.map(session, SessionDTO.class);
+        SessionDTO sessionDTO = new SessionDTO();
+        sessionDTO.setId(session.getId());
+        if (session.getMovie() != null) {
+            sessionDTO.setMovieId(session.getMovie().getId());
+        }
+        if (session.getRoom() != null) {
+            sessionDTO.setRoomId(session.getRoom().getId());
+        }
+        sessionDTO.setReservedSeats(session.getReservedSeats());
+        sessionDTO.setStartTime(session.getStartTime());
+        return sessionDTO;
+    }
+
+    public List<SessionDTO> convertToDTO(List<Session> sessionList) {
+        List<SessionDTO> sessionDTOList = new ArrayList<>(sessionList.size());
+        for (Session session : sessionList) {
+            sessionDTOList.add(convertToDTO(session));
+        }
+        return sessionDTOList;
     }
 
     public Session convertToEntity(SessionDTO sessionDTO) {
-        return modelMapper.map(sessionDTO, Session.class);
+        Session session = sessionRepository.findById(sessionDTO.getId());
+        if (session == null) {
+            session = new Session();
+        }
+        session.setMovie(movieRepository.findById(sessionDTO.getMovieId()));
+        session.setRoom(roomRepository.findById(sessionDTO.getRoomId()));
+        session.setReservedSeats(sessionDTO.getReservedSeats());
+        session.setStartTime(sessionDTO.getStartTime());
+        if (sessionDTO.getStartTime() != null) {
+            session.setStartDate(sessionDTO.getStartTime().toLocalDate());
+        }
+        return session;
     }
 
 }

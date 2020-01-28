@@ -11,8 +11,6 @@ import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.service.SessionService;
 
-import javax.validation.Valid;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -23,77 +21,55 @@ public class SessionController {
     @Autowired
     private SessionService sessionService;
 
-    @GetMapping("/{id}")
-    public SessionDTO getSessionById(@PathVariable long id) {
-        SessionDTO sessionDTO = sessionService.findDTOById(id);
-        if (sessionDTO == null) {
-            throw new ResourceNotFoundException("session {id=" + id + "} was not found");
-        }
-        return sessionDTO;
-    }
-
     @GetMapping
-    public Iterable<Session> getSessionsByExample(@RequestParam Map<String, String> requestParams) {
+    public Iterable<SessionDTO> getSessionsByExample(@RequestParam Map<String, String> requestParams) {
 
-        Session session = new Session();
+        SessionDTO sessionDTO = new SessionDTO();
 
         if (requestParams.containsKey("id")) {
-            session.setId(Long.parseLong(requestParams.get("id"))); ;
+            validateSessionExists(Long.parseLong(requestParams.get("id")));
+            sessionDTO.setId(Long.parseLong(requestParams.get("id")));
         }
         if (requestParams.containsKey("movie")) {
-            session.setMovie(sessionService.findMovieById(Long.parseLong(requestParams.get("movie"))));
+            validateMovieExists(Long.parseLong(requestParams.get("movie")));
+            sessionDTO.setMovieId(Long.parseLong(requestParams.get("movie")));
         }
         if (requestParams.containsKey("room")) {
-            session.setRoom(sessionService.findRoomById(Long.parseLong(requestParams.get("room"))));
+            validateRoomExists(Long.parseLong(requestParams.get("room")));
+            sessionDTO.setRoomId(Long.parseLong(requestParams.get("room")));
         }
         if (requestParams.containsKey("date")) {
-            session.setStartDate(LocalDate.parse(requestParams.get("date")));
+            sessionDTO.setStartTime(LocalDateTime.parse(requestParams.get("date")));
         }
 
-        Example<Session> exampleSession = Example.of(session);
+        Example<Session> exampleSession = Example.of(sessionService.convertToEntity(sessionDTO));
 
-        return sessionService.findAll(exampleSession);
+        return sessionService.convertToDTO(sessionService.findAll(exampleSession));
     }
 
     @PostMapping
-    public ResponseEntity<Session> createSession(@RequestParam(value = "room") long roomId,
-                                        @RequestParam(value = "movie") long movieId,
-                                        @Valid @RequestBody Session session) {
-        if (!sessionService.validateRoomExists(roomId)) {
-            throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
-        }
-        if (!sessionService.validateMovieExists(movieId)) {
-            throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
-        }
-        if (session.getStartTime().isBefore(LocalDateTime.now())) {
-            throw new BadRequestException("start time should be in the future");
-        }
-        return new ResponseEntity<>(sessionService.createSession(roomId, movieId, session), HttpStatus.CREATED);
+    public ResponseEntity<SessionDTO> createSession(@RequestBody SessionDTO sessionDTO) {
+        validateMovieExists(sessionDTO.getMovieId());
+        validateRoomExists(sessionDTO.getRoomId());
+        validateStartTime(sessionDTO.getStartTime());
+        return new ResponseEntity<>(sessionService.save(sessionDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Session> updateSession(@PathVariable(name = "id") long sessionId,
-                                                 @RequestParam(value = "room", required = false) Long roomId,
-                                                 @RequestParam(value = "movie", required = false) Long movieId,
-                                                 @Valid @RequestBody Session session) {
-        Session existingSession = sessionService.findById(sessionId);
-        if (existingSession == null) {
-            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+    @PutMapping
+    public ResponseEntity<SessionDTO> updateSession(@RequestBody SessionDTO sessionDTO) {
+        validateSessionExists(sessionDTO.getId());
+        if (sessionDTO.getRoomId() != 0) {
+            validateRoomExists(sessionDTO.getRoomId());
         }
-        if (roomId != null && !sessionService.validateRoomExists(roomId)) {
-            throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
+        if (sessionDTO.getMovieId() != 0) {
+            validateMovieExists(sessionDTO.getMovieId());
         }
-        if (movieId != null && !sessionService.validateMovieExists(movieId)) {
-            throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
-        }
-        if (session.getStartTime().isBefore(LocalDateTime.now())) {
-            throw new BadRequestException("start time should be in future");
-        }
-        return new ResponseEntity(sessionService.updateById(sessionId, roomId, movieId, session), HttpStatus.CREATED);
+        validateStartTime(sessionDTO.getStartTime());
+        return new ResponseEntity(sessionService.updateById(sessionDTO), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteSession(@PathVariable long id) {
+    @DeleteMapping
+    public ResponseEntity deleteSession(@RequestParam long id) {
         Session session = sessionService.findById(id);
         if (session == null) {
             throw new ResourceNotFoundException("session {id=" + id + "} was not found");
@@ -101,4 +77,28 @@ public class SessionController {
         sessionService.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    void validateSessionExists(long sessionId ) {
+        if (!sessionService.validateSessionExists(sessionId)) {
+            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+        }
+    }
+
+    void validateMovieExists(long movieId ) {
+        if (!sessionService.validateMovieExists(movieId)) {
+            throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
+        }
+    }
+    void validateRoomExists(long roomId ) {
+        if (!sessionService.validateRoomExists(roomId)) {
+            throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
+        }
+    }
+
+    void validateStartTime(LocalDateTime startTime) {
+        if (startTime.isBefore(LocalDateTime.now())) {
+            throw new BadRequestException("start time should be in future");
+        }
+    }
+
 }
