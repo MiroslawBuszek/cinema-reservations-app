@@ -12,6 +12,7 @@ import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.service.SessionService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
@@ -21,6 +22,7 @@ public class SessionController {
     @Autowired
     private SessionService sessionService;
 
+    // TODO: Fix query by example search
     @GetMapping
     public Iterable<SessionDTO> getSessionsByExample(@RequestParam Map<String, String> requestParams) {
 
@@ -47,11 +49,16 @@ public class SessionController {
         return sessionService.convertToDTO(sessionService.findAll(exampleSession));
     }
 
+    //
+    // TODO: implement GET method retrieving unreserved seats
+    //
+
     @PostMapping
     public ResponseEntity<SessionDTO> createSession(@RequestBody SessionDTO sessionDTO) {
         validateMovieExists(sessionDTO.getMovieId());
         validateRoomExists(sessionDTO.getRoomId());
         validateStartTime(sessionDTO.getStartTime());
+        sessionDTO.setReservedSeats(new ArrayList<>());
         return new ResponseEntity<>(sessionService.save(sessionDTO), HttpStatus.CREATED);
     }
 
@@ -70,10 +77,7 @@ public class SessionController {
 
     @DeleteMapping
     public ResponseEntity deleteSession(@RequestParam long id) {
-        Session session = sessionService.findById(id);
-        if (session == null) {
-            throw new ResourceNotFoundException("session {id=" + id + "} was not found");
-        }
+        validateSessionExists(id);
         sessionService.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

@@ -70,7 +70,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 45,\n    \"email\": \"maria.kozak@gmail.com\"\n}"
+							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 45,\n    \"email\": \"maria.kozak@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/client",
@@ -113,7 +118,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 45,\n    \"email\": \"maria.kozak@gmail.com\"\n}"
+							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 45,\n    \"email\": \"maria.kozak@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/client",
@@ -156,12 +166,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n\t{\n\t    \"firstName\": \"Mateusz\",\n\t    \"lastName\": \"Włodarczyk\",\n\t    \"age\": 19,\n\t    \"email\": \"mateusz.włodarczyk@gmail.com\"\n\t},\n\t{\n\t    \"firstName\": \"Filip\",\n\t    \"lastName\": \"Chmielewski\",\n\t    \"age\": 99,\n\t    \"email\": \"filip.chmielewski@gmail.com\"\n\t}\n]",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "[\n\t{\n\t    \"firstName\": \"Mateusz\",\n\t    \"lastName\": \"Włodarczyk\",\n\t    \"age\": 19,\n\t    \"email\": \"mateusz.włodarczyk@gmail.com\"\n\t},\n\t{\n\t    \"firstName\": \"Filip\",\n\t    \"lastName\": \"Chmielewski\",\n\t    \"age\": 99,\n\t    \"email\": \"filip.chmielewski@gmail.com\"\n\t}\n]"
 						},
 						"url": {
 							"raw": "localhost:8080/client/many",
@@ -439,7 +444,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Filip\",\n    \"lastName\": \"Chmielewski\",\n    \"age\": 98,\n    \"email\": \"filip.chmielewski@gmail.com\"\n}"
+							"raw": "{\n    \"firstName\": \"Filip\",\n    \"lastName\": \"Chmielewski\",\n    \"age\": 98,\n    \"email\": \"filip.chmielewski@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/client?id=9",
@@ -488,7 +498,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"firstName\": \"Filip\",\n        \"lastName\": \"Chmielewski\",\n        \"age\": 99,\n        \"email\": \"filipek.chmielewski@gmail.com\"\n}"
+							"raw": "{\n        \"firstName\": \"Filip\",\n        \"lastName\": \"Chmielewski\",\n        \"age\": 99,\n        \"email\": \"filipek.chmielewski@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/client?id=9",
@@ -538,7 +553,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak76@gmail.com\"\n}"
+							"raw": "{\n    \"firstName\": \"Maria\",\n    \"lastName\": \"Kozak\",\n    \"age\": 44,\n    \"email\": \"maria.kozak76@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/client?id=76",
@@ -626,7 +646,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Magdalena\",\n    \"lastName\": \"Lewandowska\",\n    \"login\": \"mlewandowska\"\n}"
+							"raw": "{\n    \"firstName\": \"Magdalena\",\n    \"lastName\": \"Lewandowska\",\n    \"login\": \"mlewandowska\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/employee/",
@@ -1178,7 +1203,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Joker\",\n    \"category\": \"Dramat\",\n    \"length\": 122,\n    \"description\": \"Historia jednego z cieszących się najgorszą sławą superprzestępców uniwersum DC — Jokera. Przedstawiony przez Phillipsa obraz śledzi losy kultowego czarnego charakteru, człowieka zepchniętego na margines.\",\n    \"ageLimit\": 15\n}"
+							"raw": "{\n    \"title\": \"Joker\",\n    \"category\": \"Dramat\",\n    \"length\": 122,\n    \"description\": \"Historia jednego z cieszących się najgorszą sławą superprzestępców uniwersum DC — Jokera. Przedstawiony przez Phillipsa obraz śledzi losy kultowego czarnego charakteru, człowieka zepchniętego na margines.\",\n    \"ageLimit\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/movie",
@@ -1264,7 +1294,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n\t{\n\t    \"title\": \"Psy 3. W imię zasad\",\n\t    \"category\": \"Akcja\",\n\t    \"length\": 126,\n\t    \"description\": \"Po 25 latach odsiadki Franz Maurer wkracza w nową Polskę, gdzie nic nie jest takie, jak zapamiętał. Wkrótce ponownie spotyka Nowego.\",\n\t    \"ageLimit\": 15\n\t},\n\t{\n\t    \"title\": \"Gorący temat\",\n\t    \"category\": \"Dramat\",\n\t    \"length\": 109,\n\t    \"description\": \"Historia kobiet, które przeciwstawiły się toksycznej atmosferze w słynnej sieci informacyjnej.\",\n\t    \"ageLimit\": 15\n\t}\n]"
+							"raw": "[\n\t{\n\t    \"title\": \"Psy 3. W imię zasad\",\n\t    \"category\": \"Akcja\",\n\t    \"length\": 126,\n\t    \"description\": \"Po 25 latach odsiadki Franz Maurer wkracza w nową Polskę, gdzie nic nie jest takie, jak zapamiętał. Wkrótce ponownie spotyka Nowego.\",\n\t    \"ageLimit\": 15\n\t},\n\t{\n\t    \"title\": \"Gorący temat\",\n\t    \"category\": \"Dramat\",\n\t    \"length\": 109,\n\t    \"description\": \"Historia kobiet, które przeciwstawiły się toksycznej atmosferze w słynnej sieci informacyjnej.\",\n\t    \"ageLimit\": 15\n\t}\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/movie/many",
@@ -1679,7 +1714,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"capacity\": 200,\n    \"layout\": [25, 25, 25, 25, 25, 25, 25, 25]\n}"
+							"raw": "{\n    \"capacity\": 200,\n    \"layout\": [25, 25, 25, 25, 25, 25, 25, 25]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/room",
@@ -1999,12 +2039,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"capacity\": 55,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"capacity\": 55,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/room?id=3",
@@ -2053,12 +2088,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"capacity\": 66,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"capacity\": 66,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/room?id=3",
@@ -2107,12 +2137,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"capacity\": 55,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n    \"capacity\": 55,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/room?id=163",
@@ -2140,40 +2165,7 @@
 			"name": "/session",
 			"item": [
 				{
-					"name": "/session/all",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d1fe173e-8a43-46c0-bfaa-f42894a29a8b",
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/session/all",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"session",
-								"all"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/session?room=1&movie=5 @ 15.00",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -2200,33 +2192,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T15:00:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 6,\n\t\"startTime\": \"2020-02-10T15:00:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session?room=1&movie=6",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "1"
-								},
-								{
-									"key": "movie",
-									"value": "6"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?room=2&movie=2 @ 16.00",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -2253,33 +2235,28 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T16:00:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 2,\n\t\"movieId\": 2,\n\t\"startTime\": \"2020-02-10T16:00:00.000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "localhost:8080/session?room=2&movie=2",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "2"
-								},
-								{
-									"key": "movie",
-									"value": "2"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?room=4&movie=1 @ 17.00",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -2306,33 +2283,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T17:00:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 4,\n\t\"movieId\": 1,\n\t\"startTime\": \"2020-02-10T17:00:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session?room=4&movie=1",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "4"
-								},
-								{
-									"key": "movie",
-									"value": "1"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?room=1&movie=7 @ 18.00",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -2359,33 +2326,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T18:00:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 7,\n\t\"startTime\": \"2020-02-10T18:00:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session?room=1&movie=7",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "1"
-								},
-								{
-									"key": "movie",
-									"value": "7"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?room=3&movie=2 @ 18.30",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -2412,33 +2369,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T18:30:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 3,\n\t\"movieId\": 2,\n\t\"startTime\": \"2020-02-10T18:30:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session?room=3&movie=2",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "3"
-								},
-								{
-									"key": "movie",
-									"value": "2"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?room=2&movie=2 @ 21.00",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -2465,33 +2412,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 2,\n\t\"movieId\": 2,\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session?room=2&movie=2",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "2"
-								},
-								{
-									"key": "movie",
-									"value": "2"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?room=3&movie=2 @ 21.00",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -2518,33 +2455,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 3,\n\t\"movieId\": 2,\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session?room=3&movie=2",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "3"
-								},
-								{
-									"key": "movie",
-									"value": "2"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?room=1&movie=3 @ 21.00",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -2571,33 +2498,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 3,\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session?room=1&movie=3",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "1"
-								},
-								{
-									"key": "movie",
-									"value": "3"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?room=1&movie=3 @ 21.00 (start in the past)",
+					"name": "/session (start time should be in the future)",
 					"event": [
 						{
 							"listen": "test",
@@ -2624,7 +2541,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2019-02-10T21:00:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 3,\n\t\"startTime\": \"2019-02-10T21:00:00.000\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/session?room=1&movie=3",
@@ -2650,7 +2567,7 @@
 					"response": []
 				},
 				{
-					"name": "/session?room=45&movie=2 @ 21.00 (room does not exist)",
+					"name": "/session (room does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -2677,7 +2594,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 45,\n\t\"movieId\": 2,\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/session?room=45&movie=2",
@@ -2703,7 +2620,7 @@
 					"response": []
 				},
 				{
-					"name": "/session?room=3&movie=77 @ 18.30 (movie does not exist)",
+					"name": "/session (movie does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -2730,7 +2647,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T18:30:00.000\"\n}"
+							"raw": "{\n\t\"roomId\": 3,\n\t\"movieId\": 77,\n\t\"startTime\": \"2020-02-10T18:30:00.000\"\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/session?room=3&movie=77",
@@ -2750,6 +2667,38 @@
 									"key": "movie",
 									"value": "77"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d1fe173e-8a43-46c0-bfaa-f42894a29a8b",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/session",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session"
 							]
 						}
 					},
@@ -2794,7 +2743,7 @@
 					"response": []
 				},
 				{
-					"name": "/session/81 (resource does not exist)",
+					"name": "/session?id=81 (session does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -2832,7 +2781,7 @@
 					"response": []
 				},
 				{
-					"name": "/session/7",
+					"name": "/session?id=7",
 					"event": [
 						{
 							"listen": "test",
@@ -2851,21 +2800,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/session/7",
+							"raw": "localhost:8080/session?id=7",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"7"
+								"session"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "7"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session/7 (resource does not exist)",
+					"name": "/session?id=7 (session does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -2884,21 +2838,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/session/7",
+							"raw": "localhost:8080/session?id=7",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"7"
+								"session"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "7"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session/7 (resource does not exist)",
+					"name": "/session?id=7 (session does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -2917,14 +2876,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/session/7",
+							"raw": "localhost:8080/session?id=7",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"7"
+								"session"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "7"
+								}
 							]
 						}
 					},
@@ -3093,110 +3057,7 @@
 					"response": []
 				},
 				{
-					"name": "/session/search-by-date/2020-02-20",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "b0f0d118-1872-4dfa-b13e-74fbf39efdec",
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/session/search-by-date/2020-02-10",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"session",
-								"search-by-date",
-								"2020-02-10"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/session/search-by-date/2020.02.20 (inappropriate data format)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "b0f0d118-1872-4dfa-b13e-74fbf39efdec",
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/session/search-by-date/2020.02.10",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"session",
-								"search-by-date",
-								"2020.02.10"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/session (request does not contain neither room id nor movie id)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "f7ca6cc0-c5a0-4547-a8be-6d02bb04aede",
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/session",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"session"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/session/1?room=1&movie=5 @ 15.00",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -3223,34 +3084,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T14:30:00.000\"\n}"
+							"raw": "{\n\t\"id\" : 1,\n\t\"roomId\": 1,\n\t\"movieId\": 6,\n\t\"startTime\": \"2021-02-10T14:30:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session/1?room=1&movie=6",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"1"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "1"
-								},
-								{
-									"key": "movie",
-									"value": "6"
-								}
+								"session"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session/27?room=1&movie=5 @ 15.00 (session does not exist)",
+					"name": "/session (session does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -3277,34 +3127,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T15:00:00.000\"\n}"
+							"raw": "{\n\t\"id\" : 27,\n\t\"roomId\": 3,\n\t\"movieId\": 3,\n\t\"startTime\": \"2020-02-10T15:00:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session/27?room=3&movie=3",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"27"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "3"
-								},
-								{
-									"key": "movie",
-									"value": "3"
-								}
+								"session"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session/1?room=1&movie=5 @ 15.00 (start in the past)",
+					"name": "/session (start in the past)",
 					"event": [
 						{
 							"listen": "test",
@@ -3331,34 +3170,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2019-02-10T14:30:00.000\"\n}"
+							"raw": "{\n\t\"id\" : 1,\n\t\"roomId\": 1,\n\t\"movieId\": 6,\n\t\"startTime\": \"2019-02-10T14:30:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session/1?room=1&movie=6",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"1"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "1"
-								},
-								{
-									"key": "movie",
-									"value": "6"
-								}
+								"session"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session/5?room=3&movie=2 @ 18.30 (movie does not exist)",
+					"name": "/session (movie does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -3385,34 +3213,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T18:30:00.000\"\n}"
+							"raw": "{\n\t\"id\" : 5,\n\t\"roomId\": 3,\n\t\"movieId\": 29,\n\t\"startTime\": \"2020-02-10T18:30:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session/5?room=3&movie=29",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"5"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "3"
-								},
-								{
-									"key": "movie",
-									"value": "29"
-								}
+								"session"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session/7?room=93&movie=2 @ 21.00 (room does not exist)",
+					"name": "/session (room does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -3439,27 +3256,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
+							"raw": "{\n\t\"id\" : 6,\n\t\"roomId\": 93,\n\t\"movieId\": 2,\n\t\"startTime\": \"2020-02-10T21:00:00.000\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/session/7?room=93&movie=2",
+							"raw": "localhost:8080/session",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"session",
-								"7"
-							],
-							"query": [
-								{
-									"key": "room",
-									"value": "93"
-								},
-								{
-									"key": "movie",
-									"value": "2"
-								}
+								"session"
 							]
 						}
 					},
@@ -3472,40 +3278,7 @@
 			"name": "/ticket",
 			"item": [
 				{
-					"name": "/ticket/all",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "47d4671f-c360-4924-ae35-75ffd570ab1f",
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/ticket/all",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"ticket",
-								"all"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/ticket?session=4&client=1 @ 4|10",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -3532,33 +3305,28 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 4,\r\n\t\"seatNumber\": 10,\r\n\t\"price\": 14.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 1,\r\n    \"sessionId\": 4,\r\n    \"rowNumber\": 4,\r\n\t\"seatNumber\": 10,\r\n\t\"price\": 14.99\r\n}    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=4&client=1",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "4"
-								},
-								{
-									"key": "client",
-									"value": "1"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=4&client=7 @ 3|10",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -3585,33 +3353,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 10,\r\n\t\"price\": 14.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 7,\r\n    \"sessionId\": 4,\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 10,\r\n\t\"price\": 14.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=4&client=7",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "4"
-								},
-								{
-									"key": "client",
-									"value": "7"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=4&client=7 @ 3|11",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -3638,33 +3396,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 11,\r\n\t\"price\": 14.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 7,\r\n    \"sessionId\": 4,\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 11,\r\n\t\"price\": 14.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=4&client=7",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "4"
-								},
-								{
-									"key": "client",
-									"value": "7"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=2&client=5 @ 5|8",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -3691,33 +3439,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 5,\r\n\t\"seatNumber\": 8,\r\n\t\"price\": 19.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 5,\r\n    \"sessionId\": 2,\r\n    \"rowNumber\": 5,\r\n\t\"seatNumber\": 8,\r\n\t\"price\": 19.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=2&client=5",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "2"
-								},
-								{
-									"key": "client",
-									"value": "5"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=2&client=5 @ 5|9",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -3744,33 +3482,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 5,\r\n\t\"seatNumber\": 9,\r\n\t\"price\": 19.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 5,\r\n    \"sessionId\": 2,\r\n    \"rowNumber\": 5,\r\n\t\"seatNumber\": 9,\r\n\t\"price\": 19.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=2&client=5",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "2"
-								},
-								{
-									"key": "client",
-									"value": "5"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=1&client=3 @ 2|5",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -3797,33 +3525,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 2,\r\n\t\"seatNumber\": 5,\r\n\t\"price\": 19.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 3,\r\n    \"sessionId\": 1,\r\n    \"rowNumber\": 2,\r\n\t\"seatNumber\": 5,\r\n\t\"price\": 19.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=1&client=3",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "1"
-								},
-								{
-									"key": "client",
-									"value": "3"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=1&client=3 @ 2|6",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -3850,33 +3568,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 2,\r\n\t\"seatNumber\": 6,\r\n\t\"price\": 19.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 3,\r\n    \"sessionId\": 1,\r\n    \"rowNumber\": 2,\r\n\t\"seatNumber\": 6,\r\n\t\"price\": 19.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=1&client=3",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "1"
-								},
-								{
-									"key": "client",
-									"value": "3"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=1&client=3 @ 2|7",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -3903,33 +3611,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 2,\r\n\t\"seatNumber\": 7,\r\n\t\"price\": 19.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 3,\r\n    \"sessionId\": 1,\r\n    \"rowNumber\": 2,\r\n\t\"seatNumber\": 7,\r\n\t\"price\": 19.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=1&client=3",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "1"
-								},
-								{
-									"key": "client",
-									"value": "3"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=1&client=5 @ 4|10",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -3956,33 +3654,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 4,\r\n\t\"seatNumber\": 10,\r\n\t\"price\": 14.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 5,\r\n    \"sessionId\": 1,\r\n    \"rowNumber\": 4,\r\n\t\"seatNumber\": 10,\r\n\t\"price\": 14.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=1&client=5",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "1"
-								},
-								{
-									"key": "client",
-									"value": "5"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=6&client=4 @ 3|6",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -4009,33 +3697,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 6,\r\n\t\"price\": 14.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 4,\r\n    \"sessionId\": 6,\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 6,\r\n\t\"price\": 14.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=6&client=4",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "6"
-								},
-								{
-									"key": "client",
-									"value": "4"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=6&client=4 @ 3|7",
+					"name": "/ticket",
 					"event": [
 						{
 							"listen": "test",
@@ -4062,33 +3740,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 7,\r\n\t\"price\": 14.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 4,\r\n    \"sessionId\": 6,\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 7,\r\n\t\"price\": 14.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=6&client=4",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "6"
-								},
-								{
-									"key": "client",
-									"value": "4"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=4&client=1 @ 3|11 (seat reserved)",
+					"name": "/ticket (seat already reserved)",
 					"event": [
 						{
 							"listen": "test",
@@ -4115,33 +3783,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 11,\r\n\t\"price\": 14.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 1,\r\n    \"sessionId\": 4,\r\n    \"rowNumber\": 3,\r\n\t\"seatNumber\": 11,\r\n\t\"price\": 14.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=4&client=1",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "4"
-								},
-								{
-									"key": "client",
-									"value": "1"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=2&client=75 @ 5|9 (client does not exist)",
+					"name": "/ticket (client does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -4168,33 +3826,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 5,\r\n\t\"seatNumber\": 9,\r\n\t\"price\": 19.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 75,\r\n    \"sessionId\": 2,\r\n    \"rowNumber\": 5,\r\n\t\"seatNumber\": 9,\r\n\t\"price\": 19.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=2&client=75",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "2"
-								},
-								{
-									"key": "client",
-									"value": "75"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket?session=41&client=3 @ 2|5 (session does not exist)",
+					"name": "/ticket (session does not exists}",
 					"event": [
 						{
 							"listen": "test",
@@ -4221,33 +3869,55 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rowNumber\": 2,\r\n\t\"seatNumber\": 5,\r\n\t\"price\": 19.99\r\n}    "
+							"raw": "{\r\n    \"clientId\": 3,\r\n    \"sessionId\": 41,\r\n    \"rowNumber\": 2,\r\n\t\"seatNumber\": 5,\r\n\t\"price\": 19.99\r\n}    "
 						},
 						"url": {
-							"raw": "localhost:8080/ticket?session=41&client=3",
+							"raw": "localhost:8080/ticket",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"ticket"
-							],
-							"query": [
-								{
-									"key": "session",
-									"value": "41"
-								},
-								{
-									"key": "client",
-									"value": "3"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket/5",
+					"name": "/ticket",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "47d4671f-c360-4924-ae35-75ffd570ab1f",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ticket",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ticket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/ticket?id=5",
 					"event": [
 						{
 							"listen": "test",
@@ -4266,21 +3936,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/ticket/5",
+							"raw": "localhost:8080/ticket?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"ticket",
-								"5"
+								"ticket"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket/71 (ticket does not exist)",
+					"name": "/ticket?id=71 (ticket does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -4299,21 +3974,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/ticket/71",
+							"raw": "localhost:8080/ticket?id=71",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"ticket",
-								"71"
+								"ticket"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "71"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket/5",
+					"name": "/ticket?id=5",
 					"event": [
 						{
 							"listen": "test",
@@ -4332,21 +4012,26 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/ticket/5",
+							"raw": "localhost:8080/ticket?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"ticket",
-								"5"
+								"ticket"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket/5 (ticket does not exist)",
+					"name": "/ticket?id=5 (ticket does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -4365,21 +4050,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/ticket/5",
+							"raw": "localhost:8080/ticket?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"ticket",
-								"5"
+								"ticket"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/ticket/5 (ticket does not exist)",
+					"name": "/ticket?id=5 (ticket does not exist)",
 					"event": [
 						{
 							"listen": "test",
@@ -4398,14 +4088,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/ticket/5",
+							"raw": "localhost:8080/ticket?id=5",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"ticket",
-								"5"
+								"ticket"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -4558,38 +4253,6 @@
 									"key": "client",
 									"value": "95"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/ticket (request does not contain neither client id nor session id)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "46592da0-1c16-4d00-ad69-b072df4fea48",
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/ticket",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"ticket"
 							]
 						}
 					},

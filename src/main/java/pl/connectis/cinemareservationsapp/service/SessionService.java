@@ -35,31 +35,14 @@ public class SessionService {
         return sessionRepository.findById(sessionId);
     }
 
-    public Movie findMovieById(long movieId) {
-        return movieRepository.findById(movieId);
-    }
-
-    public Room findRoomById(long roomId) {
-        return roomRepository.findById(roomId);
-    }
-
     public Session save(Session session) {
         return sessionRepository.save(session);
     }
 
     public SessionDTO save(SessionDTO sessionDTO) {
         Session session = convertToEntity(sessionDTO);
-        sessionRepository.save(session);
+        save(session);
         return convertToDTO(session);
-    }
-
-    public Session createSession(long roomId, long movieId, Session session) {
-
-        session.setRoom(roomRepository.findById(roomId));
-        session.setMovie(movieRepository.findById(movieId));
-        session.setReservedSeats(new ArrayList<>());
-        session.setStartDate(session.getStartTime().toLocalDate());
-        return sessionRepository.save(session);
     }
 
     public Iterable<Session> saveAll(Iterable<Session> sessionList) {
@@ -74,6 +57,9 @@ public class SessionService {
         }
         if (sessionDTO.getMovieId() != 0) {
             existingSession.setMovie(movieRepository.findById(sessionDTO.getMovieId()));
+        }
+        if (sessionDTO.getReservedSeats() != null) {
+            existingSession.setReservedSeats(sessionDTO.getReservedSeats());
         }
         if (sessionDTO.getStartTime() != null) {
             existingSession.setStartTime(sessionDTO.getStartTime());
