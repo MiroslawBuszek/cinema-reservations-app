@@ -1,9 +1,11 @@
 package pl.connectis.cinemareservationsapp.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.model.Session;
@@ -27,8 +29,15 @@ public class SessionService {
     @Autowired
     MovieRepository movieRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     public Iterable<Session> findAll(Example<Session> exampleSession) {
         return sessionRepository.findAll();
+    }
+
+    public SessionDTO findDTOById(long sessionId) {
+        return convertToDTO(sessionRepository.findById(sessionId));
     }
 
     public Session findById(long sessionId) {
@@ -94,6 +103,16 @@ public class SessionService {
             return false;
         }
         return true;
+    }
+
+    public SessionDTO convertToDTO(Session session) {
+        modelMapper.addMappings(Session::getMovie.getId, SessionDTO::setMovieId);
+        modelMapper.addMappings(Session::getRoom.getId, SessionDTO::getRoomId);
+        return modelMapper.map(session, SessionDTO.class);
+    }
+
+    public Session convertToEntity(SessionDTO sessionDTO) {
+        return modelMapper.map(sessionDTO, Session.class);
     }
 
 }

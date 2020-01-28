@@ -5,6 +5,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Session;
@@ -23,12 +24,12 @@ public class SessionController {
     private SessionService sessionService;
 
     @GetMapping("/{id}")
-    public Session getSessionById(@PathVariable long id) {
-        Session session = sessionService.findById(id);
-        if (session == null) {
+    public SessionDTO getSessionById(@PathVariable long id) {
+        SessionDTO sessionDTO = sessionService.findDTOById(id);
+        if (sessionDTO == null) {
             throw new ResourceNotFoundException("session {id=" + id + "} was not found");
         }
-        return session;
+        return sessionDTO;
     }
 
     @GetMapping

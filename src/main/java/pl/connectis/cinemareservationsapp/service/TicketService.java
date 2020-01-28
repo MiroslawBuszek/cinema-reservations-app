@@ -1,5 +1,6 @@
 package pl.connectis.cinemareservationsapp.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class TicketService {
 
     @Autowired
     ClientRepository clientRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     public Iterable<Ticket> findAll(Example<Ticket> exampleTicket) {
         return ticketRepository.findAll();
