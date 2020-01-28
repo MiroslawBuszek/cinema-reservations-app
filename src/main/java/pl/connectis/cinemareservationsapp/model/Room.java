@@ -3,7 +3,6 @@ package pl.connectis.cinemareservationsapp.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @NoArgsConstructor

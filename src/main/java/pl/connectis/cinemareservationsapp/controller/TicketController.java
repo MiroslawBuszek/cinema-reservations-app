@@ -1,51 +1,105 @@
 package pl.connectis.cinemareservationsapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.dto.TicketDTO;
+import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.service.TicketService;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Map;
 
 @RestController
+@RequestMapping("/ticket")
 public class TicketController {
 
     @Autowired
     private TicketService ticketService;
 
-    @GetMapping("/ticket/all")
-    public Iterable<Ticket> getAllTickets() {
-        return ticketService.findAll();
+    @GetMapping("/{id}")
+    public Ticket getTicketById(@PathVariable long id) {
+        Ticket ticket = ticketService.findById(id);
+        if (ticket == null) {
+            throw new ResourceNotFoundException("ticket {id=" + id + "} was not found");
+        }
+        return ticket;
     }
 
-    @GetMapping("/ticket/{id}")
-    public List<Ticket> getTicketById(@PathVariable long id) {
-        return ticketService.findById(id);
+    // TODO: Fix query by example search
+    @GetMapping
+    public Iterable<TicketDTO> getTicketByExample(@RequestParam Map<String, String> requestParams) {
+
+        TicketDTO ticketDTO = new TicketDTO();
+
+        if (requestParams.containsKey("id")) {
+            validateTicketExists(Long.parseLong(requestParams.get("id")));
+            ticketDTO.setId(Long.parseLong(requestParams.get("id")));
+        }
+        if (requestParams.containsKey("client")) {
+            validateClientExists(Long.parseLong(requestParams.get("client")));
+            ticketDTO.setClientId(Long.parseLong(requestParams.get("client")));
+        }
+        if (requestParams.containsKey("session")) {
+            validateSessionExists(Long.parseLong(requestParams.get("session")));
+            ticketDTO.setSessionId(Long.parseLong(requestParams.get("session")));
+        }
+
+        Example<Ticket> exampleTicket = Example.of(ticketService.convertToEntity(ticketDTO));
+
+        return ticketService.convertToDTO(ticketService.findAll(exampleTicket));
     }
 
-    @GetMapping("/ticket")
-    public List<Ticket> getTicketByClientIdOrSessionId(
-            @RequestParam(value = "client", required = false) Long clientId,
-            @RequestParam(value = "session", required = false) Long sessionId) {
-        return ticketService.findByClientIdOrSessionId(clientId, sessionId);
+    @PostMapping
+    public ResponseEntity<TicketDTO> addTicket(@RequestBody TicketDTO ticketDTO) {
+        validateClientExists(ticketDTO.getClientId());
+        validateSessionExists(ticketDTO.getSessionId());
+        validateSeatUnoccupied(ticketDTO);
+        return new ResponseEntity<>(ticketService.makeReservation(ticketDTO), HttpStatus.CREATED);
     }
 
-    @PostMapping("/ticket")
-    public Ticket addTicket(@RequestParam(value = "session") long sessionId,
-                            @RequestParam(value = "client") long clientId,
-                            @Valid @RequestBody Ticket ticket) {
-        return ticketService.createTicket(sessionId, clientId, ticket);
-    }
-
-    @PostMapping("/ticket/many")
+    // TODO: implement adding of multiple tickets with validation
+    @PostMapping("/many")
     public Iterable<Ticket> addTicketList(@Valid @RequestBody Iterable<Ticket> ticketList) {
         return ticketService.saveAll(ticketList);
     }
 
-    @DeleteMapping("/ticket/{id}")
-    public void deleteTicket(@PathVariable long id) {
+    @DeleteMapping
+    public ResponseEntity deleteTicket(@RequestParam long id) {
+        validateTicketExists(id);
         ticketService.deleteById(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    void validateTicketExists(long ticketId) {
+        if (!ticketService.validateTicketExists(ticketId)) {
+            throw new ResourceNotFoundException("ticket {id=" + ticketId + "} was not found");
+        }
+    }
+
+    void validateClientExists(long clientId) {
+        if (!ticketService.validateClientExists(clientId)) {
+            throw new ResourceNotFoundException("client {id=" + clientId + "} was not found");
+        }
+    }
+
+    void validateSessionExists(long sessionId) {
+        if (!ticketService.validateSessionExists(sessionId)) {
+            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+        }
+    }
+
+    void validateSeatUnoccupied(TicketDTO ticketDTO) {
+        if (!ticketService.validateSeatUnoccupied(ticketDTO)) {
+            throw new BadRequestException("seat " + ticketDTO.getSeatNumber() +
+                    " in row " + ticketDTO.getRowNumber() + " is reserved");
+        }
+    }
+
+
 
 }
