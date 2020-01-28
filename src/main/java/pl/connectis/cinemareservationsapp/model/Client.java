@@ -4,6 +4,7 @@ package pl.connectis.cinemareservationsapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @EqualsAndHashCode(of = "id")
 @ToString
-public class Client {
+public class Client implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

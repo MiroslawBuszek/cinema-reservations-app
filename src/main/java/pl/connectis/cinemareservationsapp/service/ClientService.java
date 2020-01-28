@@ -2,10 +2,9 @@ package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.model.Client;
 import pl.connectis.cinemareservationsapp.repository.ClientRepository;
-
-import java.util.List;
 
 @Service
 public class ClientService {
@@ -17,8 +16,12 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public List<Client> findById(long id) {
+    public Client findById(long id) {
         return clientRepository.findById(id);
+    }
+
+    public Client findByEmail(String email) {
+        return clientRepository.findByEmail(email);
     }
 
     public Client save(Client client) {
@@ -27,6 +30,21 @@ public class ClientService {
 
     public Iterable<Client> saveAll(Iterable<Client> clientList) {
         return clientRepository.saveAll(clientList);
+    }
+
+    @Transactional
+    public Client updateById(long id, Client client) {
+        Client existingClient = clientRepository.findById(id);
+        if (client.getFirstName() != null) {
+            existingClient.setFirstName(client.getFirstName());
+        }
+        if (client.getLastName() != null) {
+            existingClient.setLastName(client.getLastName());
+        }
+        if (client.getAge() != 0) {
+            existingClient.setAge(client.getAge());
+        }
+        return existingClient;
     }
 
     public void deleteById(long id) {

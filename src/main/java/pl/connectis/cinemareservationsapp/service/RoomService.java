@@ -2,10 +2,9 @@ package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
-
-import java.util.List;
 
 @Service
 public class RoomService {
@@ -17,7 +16,7 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public List<Room> findById(long id) {
+    public Room findById(long id) {
         return roomRepository.findById(id);
     }
 
@@ -29,7 +28,34 @@ public class RoomService {
         return roomRepository.saveAll(roomList);
     }
 
+    @Transactional
+    public Room updateById(long id, Room room) {
+        Room existingRoom = roomRepository.findById(id);
+        if (room.getLayout() != null) {
+            existingRoom.setLayout(room.getLayout());
+        }
+        setCapacityFromLayout(existingRoom);
+        return existingRoom;
+    }
+
     public void deleteById(long id) {
         roomRepository.deleteById(id);
+    }
+
+    public boolean validateCapacity(Room room) {
+        return getCapacityFromLayout(room) == room.getCapacity();
+    }
+
+    public int getCapacityFromLayout(Room room) {
+        int capacity = 0;
+        int[] layout = room.getLayout();
+        for (int i = 0; i < layout.length; i++) {
+            capacity += layout[i];
+        }
+        return capacity;
+    }
+
+    public void setCapacityFromLayout(Room room) {
+        room.setCapacity(getCapacityFromLayout(room));
     }
 }
