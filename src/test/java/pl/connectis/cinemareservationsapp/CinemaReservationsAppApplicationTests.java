@@ -21,6 +21,8 @@ class CinemaReservationsAppApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
+
+    // Test get for all client
     @ParameterizedTest
     @CsvFileSource(resources = "/allClientData.csv", delimiter = ';')
     void findAllClientIsOK(String expectedJson) throws Exception {
@@ -32,6 +34,7 @@ class CinemaReservationsAppApplicationTests {
                 ));
     }
 
+    // Test get for all employee
     @ParameterizedTest
     @CsvFileSource(resources = "/employeeData.csv", delimiter = ';')
     void findAllEmployeeIsOK(String expectedJson) throws Exception {
@@ -43,6 +46,7 @@ class CinemaReservationsAppApplicationTests {
                 ));
     }
 
+    // Test get for all movie
     @ParameterizedTest
     @CsvFileSource(resources = "/movieData.csv", delimiter = ';')
     void findAllMovieIsOK(String expectedJson) throws Exception {
@@ -54,6 +58,7 @@ class CinemaReservationsAppApplicationTests {
                 ));
     }
 
+    // Test get for single client
     @ParameterizedTest
     @CsvFileSource(resources = "/clientDataById.csv", delimiter = ';')
     void findSingleClientIsOK(int id, String expectedJson) throws Exception {
@@ -65,6 +70,7 @@ class CinemaReservationsAppApplicationTests {
                 ));
     }
 
+    // Test get for single employee
     @ParameterizedTest
     @CsvFileSource(resources = "/employeeDataById.csv", delimiter = ';')
     void findSingleEmployeeIsOK(int id, String expectedJson) throws Exception {
@@ -76,6 +82,7 @@ class CinemaReservationsAppApplicationTests {
                 ));
     }
 
+    // Test get for single movie
     @ParameterizedTest
     @CsvFileSource(resources = "/movieDataById.csv", delimiter = ';')
     void findSingleMovieIsOK(int id, String expectedJson) throws Exception {
@@ -86,5 +93,7 @@ class CinemaReservationsAppApplicationTests {
                         content().json(expectedJson)
                 ));
     }
+
+
 
 }
