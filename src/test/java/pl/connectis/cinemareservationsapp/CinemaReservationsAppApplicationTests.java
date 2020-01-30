@@ -22,7 +22,7 @@ class CinemaReservationsAppApplicationTests {
     private MockMvc mockMvc;
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/clientData.csv", delimiter = ';')
+    @CsvFileSource(resources = "/allClientData.csv", delimiter = ';')
     void findAllClientIsOK(String expectedJson) throws Exception {
         mockMvc.perform(get("/client/all")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -53,4 +53,38 @@ class CinemaReservationsAppApplicationTests {
                         content().json(expectedJson)
                 ));
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/clientDataById.csv", delimiter = ';')
+    void findSingleClientIsOK(int id, String expectedJson) throws Exception {
+        mockMvc.perform(get("/client/?id={id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(matchAll(
+                        status().is2xxSuccessful(),
+                        content().json(expectedJson)
+                ));
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/employeeDataById.csv", delimiter = ';')
+    void findSingleEmployeeIsOK(int id, String expectedJson) throws Exception {
+        mockMvc.perform(get("/employee/?id={id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(matchAll(
+                        status().is2xxSuccessful(),
+                        content().json(expectedJson)
+                ));
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/movieDataById.csv", delimiter = ';')
+    void findSingleMovieIsOK(int id, String expectedJson) throws Exception {
+        mockMvc.perform(get("/movie/?id={id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(matchAll(
+                        status().is2xxSuccessful(),
+                        content().json(expectedJson)
+                ));
+    }
+
 }
