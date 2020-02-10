@@ -24,7 +24,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Client client;
+    private User user;
 
     @Column(nullable = false)
     private int rowNumber;

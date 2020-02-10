@@ -15,7 +15,7 @@ public class TicketDTO {
 
     private long sessionId;
 
-    private long clientId;
+    private long userId;
 
     private int rowNumber;
 

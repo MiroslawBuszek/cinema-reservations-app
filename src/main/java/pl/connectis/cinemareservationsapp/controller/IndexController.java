@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
 
     @GetMapping("/")
+    public String welcome(){
+        return "Welcome newcomer!";
+    }
+
+    @GetMapping("index")
     public String index() {
         return "cinema-reservations-app is up!";
     }

@@ -5,10 +5,10 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
-import pl.connectis.cinemareservationsapp.model.Client;
+import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
-import pl.connectis.cinemareservationsapp.repository.ClientRepository;
+import pl.connectis.cinemareservationsapp.repository.UserRepository;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import pl.connectis.cinemareservationsapp.repository.TicketRepository;
 
@@ -25,7 +25,7 @@ public class TicketService {
     SessionRepository sessionRepository;
 
     @Autowired
-    ClientRepository clientRepository;
+    UserRepository userRepository;
 
     public List<Ticket> findAll(Example<Ticket> exampleTicket) {
         return ticketRepository.findAll();
@@ -88,9 +88,9 @@ public class TicketService {
         return true;
     }
 
-    public boolean validateClientExists(long clientId) {
-        Client client = clientRepository.findById(clientId);
-        if (client == null) {
+    public boolean validateUserExists(long userId) {
+        User user = userRepository.findById(userId);
+        if (user == null) {
             return false;
         }
         return true;
@@ -99,8 +99,8 @@ public class TicketService {
     public TicketDTO convertToDTO(Ticket ticket) {
         TicketDTO ticketDTO = new TicketDTO();
         ticketDTO.setId(ticket.getId());
-        if (ticket.getClient() != null) {
-            ticketDTO.setClientId(ticket.getClient().getId());
+        if (ticket.getUser() != null) {
+            ticketDTO.setUserId(ticket.getUser().getId());
         }
         if (ticket.getSession() != null) {
             ticketDTO.setSessionId(ticket.getSession().getId());
@@ -124,7 +124,7 @@ public class TicketService {
         if (ticket == null) {
             ticket = new Ticket();
         }
-        ticket.setClient(clientRepository.findById(ticketDTO.getClientId()));
+        ticket.setUser(userRepository.findById(ticketDTO.getUserId()));
         ticket.setSession(sessionRepository.findById(ticketDTO.getSessionId()));
         ticket.setRowNumber(ticketDTO.getRowNumber());
         ticket.setSeatNumber(ticketDTO.getSeatNumber());
