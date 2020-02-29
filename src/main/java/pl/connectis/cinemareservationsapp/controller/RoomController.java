@@ -39,7 +39,7 @@ public class RoomController {
     }
 
     @PostMapping("/many")
-    public ResponseEntity<Iterable> addRoomList(@Valid @RequestBody Iterable<Room> roomList) {
+    public ResponseEntity<?> addRoomList(@Valid @RequestBody Iterable<Room> roomList) {
         for (Room room : roomList) {
             validateRoom(room);
         }
@@ -57,13 +57,13 @@ public class RoomController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteRoom(@RequestParam long id) {
+    public ResponseEntity<?> deleteRoom(@RequestParam long id) {
         Room room = roomService.findById(id);
         if (room == null) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
         roomService.deleteById(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private void validateRoom(Room room) {

@@ -72,14 +72,14 @@ public class SessionController {
             validateMovieExists(sessionDTO.getMovieId());
         }
         validateStartTime(sessionDTO.getStartTime());
-        return new ResponseEntity(sessionService.updateById(sessionDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(sessionService.updateById(sessionDTO), HttpStatus.CREATED);
     }
 
     @DeleteMapping
-    public ResponseEntity deleteSession(@RequestParam long id) {
+    public ResponseEntity<?> deleteSession(@RequestParam long id) {
         validateSessionExists(id);
         sessionService.deleteById(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     void validateSessionExists(long sessionId ) {
