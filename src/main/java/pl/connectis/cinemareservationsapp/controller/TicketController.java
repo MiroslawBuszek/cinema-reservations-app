@@ -69,10 +69,10 @@ public class TicketController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteTicket(@RequestParam long id) {
+    public ResponseEntity<?> deleteTicket(@RequestParam long id) {
         validateTicketExists(id);
         ticketService.deleteById(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     void validateTicketExists(long ticketId) {
