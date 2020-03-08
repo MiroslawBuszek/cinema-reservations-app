@@ -82,18 +82,19 @@ public class SessionController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    void validateSessionExists(long sessionId ) {
+    void validateSessionExists(long sessionId) {
         if (!sessionService.validateSessionExists(sessionId)) {
             throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
         }
     }
 
-    void validateMovieExists(long movieId ) {
+    void validateMovieExists(long movieId) {
         if (!sessionService.validateMovieExists(movieId)) {
             throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
         }
     }
-    void validateRoomExists(long roomId ) {
+
+    void validateRoomExists(long roomId) {
         if (!sessionService.validateRoomExists(roomId)) {
             throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
         }

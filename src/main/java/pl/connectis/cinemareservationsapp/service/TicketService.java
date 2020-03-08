@@ -5,12 +5,12 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
-import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
-import pl.connectis.cinemareservationsapp.repository.UserRepository;
+import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import pl.connectis.cinemareservationsapp.repository.TicketRepository;
+import pl.connectis.cinemareservationsapp.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class TicketService {
     public void reserveSeat(TicketDTO ticketDTO) {
         Session session = sessionRepository.findById(ticketDTO.getSessionId());
         List<Integer> reservedSeats = session.getReservedSeats();
-        reservedSeats.add(ticketDTO.getRowNumber()*1000+ticketDTO.getSeatNumber());
+        reservedSeats.add(ticketDTO.getRowNumber() * 1000 + ticketDTO.getSeatNumber());
     }
 
     @Transactional
@@ -74,26 +74,17 @@ public class TicketService {
 
     public boolean validateTicketExists(long ticketId) {
         Ticket ticket = ticketRepository.findById(ticketId);
-        if (ticket == null) {
-            return false;
-        }
-        return true;
+        return ticket != null;
     }
 
     public boolean validateSessionExists(long sessionId) {
         Session session = sessionRepository.findById(sessionId);
-        if (session == null) {
-            return false;
-        }
-        return true;
+        return session != null;
     }
 
     public boolean validateUserExists(long userId) {
         User user = userRepository.findById(userId);
-        if (user == null) {
-            return false;
-        }
-        return true;
+        return user != null;
     }
 
     public TicketDTO convertToDTO(Ticket ticket) {

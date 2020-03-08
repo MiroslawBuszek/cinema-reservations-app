@@ -26,7 +26,7 @@ public class RoomController {
     @GetMapping
     public Room getRoomById(@RequestParam long id) {
         Room room = roomService.findById(id);
-        if(room == null) {
+        if (room == null) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
         return room;
@@ -49,7 +49,7 @@ public class RoomController {
     @PutMapping
     public ResponseEntity<Room> updateById(@RequestParam long id, @Valid @RequestBody Room room) {
         Room existingRoom = roomService.findById(id);
-        if(existingRoom == null) {
+        if (existingRoom == null) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
         validateRoom(room);

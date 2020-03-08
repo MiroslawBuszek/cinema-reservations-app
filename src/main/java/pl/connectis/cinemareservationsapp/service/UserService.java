@@ -51,10 +51,10 @@ public class UserService {
         if (user.getLastName() != null) {
             existingUser.setLastName(user.getLastName());
         }
-         if (user.getAge() != 0) {
+        if (user.getAge() != 0) {
             existingUser.setAge(user.getAge());
         }
-         //Todo add User
+        //Todo add User
         return existingUser;
     }
 

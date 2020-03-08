@@ -39,20 +39,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository))
                 .authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/registration/client").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/registration/employee").hasAnyRole("EMPLOYEE","ADMIN")
+                .antMatchers(HttpMethod.POST, "/user/registration/employee").hasAnyRole("EMPLOYEE", "ADMIN")
                 .antMatchers("/user").hasRole("ADMIN")
-                .antMatchers("/room/**").hasAnyRole("EMPLOYEE","ADMIN")
-                .antMatchers(HttpMethod.GET, "/movie").hasAnyRole("CLIENT","EMPLOYEE","ADMIN")
-                .antMatchers("/movie/**").hasAnyRole("EMPLOYEE","ADMIN")
-                .antMatchers(HttpMethod.GET, "/session").hasAnyRole("CLIENT","EMPLOYEE","ADMIN")
-                .antMatchers("/session/**").hasAnyRole("EMPLOYEE","ADMIN")            //Todo for further settings
-                .antMatchers("/ticket/**").hasAnyRole("CLIENT","EMPLOYEE","ADMIN")    //Todo for further settings
+                .antMatchers("/room/**").hasAnyRole("EMPLOYEE", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/movie").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN")
+                .antMatchers("/movie/**").hasAnyRole("EMPLOYEE", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/session").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN")
+                .antMatchers("/session/**").hasAnyRole("EMPLOYEE", "ADMIN")            //Todo for further settings
+                .antMatchers("/ticket/**").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN")    //Todo for further settings
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated();
     }
 
     @Bean
-    DaoAuthenticationProvider authenticationProvider() throws Exception{
+    DaoAuthenticationProvider authenticationProvider() throws Exception {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
@@ -60,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

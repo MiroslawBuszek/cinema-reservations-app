@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
-import pl.connectis.cinemareservationsapp.security.UserPrincipal;
 
 @ToString
 @Service

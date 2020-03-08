@@ -74,26 +74,17 @@ public class SessionService {
 
     public boolean validateSessionExists(long sessionId) {
         Session session = sessionRepository.findById(sessionId);
-        if (session == null) {
-            return false;
-        }
-        return true;
+        return session != null;
     }
 
     public boolean validateRoomExists(long roomId) {
         Room room = roomRepository.findById(roomId);
-        if (room == null) {
-            return false;
-        }
-        return true;
+        return room != null;
     }
 
     public boolean validateMovieExists(long movieId) {
         Movie movie = movieRepository.findById(movieId);
-        if (movie == null) {
-            return false;
-        }
-        return true;
+        return movie != null;
     }
 
     public SessionDTO convertToDTO(Session session) {
