@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.model.Room;
@@ -124,4 +125,20 @@ public class SessionService {
         return session;
     }
 
+    public List<SeatDTO> getSeats(long id) {
+        List<SeatDTO> seats = new ArrayList<>();
+        List<Integer> reservedSeats = sessionRepository.findById(id).getReservedSeats();
+        int[] roomLayout = sessionRepository.findById(id).getRoom().getLayout();
+        for (int i = 0; i < roomLayout.length; i++) {
+            for (int j = 0; j < roomLayout[i]; j++) {
+                int seatAddress = i * 1000 + j;
+                if (reservedSeats.contains(seatAddress)) {
+                    seats.add(new SeatDTO(i, j, true));
+                } else {
+                    seats.add(new SeatDTO(i, j, false));
+                }
+            }
+        }
+        return seats;
+    }
 }

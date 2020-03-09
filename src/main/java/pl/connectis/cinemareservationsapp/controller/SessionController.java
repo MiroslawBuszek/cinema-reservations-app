@@ -5,6 +5,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
@@ -13,6 +14,7 @@ import pl.connectis.cinemareservationsapp.service.SessionService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -47,6 +49,12 @@ public class SessionController {
         Example<Session> exampleSession = Example.of(sessionService.convertToEntity(sessionDTO));
 
         return sessionService.convertToDTO(sessionService.findAll(exampleSession));
+    }
+
+    @GetMapping("/{id}/seats")
+    public ResponseEntity<List<SeatDTO>> getSeats(@PathVariable long id) {
+        validateSessionExists(id);
+        return new ResponseEntity<>(sessionService.getSeats(id), HttpStatus.OK);
     }
 
     //

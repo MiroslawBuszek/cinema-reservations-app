@@ -68,7 +68,7 @@ public class TicketService {
 
     public boolean validateSeatUnoccupied(TicketDTO ticketDTO) {
         int ticketNumber = ticketDTO.getRowNumber() * 1000 + ticketDTO.getSeatNumber();
-        ArrayList<Integer> reservedSeats = sessionRepository.findById(ticketDTO.getSessionId()).getReservedSeats();
+        List<Integer> reservedSeats = sessionRepository.findById(ticketDTO.getSessionId()).getReservedSeats();
         return !reservedSeats.contains(ticketNumber);
     }
 
