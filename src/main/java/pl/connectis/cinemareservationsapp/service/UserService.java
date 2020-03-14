@@ -1,11 +1,13 @@
 package pl.connectis.cinemareservationsapp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -21,6 +23,8 @@ public class UserService {
     }
 
     public User save(User user) {
+
+        log.info(user.toString());
         return userRepository.save(user);
     }
 

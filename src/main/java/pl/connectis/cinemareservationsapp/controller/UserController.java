@@ -4,13 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
-import pl.connectis.cinemareservationsapp.mapper.UserMapper;
 import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.security.IAuthenticationFacade;
 import pl.connectis.cinemareservationsapp.service.UserService;
@@ -32,20 +28,6 @@ public class UserController {
     public String currentUserNameSimple() {
         Authentication authentication = authenticationFacade.getAuthentication();
         return authentication.getName();
-    }
-
-    @PostMapping("client")
-    public ResponseEntity<User> addUser(@Valid @RequestBody UserDTO userDTO, BindingResult result, Model model) {
-
-        if (userService.findByUsername(userDTO.getUsername()) != null) {
-            throw new BadRequestException("user {username=" + userDTO.getUsername() + "} was found");
-        }
-
-        UserMapper userMapper = new UserMapper();
-        User user = userMapper.mapFromDTO(userDTO);
-
-        return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
-
     }
 
     @PostMapping("/registration/employee")

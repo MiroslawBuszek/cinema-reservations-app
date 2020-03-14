@@ -4,8 +4,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.model.Room;
+import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
+
+import java.time.LocalDate;
 
 
 @Service
@@ -22,13 +25,9 @@ public class CommandLineRunnerInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
         // Default User
-//        this.userRepository.deleteAll();
-//        User admin = new User("termos@cinema.pl", passwordEncoder.encode("admin"), 1, "ADMIN", "ADMIN_ACCESS", "Termos", "Termiszewski", 10-10-1980, null, null);
-//        User firstEmployee = new User("epml1@cinema.pl", passwordEncoder.encode("empl1"), 1, "EMPLOYEE", "EMPLOYEE_ACCESS", "Dorota", "Termiszewska", 10-10-1980, null, null);
-//        User client = new User("client@test.pl", passwordEncoder.encode("client"), 1, "CLIENT", "CLIENT_ACCESS", "Jan", "Nowak", 10-10-1980, null, null);
-//        List<User> users = Arrays.asList(admin, firstEmployee, client);
-//        this.userRepository.saveAll(users);
+        userRepository.save(new User("admin@kino.pl", passwordEncoder.encode("admin"), 1, "EMPLOYEE", "EMPLOYEE_ACCESS", "Admin", "Adminowski", LocalDate.of(2000, 10, 01), null, null));
 
         // Default Room
         this.roomRepository.deleteAll();
