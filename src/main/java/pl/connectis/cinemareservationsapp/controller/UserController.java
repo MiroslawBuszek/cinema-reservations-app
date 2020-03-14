@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
+import pl.connectis.cinemareservationsapp.mapper.UserMapper;
 import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.security.IAuthenticationFacade;
 import pl.connectis.cinemareservationsapp.service.UserService;
@@ -14,7 +18,7 @@ import pl.connectis.cinemareservationsapp.service.UserService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UserController {
 
     @Autowired
@@ -23,22 +27,25 @@ public class UserController {
     @Autowired
     private IAuthenticationFacade authenticationFacade;
 
-    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @GetMapping("myaccount")
     @ResponseBody
     public String currentUserNameSimple() {
         Authentication authentication = authenticationFacade.getAuthentication();
         return authentication.getName();
     }
 
-    @PostMapping("/registration/client")
-    public ResponseEntity<User> addUserClient(@Valid @RequestBody User user) {
-        if (userService.findByUsername(user.getUsername()) != null) { // todo
-            throw new BadRequestException("user {username=" + user.getUsername() + "} was found");
+    @PostMapping("client")
+    public ResponseEntity<User> addUser(@Valid @RequestBody UserDTO userDTO, BindingResult result, Model model) {
+
+        if (userService.findByUsername(userDTO.getUsername()) != null) {
+            throw new BadRequestException("user {username=" + userDTO.getUsername() + "} was found");
         }
-        if (user.getRoles().equals("CLIENT") == false) {
-            throw new BadRequestException("{Incorrect role: this is not a customer}");
-        }
+
+        UserMapper userMapper = new UserMapper();
+        User user = userMapper.mapFromDTO(userDTO);
+
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+
     }
 
     @PostMapping("/registration/employee")
@@ -52,51 +59,41 @@ public class UserController {
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
+    @GetMapping("all")
     public Iterable<User> getAllUsers() {
         return userService.findAll();
     }
 
     @GetMapping
-    public User getUserById(@RequestParam long id) {
-        User user = userService.findById(id);
+    public User getUserByUsername(@RequestParam String username) {
+        User user = userService.findByUsername(username);
         if (user == null) {
-            throw new ResourceNotFoundException("user {id=" + id + "} was not found");
+            throw new ResourceNotFoundException("user {username=" + username + "} was not found");
         }
         return user;
     }
 
-    @PostMapping("/many")
-    public ResponseEntity<?> addUserList(@Valid @RequestBody Iterable<User> userList) {
-        for (User user : userList) {
-            if (userService.findByUsername(user.getUsername()) != null) {
-                throw new BadRequestException("user {username=" + user.getUsername() + "} was found");
-            }
-        }
-        return new ResponseEntity<>(userService.saveAll(userList), HttpStatus.CREATED);
-    }
-
     @PutMapping
-    public ResponseEntity<User> updateUser(@RequestParam long id, @Valid @RequestBody User user) {
-        User existingUser = userService.findById(id);
+    public ResponseEntity<User> updateUser(@RequestParam String username, @Valid @RequestBody User user) {
+        User existingUser = userService.findByUsername(username);
         if (existingUser == null) {
-            throw new ResourceNotFoundException("user {id=" + id + "} was not found");
+            throw new ResourceNotFoundException("user {username=" + username + "} was not found");
         } else if (!user.getUsername().equals(existingUser.getUsername())) {
             throw new BadRequestException(
-                    "{username=" + user.getUsername() + "} does not correspond to user of {id=" + id + "}");
+                    "{username=" + user.getUsername() + "} does not correspond to user of {username=" + username + "}");
         } else {
-            return new ResponseEntity<>(userService.updateById(id, user), HttpStatus.CREATED);
+            return new ResponseEntity<>(userService.updateById(username, user), HttpStatus.CREATED);
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteUser(@RequestParam long id) {
-        User user = userService.findById(id);
-        if (user == null) {
-            throw new ResourceNotFoundException("user {id=" + id + "} was not found");
-        }
-        userService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+//    @DeleteMapping
+//    public ResponseEntity<?> deleteUser(@RequestParam String username) {
+//        User user = userService.findByUsername(username);
+//        if (user == null) {
+//            throw new ResourceNotFoundException("user {username=" + username + "} was not found");
+//        }
+//        userService.deleteById(username);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
 }

@@ -3,6 +3,7 @@ package pl.connectis.cinemareservationsapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,12 +15,10 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode(of = "id")
 @ToString
-@Entity(name = "use_r")
+@Entity(name = "app_user")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
+    @Id
     @Column(nullable = false)
     private String username;
 
@@ -40,10 +39,7 @@ public class User {
     private String lastName;
 
     @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private int age = 0;
+    private LocalDate birthDate;
 
     @Transient
     private List<String> permissionsList;

@@ -82,17 +82,17 @@ public class TicketService {
         return session != null;
     }
 
-    public boolean validateUserExists(long userId) {
-        User user = userRepository.findById(userId);
+    public boolean validateUserExists(String username) {
+        User user = userRepository.findByUsername(username);
         return user != null;
     }
 
     public TicketDTO convertToDTO(Ticket ticket) {
         TicketDTO ticketDTO = new TicketDTO();
         ticketDTO.setId(ticket.getId());
-        if (ticket.getUser() != null) {
-            ticketDTO.setUserId(ticket.getUser().getId());
-        }
+//        if (ticket.getUser() != null) {
+//            ticketDTO.setUserId(ticket.getUser().getId());
+//        }
         if (ticket.getSession() != null) {
             ticketDTO.setSessionId(ticket.getSession().getId());
         }
@@ -115,7 +115,7 @@ public class TicketService {
         if (ticket == null) {
             ticket = new Ticket();
         }
-        ticket.setUser(userRepository.findById(ticketDTO.getUserId()));
+//        ticket.setUser(userRepository.findByUsername(ticketDTO.getUserId()));
         ticket.setSession(sessionRepository.findById(ticketDTO.getSessionId()));
         ticket.setRowNumber(ticketDTO.getRowNumber());
         ticket.setSeatNumber(ticketDTO.getSeatNumber());

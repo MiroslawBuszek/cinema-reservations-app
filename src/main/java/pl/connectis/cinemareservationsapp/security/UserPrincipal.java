@@ -66,7 +66,4 @@ public class UserPrincipal implements UserDetails {
         return this.user.getActive() == 1;
     }
 
-    public long getId() {
-        return this.user.getId();
-    }
 }

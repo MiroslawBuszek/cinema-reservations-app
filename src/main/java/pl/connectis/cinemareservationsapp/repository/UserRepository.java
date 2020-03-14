@@ -5,13 +5,10 @@ import org.springframework.stereotype.Repository;
 import pl.connectis.cinemareservationsapp.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
+
     User findByUsername(String username);
 
-    User findById(long id);
-
     User findByRoles(String role);
-
-    User findByEmail(String email);
 
 }

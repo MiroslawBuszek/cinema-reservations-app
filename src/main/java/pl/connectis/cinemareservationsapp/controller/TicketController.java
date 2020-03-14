@@ -40,10 +40,10 @@ public class TicketController {
             validateTicketExists(Long.parseLong(requestParams.get("id")));
             ticketDTO.setId(Long.parseLong(requestParams.get("id")));
         }
-        if (requestParams.containsKey("user")) {
-            validateUserExists(Long.parseLong(requestParams.get("user")));
-            ticketDTO.setUserId(Long.parseLong(requestParams.get("user")));
-        }
+//        if (requestParams.containsKey("user")) {
+//            validateUserExists(Long.parseLong(requestParams.get("user")));
+//            ticketDTO.setUserId(Long.parseLong(requestParams.get("user")));
+//        }
         if (requestParams.containsKey("session")) {
             validateSessionExists(Long.parseLong(requestParams.get("session")));
             ticketDTO.setSessionId(Long.parseLong(requestParams.get("session")));
@@ -56,7 +56,7 @@ public class TicketController {
 
     @PostMapping
     public ResponseEntity<TicketDTO> addTicket(@RequestBody TicketDTO ticketDTO) {
-        validateUserExists(ticketDTO.getUserId());
+//        validateUserExists(ticketDTO.getUserId());
         validateSessionExists(ticketDTO.getSessionId());
         validateSeatUnoccupied(ticketDTO);
         return new ResponseEntity<>(ticketService.makeReservation(ticketDTO), HttpStatus.CREATED);
@@ -81,9 +81,9 @@ public class TicketController {
         }
     }
 
-    void validateUserExists(long userId) {
-        if (!ticketService.validateUserExists(userId)) {
-            throw new ResourceNotFoundException("user {id=" + userId + "} was not found");
+    void validateUserExists(String username) {
+        if (!ticketService.validateUserExists(username)) {
+            throw new ResourceNotFoundException("user {username=" + username + "} was not found");
         }
     }
 

@@ -38,16 +38,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository))
                 .authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/registration/client").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/registration/employee").hasAnyRole("EMPLOYEE", "ADMIN")
+                .antMatchers("/").permitAll()
+
+                .antMatchers("/client/**").permitAll()
+                .antMatchers("/signup").anonymous()
+                .antMatchers("/add/client").anonymous()
+                .antMatchers(HttpMethod.GET, "/myaccount").authenticated()
+                .antMatchers(HttpMethod.GET, "/mytickets").hasAnyRole("CLIENT")
+                .antMatchers(HttpMethod.POST, "/signup/employee").hasAnyRole("EMPLOYEE", "ADMIN")
                 .antMatchers("/user").hasRole("ADMIN")
                 .antMatchers("/room/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                .antMatchers(HttpMethod.GET, "/movie").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/movie").anonymous()
                 .antMatchers("/movie/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                .antMatchers(HttpMethod.GET, "/session").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/session").anonymous()
                 .antMatchers("/session/**").hasAnyRole("EMPLOYEE", "ADMIN")            //Todo for further settings
                 .antMatchers("/ticket/**").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN")    //Todo for further settings
-                .antMatchers("/").permitAll()
                 .anyRequest().authenticated();
     }
 

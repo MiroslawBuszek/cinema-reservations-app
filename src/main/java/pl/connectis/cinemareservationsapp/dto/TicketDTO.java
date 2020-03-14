@@ -15,8 +15,6 @@ public class TicketDTO {
 
     private long sessionId;
 
-    private long userId;
-
     private int rowNumber;
 
     private int seatNumber;
