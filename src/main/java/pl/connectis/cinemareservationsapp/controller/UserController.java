@@ -3,8 +3,8 @@ package pl.connectis.cinemareservationsapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.User;
@@ -14,7 +14,7 @@ import pl.connectis.cinemareservationsapp.service.UserService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping
 public class UserController {
 
     @Autowired
@@ -23,22 +23,11 @@ public class UserController {
     @Autowired
     private IAuthenticationFacade authenticationFacade;
 
-    @GetMapping("myaccount")
-    @ResponseBody
-    public String currentUserNameSimple() {
-        Authentication authentication = authenticationFacade.getAuthentication();
-        return authentication.getName();
-    }
+    @GetMapping("/myaccount")
+    public UserDTO currentUserNameSimple() {
 
-    @PostMapping("/registration/employee")
-    public ResponseEntity<User> addUserEmployee(@Valid @RequestBody User user) {
-        if (userService.findByUsername(user.getUsername()) != null) { // todo
-            throw new BadRequestException("user {username=" + user.getUsername() + "} was found");
-        }
-        if (user.getRoles().equals("EMPLOYEE") == false) {
-            throw new BadRequestException("{Incorrect role: this is not an employee}");
-        }
-        return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+        return userService.getUser();
+
     }
 
     @GetMapping("all")
@@ -67,15 +56,5 @@ public class UserController {
             return new ResponseEntity<>(userService.updateById(username, user), HttpStatus.CREATED);
         }
     }
-
-//    @DeleteMapping
-//    public ResponseEntity<?> deleteUser(@RequestParam String username) {
-//        User user = userService.findByUsername(username);
-//        if (user == null) {
-//            throw new ResourceNotFoundException("user {username=" + username + "} was not found");
-//        }
-//        userService.deleteById(username);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
 
 }
