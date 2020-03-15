@@ -7,6 +7,30 @@ public class UserMapper {
 
     public User mapClientFromDTO(UserDTO userDTO) {
 
+        User user = mapUserFromDTO(userDTO);
+
+        user.setRoles("CLIENT");
+        user.setPermissions("CLIENT_ACCESS");
+        user.setActive(1);
+
+        return user;
+
+    }
+
+    public User mapEmployeeFromDTO(UserDTO userDTO) {
+
+        User user = mapUserFromDTO(userDTO);
+
+        user.setRoles("EMPLOYEE");
+        user.setPermissions("EMPLOYEE_ACCESS");
+        user.setActive(1);
+
+        return user;
+
+    }
+
+    private User mapUserFromDTO(UserDTO userDTO) {
+
         User user = new User();
 
         user.setUsername(userDTO.getUsername());
@@ -14,10 +38,6 @@ public class UserMapper {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setBirthDate(userDTO.getBirthDate());
-
-        user.setRoles("CLIENT");
-        user.setPermissions("CLIENT_ACCESS");
-        user.setActive(1);
 
         return user;
 

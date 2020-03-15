@@ -33,35 +33,45 @@ public class SecurityController {
     UserService userService;
 
     @PostMapping("signup")
-    public ResponseEntity<Void> addClient(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> addClient(@Valid @RequestBody UserDTO userDTO) {
 
-        encodePassword(userDTO);
-        log.info(userDTO.toString());
-        addUser(userDTO);
+        addUser(userDTO, false);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
 
     }
 
-    void addUser(UserDTO userDTO) {
+    @PostMapping("register")
+    public ResponseEntity<UserDTO> addEmployee(@Valid @RequestBody UserDTO userDTO) {
+
+        addUser(userDTO, true);
+
+        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
+
+    }
+
+    void addUser(UserDTO userDTO, boolean isEmployee) {
 
         if (userService.findByUsername(userDTO.getUsername()) != null) {
             throw new BadRequestException("user {username=" + userDTO.getUsername() + "} was found");
         }
 
-        UserMapper userMapper = new UserMapper();
-        User user = userMapper.mapClientFromDTO(userDTO);
-        userService.save(user);
-
-    }
-
-    UserDTO encodePassword(UserDTO userDTO) {
-
         userDTO.setEncodedPassword(passwordEncoder.encode(userDTO.getPassword()));
         userDTO.setPassword(null);
-        return userDTO;
+        UserMapper userMapper = new UserMapper();
+        User user;
+
+        if (isEmployee) {
+            user = userMapper.mapEmployeeFromDTO(userDTO);
+        } else {
+            user = userMapper.mapClientFromDTO(userDTO);
+        }
+
+        userService.save(user);
+        log.info("User added: " + user.toString());
 
     }
+
 
     String getUserEmail() {
 
