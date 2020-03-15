@@ -32,25 +32,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository))
-                .authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers("/").permitAll()
-
+        http
+            .csrf()
+                .disable()
+            .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository))
+            .authorizeRequests()
+                .antMatchers(HttpMethod.GET,"/", "/movie", "/session").permitAll()
+                .antMatchers("/signup", "/login").anonymous()
+                .antMatchers("/mytickets").hasAnyRole("CLIENT")
+                .antMatchers("/movie/**", "/room/**", "/session/**", "/ticket/**").hasAnyRole("EMPLOYEE")
+                .antMatchers("/mytickets").hasAnyRole("CLIENT", "EMPLOYEE")
+                .antMatchers("/room/**, /").hasAnyRole("EMPLOYEE", "ADMIN")
                 .antMatchers("/client/**").permitAll()
-                .antMatchers("/signup").anonymous()
-                .antMatchers("/add/client").anonymous()
-                .antMatchers(HttpMethod.GET, "/myaccount").authenticated()
-                .antMatchers(HttpMethod.GET, "/mytickets").hasAnyRole("CLIENT")
                 .antMatchers(HttpMethod.POST, "/signup/employee").hasAnyRole("EMPLOYEE", "ADMIN")
                 .antMatchers("/user").hasRole("ADMIN")
                 .antMatchers("/room/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                .antMatchers(HttpMethod.GET, "/movie").anonymous()
                 .antMatchers("/movie/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                .antMatchers(HttpMethod.GET, "/session").anonymous()
                 .antMatchers("/session/**").hasAnyRole("EMPLOYEE", "ADMIN")            //Todo for further settings
                 .antMatchers("/ticket/**").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN")    //Todo for further settings
                 .anyRequest().authenticated();

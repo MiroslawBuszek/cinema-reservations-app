@@ -5,7 +5,7 @@ import pl.connectis.cinemareservationsapp.model.User;
 
 public class UserMapper {
 
-    public User mapFromDTO(UserDTO userDTO) {
+    public User mapClientFromDTO(UserDTO userDTO) {
 
         User user = new User();
 
@@ -20,5 +20,7 @@ public class UserMapper {
         user.setActive(1);
 
         return user;
+
     }
+
 }

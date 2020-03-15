@@ -21,14 +21,18 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    @GetMapping("/{id}")
-    public Ticket getTicketById(@PathVariable long id) {
-        Ticket ticket = ticketService.findById(id);
-        if (ticket == null) {
-            throw new ResourceNotFoundException("ticket {id=" + id + "} was not found");
-        }
-        return ticket;
-    }
+//    @GetMapping("/mytickets")
+//    public List<Ticket> getTicketById(@PathVariable long id) {
+//
+//        TicketDTO ticketDTO = new TicketDTO();
+//
+//
+//        if (ticket == null) {
+//            throw new ResourceNotFoundException("ticket {id=" + id + "} was not found");
+//        }
+//        return ticket;
+//
+//    }
 
     // TODO: Fix query by example search
     @GetMapping
