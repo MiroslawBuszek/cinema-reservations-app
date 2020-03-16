@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.connectis.cinemareservationsapp.model.Role;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
 
 @Configuration
@@ -43,19 +44,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/", "/movie", "/session").permitAll()
                 .antMatchers("/signup", "/login").anonymous()
-                .antMatchers("/register").hasRole("EMPLOYEE")
-                .antMatchers("/myaccount", "/logout").authenticated()
-                .antMatchers("/mytickets").hasRole("CLIENT")
-                .antMatchers("/movie/**", "/room/**", "/session/**", "/ticket/**").hasAnyRole("EMPLOYEE")
-                .antMatchers("/room/**, /").hasAnyRole("EMPLOYEE", "ADMIN")
-                .antMatchers("/client/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/signup/employee").hasAnyRole("EMPLOYEE", "ADMIN")
-                .antMatchers("/user").hasRole("ADMIN")
-                .antMatchers("/room/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                .antMatchers("/movie/**").hasAnyRole("EMPLOYEE", "ADMIN")
-                .antMatchers("/session/**").hasAnyRole("EMPLOYEE", "ADMIN")            //Todo for further settings
-                .antMatchers("/ticket/**").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN")    //Todo for further settings
-                .anyRequest().authenticated();
+                .antMatchers("/register").hasRole(String.valueOf(Role.EMPLOYEE))
+                .anyRequest().fullyAuthenticated()
+//                .antMatchers("/mytickets").hasRole(String.valueOf(Role.CLIENT))
+//                .antMatchers("/movie/**", "/room/**", "/session/**", "/ticket/**").hasRole(String.valueOf(Role.EMPLOYEE))
+//                .antMatchers("/room/**").hasAnyRole("EMPLOYEE", "ADMIN")
+//                .antMatchers("/client/**").permitAll()
+//                .antMatchers("/room/**").hasAnyRole("EMPLOYEE", "ADMIN")
+//                .antMatchers("/movie/**").hasAnyRole("EMPLOYEE", "ADMIN")
+//                .antMatchers("/session/**").hasAnyRole("EMPLOYEE", "ADMIN") //Todo for further settings
+//                .antMatchers("/ticket/**").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN") //Todo for further settings
+            .and()
+                .logout()
+                .logoutSuccessUrl("/login?logout=true")
+                .invalidateHttpSession(true)
+                .permitAll();
     }
 
     @Bean

@@ -1,6 +1,7 @@
 package pl.connectis.cinemareservationsapp.mapper;
 
 import pl.connectis.cinemareservationsapp.dto.UserDTO;
+import pl.connectis.cinemareservationsapp.model.Role;
 import pl.connectis.cinemareservationsapp.model.User;
 
 public class UserMapper {
@@ -9,7 +10,7 @@ public class UserMapper {
 
         User user = mapEntityFromDTO(userDTO);
 
-        user.setRoles("CLIENT");
+        user.setRole(Role.CLIENT);
         user.setPermissions("CLIENT_ACCESS");
         user.setActive(1);
 
@@ -21,7 +22,7 @@ public class UserMapper {
 
         User user = mapEntityFromDTO(userDTO);
 
-        user.setRoles("EMPLOYEE");
+        user.setRole(Role.EMPLOYEE);
         user.setPermissions("EMPLOYEE_ACCESS");
         user.setActive(1);
 

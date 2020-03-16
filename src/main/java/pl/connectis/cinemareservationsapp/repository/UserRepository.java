@@ -2,6 +2,7 @@ package pl.connectis.cinemareservationsapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import pl.connectis.cinemareservationsapp.model.Role;
 import pl.connectis.cinemareservationsapp.model.User;
 
 @Repository
@@ -9,6 +10,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     User findByUsername(String username);
 
-    User findByRoles(String role);
+    User findByRole(Role role);
 
 }

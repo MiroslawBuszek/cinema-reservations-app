@@ -28,7 +28,7 @@ public class User {
     private int active = 1;
 
     @Column(nullable = false)
-    private String roles = "";
+    private Role role;
 
     private String permissions = "";
 
@@ -53,12 +53,10 @@ public class User {
         return new ArrayList<>();
     }
 
-    public List<String> getRoleList() {
-        if (this.roles.length() > 0) {
-            return Arrays.asList(this.roles.split(","));
-        }
-        return new ArrayList<>();
-    }
+    public List<Role> getRoleList() {
 
+        return Arrays.asList(role);
+
+    }
 
 }
