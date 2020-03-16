@@ -41,6 +41,7 @@ public class SecurityService {
             user = userMapper.mapClientFromDTO(userDTO);
         }
 
+        userDTO.setEncodedPassword(null);
         userRepository.save(user);
         log.info("User added: " + user.toString());
 

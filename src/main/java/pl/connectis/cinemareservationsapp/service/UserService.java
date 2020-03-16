@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.UserDTO;
+import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.mapper.UserMapper;
 import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
@@ -35,6 +36,16 @@ public class UserService {
 
     }
 
+    public boolean userExists(UserDTO userDTO) {
+
+        if (userRepository.findByUsername(userDTO.getUsername()) != null) {
+            return true;
+        }
+
+        return false;
+
+    }
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -43,6 +54,7 @@ public class UserService {
 
         log.info(user.toString());
         return userRepository.save(user);
+
     }
 
     public Iterable<User> saveAll(Iterable<User> userList) {
@@ -50,19 +62,29 @@ public class UserService {
     }
 
     @Transactional
-    public User updateById(String username, User user) {
-        User existingUser = userRepository.findByUsername(username);
-        if (user.getFirstName() != null) {
-            existingUser.setFirstName(user.getFirstName());
+    public UserDTO updateUser(UserDTO userDTO) {
+
+        if (userDTO.getUsername() != null && !userDTO.getUsername().equals(authenticationFacade.getAuthentication().getName())) {
+            throw new BadRequestException("{username=" + userDTO.getUsername() + "} does not correspond to the logged user");
         }
-        if (user.getLastName() != null) {
-            existingUser.setLastName(user.getLastName());
+
+        User existingUser = userRepository.findByUsername(authenticationFacade.getAuthentication().getName());;
+
+        if (userDTO.getFirstName() != null) {
+            existingUser.setFirstName(userDTO.getFirstName());
         }
-        if (user.getBirthDate() != null) {
-            existingUser.setBirthDate(user.getBirthDate());
+
+        if (userDTO.getLastName() != null) {
+            existingUser.setLastName(userDTO.getLastName());
         }
-        //Todo add User
-        return existingUser;
+
+        if (userDTO.getBirthDate() != null) {
+            existingUser.setBirthDate(userDTO.getBirthDate());
+        }
+
+        UserMapper userMapper = new UserMapper();
+
+        return userMapper.mapDTOFromEntity(existingUser);
     }
 
 //    public void deleteById(String id) {
