@@ -4,6 +4,9 @@ import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.model.Role;
 import pl.connectis.cinemareservationsapp.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserMapper {
 
     public User mapClientFromDTO(UserDTO userDTO) {
@@ -55,6 +58,19 @@ public class UserMapper {
 
         return userDTO;
 
+    }
+
+    public List<UserDTO> mapDTOFromEntity(List<User> users) {
+
+        List<UserDTO> DTOs = new ArrayList<>();
+
+        for (User user : users) {
+
+            DTOs.add(mapDTOFromEntity(user));
+
+        }
+
+        return DTOs;
 
     }
 

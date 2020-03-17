@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/", "/movie", "/session").permitAll()
                 .antMatchers("/signup", "/login").anonymous()
-                .antMatchers("/register").hasRole(String.valueOf(Role.EMPLOYEE))
+                .antMatchers("/register", "/client").hasRole(String.valueOf(Role.EMPLOYEE))
                 .anyRequest().fullyAuthenticated()
 //                .antMatchers("/mytickets").hasRole(String.valueOf(Role.CLIENT))
 //                .antMatchers("/movie/**", "/room/**", "/session/**", "/ticket/**").hasRole(String.valueOf(Role.EMPLOYEE))
