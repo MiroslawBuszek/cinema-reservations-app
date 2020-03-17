@@ -33,7 +33,7 @@ public class UserService {
 
     public UserDTO getUser() {
 
-        User user = findByUsername(authenticationFacade.getAuthentication().getName());
+        User user = findLoggedUser();
 
         UserMapper userMapper = new UserMapper();
         UserDTO userDTO = userMapper.mapDTOFromEntity(user);
@@ -42,14 +42,10 @@ public class UserService {
 
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
 
-    public User save(User user) {
+    public User findLoggedUser() {
 
-        log.info(user.toString());
-        return userRepository.save(user);
+        return userRepository.findByUsername(authenticationFacade.getAuthentication().getName());
 
     }
 
@@ -74,12 +70,13 @@ public class UserService {
             existingUser.setBirthDate(userDTO.getBirthDate());
         }
 
+
         UserMapper userMapper = new UserMapper();
 
         return userMapper.mapDTOFromEntity(existingUser);
     }
 
-    public List<UserDTO> getUserByExample(Map<String, String> requestParam) {
+    public List<UserDTO> getClientByExample(Map<String, String> requestParam) {
 
         log.debug("Query by example requestParam: " + requestParam.toString());
 

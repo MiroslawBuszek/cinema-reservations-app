@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping("/client")
     public ResponseEntity<List<UserDTO>> getUserByExample(@RequestParam Map<String, String> requestParam) {
 
-        return new ResponseEntity<>(userService.getUserByExample(requestParam), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getClientByExample(requestParam), HttpStatus.OK);
 
     }
 

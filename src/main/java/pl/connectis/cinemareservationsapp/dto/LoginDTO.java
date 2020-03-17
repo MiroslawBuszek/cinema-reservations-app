@@ -1,11 +1,13 @@
-package pl.connectis.cinemareservationsapp.model;
+package pl.connectis.cinemareservationsapp.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginViewModel {
+public class LoginDTO {
+
     private String username;
+
     private String password;
 }

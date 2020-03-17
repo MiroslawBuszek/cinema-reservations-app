@@ -7,7 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.connectis.cinemareservationsapp.model.LoginViewModel;
+import pl.connectis.cinemareservationsapp.dto.LoginDTO;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -30,9 +30,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        LoginViewModel credentials = null;
+        LoginDTO credentials = null;
         try {
-            credentials = new ObjectMapper().readValue(request.getInputStream(), LoginViewModel.class);
+            credentials = new ObjectMapper().readValue(request.getInputStream(), LoginDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

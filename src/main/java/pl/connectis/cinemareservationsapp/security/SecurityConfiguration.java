@@ -42,16 +42,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .addFilter(new JwtAuthenticationFilter(authenticationManager()))
             .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository))
             .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/", "/movie", "/session").permitAll()
                 .antMatchers("/signup", "/login").anonymous()
                 .antMatchers("/register", "/client").hasRole(String.valueOf(Role.EMPLOYEE))
-                .anyRequest().fullyAuthenticated()
+                .antMatchers(HttpMethod.GET,"/movie", "/session").permitAll()
+                .anyRequest().authenticated()
 //                .antMatchers("/mytickets").hasRole(String.valueOf(Role.CLIENT))
 //                .antMatchers("/movie/**", "/room/**", "/session/**", "/ticket/**").hasRole(String.valueOf(Role.EMPLOYEE))
-//                .antMatchers("/room/**").hasAnyRole("EMPLOYEE", "ADMIN")
-//                .antMatchers("/client/**").permitAll()
-//                .antMatchers("/room/**").hasAnyRole("EMPLOYEE", "ADMIN")
-//                .antMatchers("/movie/**").hasAnyRole("EMPLOYEE", "ADMIN")
 //                .antMatchers("/session/**").hasAnyRole("EMPLOYEE", "ADMIN") //Todo for further settings
 //                .antMatchers("/ticket/**").hasAnyRole("CLIENT", "EMPLOYEE", "ADMIN") //Todo for further settings
             .and()
