@@ -8,6 +8,7 @@ import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
+import pl.connectis.cinemareservationsapp.mapper.SessionMapper;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
@@ -31,6 +32,9 @@ public class SessionService {
     @Autowired
     MovieRepository movieRepository;
 
+    @Autowired
+    SessionMapper sessionMapper;
+
     public List<SessionDTO> getSessionsByExample(Map<String, String> requestParams) {
 
         SessionDTO sessionDTO = new SessionDTO();
@@ -51,9 +55,9 @@ public class SessionService {
             sessionDTO.setStartDateTime(LocalDateTime.parse(requestParams.get("date")));
         }
 
-        Example<Session> sessionExample = Example.of(convertToEntity(sessionDTO));
+        Example<Session> sessionExample = Example.of(sessionMapper.convertToEntity(sessionDTO));
 
-        return convertToDTO(sessionRepository.findAll(sessionExample));
+        return sessionMapper.mapDTOFromEntity(sessionRepository.findAll(sessionExample));
 
     }
 
@@ -70,13 +74,11 @@ public class SessionService {
         validateMovieExists(sessionDTO.getMovieId());
         validateRoomExists(sessionDTO.getRoomId());
         validateStartTime(sessionDTO.getStartDateTime());
-        sessionDTO.setReservedSeats(new ArrayList<>());
-        Session session = convertToEntity(sessionDTO);
+        Session session = sessionMapper.convertToEntity(sessionDTO);
         save(session);
-        return convertToDTO(session);
+        return sessionMapper.mapDTOFromEntity(session);
 
     }
-
 
     @Transactional
     public SessionDTO updateById(SessionDTO sessionDTO) {
@@ -100,7 +102,7 @@ public class SessionService {
             existingSession.setStartDate(sessionDTO.getStartDateTime().toLocalDate());
         }
 
-        return convertToDTO(existingSession);
+        return sessionMapper.mapDTOFromEntity(existingSession);
     }
 
     public void deleteById(long sessionId) {
@@ -143,40 +145,6 @@ public class SessionService {
     }
 
 
-    public SessionDTO convertToDTO(Session session) {
-        SessionDTO sessionDTO = new SessionDTO();
-        sessionDTO.setId(session.getId());
-        if (session.getMovie() != null) {
-            sessionDTO.setMovieId(session.getMovie().getId());
-        }
-        if (session.getRoom() != null) {
-            sessionDTO.setRoomId(session.getRoom().getId());
-        }
-        sessionDTO.setStartDateTime(session.getStartTime());
-        return sessionDTO;
-    }
-
-    public List<SessionDTO> convertToDTO(List<Session> sessionList) {
-        List<SessionDTO> sessionDTOList = new ArrayList<>(sessionList.size());
-        for (Session session : sessionList) {
-            sessionDTOList.add(convertToDTO(session));
-        }
-        return sessionDTOList;
-    }
-
-    public Session convertToEntity(SessionDTO sessionDTO) {
-        Session session = sessionRepository.findById(sessionDTO.getId());
-        if (session == null) {
-            session = new Session();
-        }
-        session.setMovie(movieRepository.findById(sessionDTO.getMovieId()));
-        session.setRoom(roomRepository.findById(sessionDTO.getRoomId()));
-        session.setStartTime(sessionDTO.getStartDateTime());
-        if (sessionDTO.getStartDateTime() != null) {
-            session.setStartDate(sessionDTO.getStartDateTime().toLocalDate());
-        }
-        return session;
-    }
 
     public List<SeatDTO> getSeats(long id) {
 
