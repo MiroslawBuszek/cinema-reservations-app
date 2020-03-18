@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/myaccount")
-    public ResponseEntity<UserDTO> getUser() {
+    public ResponseEntity<UserDTO> getLoggedUser() {
 
         return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
 

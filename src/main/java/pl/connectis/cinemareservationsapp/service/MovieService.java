@@ -1,10 +1,15 @@
 package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class MovieService {
@@ -12,24 +17,39 @@ public class MovieService {
     @Autowired
     MovieRepository movieRepository;
 
-    public Iterable<Movie> findAll() {
-        return movieRepository.findAll();
+    public List<Movie> getMovieByExample(Map<String, String> requestParam) {
+
+        Movie movie = new Movie();
+
+        if (requestParam.containsKey("id")) {
+            movie.setId(Long.parseLong(requestParam.get("id")));
+        }
+
+        if (requestParam.containsKey("title")) {
+            movie.setTitle(requestParam.get("title"));
+        }
+
+        if (requestParam.containsKey("category")) {
+            movie.setCategory(requestParam.get("category"));
+        }
+
+        if (requestParam.containsKey("length")) {
+            movie.setLength(Integer.parseInt(requestParam.get("length")));
+        }
+
+        if (requestParam.containsKey("ageLimit")) {
+            movie.setAgeLimit(Integer.parseInt(requestParam.get("ageLimit")));
+        }
+
+        ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
+        Example<Movie> movieExample = Example.of(movie, caseInsensitiveExampleMatcher);
+        return movieRepository.findAll(movieExample);
+
     }
 
-    public Movie findById(long id) {
-        return movieRepository.findById(id);
-    }
-
-    public Movie findByTitle(String title) {
-        return movieRepository.findByTitle(title);
-    }
 
     public Movie save(Movie movie) {
         return movieRepository.save(movie);
-    }
-
-    public Iterable<Movie> saveAll(Iterable<Movie> movieList) {
-        return movieRepository.saveAll(movieList);
     }
 
     @Transactional

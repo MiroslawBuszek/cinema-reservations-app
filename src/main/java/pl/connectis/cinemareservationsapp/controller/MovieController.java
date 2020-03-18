@@ -10,6 +10,8 @@ import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.service.MovieService;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/movie")
@@ -18,18 +20,15 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @GetMapping("/all")
-    public Iterable<Movie> getAllMovies() {
-        return movieService.findAll();
-    }
-
     @GetMapping
-    public Movie getMovieById(@RequestParam long id) {
+    public ResponseEntity<List<Movie>> getMovieByExample(@RequestParam Map<String, String> requestParam) {
+
         Movie movie = movieService.findById(id);
         if (movie == null) {
             throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
         }
-        return movie;
+        return new ResponseEntity<>(movieService.getMovieByExample(requestParam), HttpStatus.OK);
+
     }
 
     @PostMapping
