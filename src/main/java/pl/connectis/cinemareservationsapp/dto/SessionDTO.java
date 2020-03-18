@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,9 +19,7 @@ public class SessionDTO {
 
     private long roomId;
 
-    private ArrayList<Integer> reservedSeats;
-
-    private LocalDateTime startTime;
+    private LocalDateTime startDateTime;
 
 }
 

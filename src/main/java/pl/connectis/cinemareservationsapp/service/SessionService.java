@@ -6,15 +6,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
-import pl.connectis.cinemareservationsapp.model.Movie;
-import pl.connectis.cinemareservationsapp.model.Room;
+import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SessionService {
@@ -28,8 +31,30 @@ public class SessionService {
     @Autowired
     MovieRepository movieRepository;
 
-    public List<Session> findAll(Example<Session> exampleSession) {
-        return sessionRepository.findAll();
+    public List<SessionDTO> getSessionsByExample(Map<String, String> requestParams) {
+
+        SessionDTO sessionDTO = new SessionDTO();
+
+        if (requestParams.containsKey("id")) {
+            validateSessionExists(Long.parseLong(requestParams.get("id")));
+            sessionDTO.setId(Long.parseLong(requestParams.get("id")));
+        }
+        if (requestParams.containsKey("movie")) {
+            validateMovieExists(Long.parseLong(requestParams.get("movie")));
+            sessionDTO.setMovieId(Long.parseLong(requestParams.get("movie")));
+        }
+        if (requestParams.containsKey("room")) {
+            validateRoomExists(Long.parseLong(requestParams.get("room")));
+            sessionDTO.setRoomId(Long.parseLong(requestParams.get("room")));
+        }
+        if (requestParams.containsKey("date")) {
+            sessionDTO.setStartDateTime(LocalDateTime.parse(requestParams.get("date")));
+        }
+
+        Example<Session> sessionExample = Example.of(convertToEntity(sessionDTO));
+
+        return convertToDTO(sessionRepository.findAll(sessionExample));
+
     }
 
     public Session findById(long sessionId) {
@@ -41,52 +66,82 @@ public class SessionService {
     }
 
     public SessionDTO save(SessionDTO sessionDTO) {
+
+        validateMovieExists(sessionDTO.getMovieId());
+        validateRoomExists(sessionDTO.getRoomId());
+        validateStartTime(sessionDTO.getStartDateTime());
+        sessionDTO.setReservedSeats(new ArrayList<>());
         Session session = convertToEntity(sessionDTO);
         save(session);
         return convertToDTO(session);
+
     }
 
-    public Iterable<Session> saveAll(Iterable<Session> sessionList) {
-        return sessionRepository.saveAll(sessionList);
-    }
 
     @Transactional
     public SessionDTO updateById(SessionDTO sessionDTO) {
+        validateSessionExists(sessionDTO.getId());
+
         Session existingSession = sessionRepository.findById(sessionDTO.getId());
+
         if (sessionDTO.getRoomId() != 0) {
+            validateRoomExists(sessionDTO.getRoomId());
             existingSession.setRoom(roomRepository.findById(sessionDTO.getRoomId()));
         }
+
         if (sessionDTO.getMovieId() != 0) {
+            validateMovieExists(sessionDTO.getMovieId());
             existingSession.setMovie(movieRepository.findById(sessionDTO.getMovieId()));
         }
-        if (sessionDTO.getReservedSeats() != null) {
-            existingSession.setReservedSeats(sessionDTO.getReservedSeats());
+
+        if (sessionDTO.getStartDateTime() != null) {
+            validateStartTime(sessionDTO.getStartDateTime());
+            existingSession.setStartTime(sessionDTO.getStartDateTime());
+            existingSession.setStartDate(sessionDTO.getStartDateTime().toLocalDate());
         }
-        if (sessionDTO.getStartTime() != null) {
-            existingSession.setStartTime(sessionDTO.getStartTime());
-            existingSession.setStartDate(sessionDTO.getStartTime().toLocalDate());
-        }
+
         return convertToDTO(existingSession);
     }
 
-    public void deleteById(long id) {
-        sessionRepository.deleteById(id);
+    public void deleteById(long sessionId) {
+
+        validateSessionExists(sessionId);
+        sessionRepository.deleteById(sessionId);
+
     }
 
-    public boolean validateSessionExists(long sessionId) {
-        Session session = sessionRepository.findById(sessionId);
-        return session != null;
+    private void validateSessionExists(long sessionId) {
+
+        if (sessionRepository.findById(sessionId) == null) {
+            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+        }
+
     }
 
-    public boolean validateRoomExists(long roomId) {
-        Room room = roomRepository.findById(roomId);
-        return room != null;
+    private void validateRoomExists(long roomId) {
+
+        if (roomRepository.findById(roomId) == null) {
+            throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
+        }
+
     }
 
-    public boolean validateMovieExists(long movieId) {
-        Movie movie = movieRepository.findById(movieId);
-        return movie != null;
+    private void validateMovieExists(long movieId) {
+
+        if (movieRepository.findById(movieId) == null) {
+            throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
+        }
+
     }
+
+    private void validateStartTime(LocalDateTime startTime) {
+
+        if (startTime.isBefore(LocalDateTime.now())) {
+            throw new BadRequestException("start time should be in future");
+        }
+
+    }
+
 
     public SessionDTO convertToDTO(Session session) {
         SessionDTO sessionDTO = new SessionDTO();
@@ -97,8 +152,7 @@ public class SessionService {
         if (session.getRoom() != null) {
             sessionDTO.setRoomId(session.getRoom().getId());
         }
-        sessionDTO.setReservedSeats(session.getReservedSeats());
-        sessionDTO.setStartTime(session.getStartTime());
+        sessionDTO.setStartDateTime(session.getStartTime());
         return sessionDTO;
     }
 
@@ -117,28 +171,53 @@ public class SessionService {
         }
         session.setMovie(movieRepository.findById(sessionDTO.getMovieId()));
         session.setRoom(roomRepository.findById(sessionDTO.getRoomId()));
-        session.setReservedSeats(sessionDTO.getReservedSeats());
-        session.setStartTime(sessionDTO.getStartTime());
-        if (sessionDTO.getStartTime() != null) {
-            session.setStartDate(sessionDTO.getStartTime().toLocalDate());
+        session.setStartTime(sessionDTO.getStartDateTime());
+        if (sessionDTO.getStartDateTime() != null) {
+            session.setStartDate(sessionDTO.getStartDateTime().toLocalDate());
         }
         return session;
     }
 
     public List<SeatDTO> getSeats(long id) {
+
+        validateSessionExists(id);
         List<SeatDTO> seats = new ArrayList<>();
         List<Integer> reservedSeats = sessionRepository.findById(id).getReservedSeats();
-        int[] roomLayout = sessionRepository.findById(id).getRoom().getLayout();
-        for (int i = 0; i < roomLayout.length; i++) {
-            for (int j = 0; j < roomLayout[i]; j++) {
+        List<Integer> layoutList = getLayoutList(sessionRepository.findById(id).getRoom().getLayout());
+
+        for (int i = 0; i < layoutList.size(); i++) {
+
+            for (int j = 0; j < layoutList.get(i); j++) {
+
                 int seatAddress = i * 1000 + j;
+
                 if (reservedSeats.contains(seatAddress)) {
                     seats.add(new SeatDTO(i, j, true));
                 } else {
                     seats.add(new SeatDTO(i, j, false));
                 }
+
             }
+
         }
+
         return seats;
+
+    }
+
+    private List<Integer> getLayoutList(String layout) {
+
+        List<String> layoutStringList;
+        List<Integer> layoutIntegerList = new ArrayList<>();
+        layoutStringList = Arrays.asList(layout.split(","));
+
+        for (String rowCapacityString : layoutStringList) {
+
+            layoutIntegerList.add(Integer.parseInt(rowCapacityString));
+
+        }
+
+        return layoutIntegerList;
+
     }
 }
