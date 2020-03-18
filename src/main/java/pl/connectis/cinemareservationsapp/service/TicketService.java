@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
+import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
@@ -14,7 +15,6 @@ import pl.connectis.cinemareservationsapp.repository.TicketRepository;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
 import pl.connectis.cinemareservationsapp.security.IAuthenticationFacade;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +33,9 @@ public class TicketService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    TicketMapper ticketMapper;
+
     public List<TicketDTO> getTicketsByExample(Map<String, String> requestParam) {
 
         TicketDTO ticketDTO = new TicketDTO();
@@ -49,8 +52,8 @@ public class TicketService {
             ticketDTO.setSessionId(Long.parseLong(requestParam.get("client")));
         }
 
-        Example<Ticket> ticketExample = Example.of(convertToEntity(ticketDTO));
-        return convertToDTO(ticketRepository.findAll(ticketExample));
+        Example<Ticket> ticketExample = Example.of(ticketMapper.mapEntityFromDTO(ticketDTO));
+        return ticketMapper.mapDTOFromEntity(ticketRepository.findAll(ticketExample));
 
     }
 
@@ -69,7 +72,9 @@ public class TicketService {
 
 
     public Ticket findById(long ticketId) {
+
         return ticketRepository.findById(ticketId);
+
     }
 
     public Ticket save(Ticket ticket) {
@@ -77,13 +82,16 @@ public class TicketService {
     }
 
     public TicketDTO save(TicketDTO ticketDTO) {
-        Ticket ticket = convertToEntity(ticketDTO);
-        save(ticket);
-        return convertToDTO(ticket);
+
+        save(ticketMapper.mapEntityFromDTO(ticketDTO));
+        return ticketDTO;
+
     }
 
     public Iterable<Ticket> saveAll(Iterable<Ticket> ticketList) {
+
         return ticketRepository.saveAll(ticketList);
+
     }
 
     public void deleteById(long id) {
@@ -148,39 +156,4 @@ public class TicketService {
 
     }
 
-    public TicketDTO convertToDTO(Ticket ticket) {
-        TicketDTO ticketDTO = new TicketDTO();
-        ticketDTO.setId(ticket.getId());
-//        if (ticket.getUser() != null) {
-//            ticketDTO.setUserId(ticket.getUser().getId());
-//        }
-        if (ticket.getSession() != null) {
-            ticketDTO.setSessionId(ticket.getSession().getId());
-        }
-        ticketDTO.setRowNumber(ticket.getRowNumber());
-        ticketDTO.setSeatNumber(ticket.getSeatNumber());
-        ticketDTO.setPrice(ticket.getPrice());
-        return ticketDTO;
-    }
-
-    public List<TicketDTO> convertToDTO(List<Ticket> ticketList) {
-        List<TicketDTO> ticketDTOList = new ArrayList<>(ticketList.size());
-        for (Ticket ticket : ticketList) {
-            ticketDTOList.add(convertToDTO(ticket));
-        }
-        return ticketDTOList;
-    }
-
-    public Ticket convertToEntity(TicketDTO ticketDTO) {
-        Ticket ticket = ticketRepository.findById(ticketDTO.getId());
-        if (ticket == null) {
-            ticket = new Ticket();
-        }
-//        ticket.setUser(userRepository.findByUsername(ticketDTO.getUserId()));
-        ticket.setSession(sessionRepository.findById(ticketDTO.getSessionId()));
-        ticket.setRowNumber(ticketDTO.getRowNumber());
-        ticket.setSeatNumber(ticketDTO.getSeatNumber());
-        ticket.setPrice(ticketDTO.getPrice());
-        return ticket;
-    }
 }

@@ -22,7 +22,7 @@ public class TicketController {
     @GetMapping("/myticket")
     public ResponseEntity<List<TicketDTO>> getTicketById(@RequestParam Map<String, String> requestParam) {
 
-        return new ResponseEntity<>(ticketService.getTicketsByExample(requestParam), HttpStatus.OK);
+        return new ResponseEntity<>(ticketService.getMyTicketsByExample(requestParam), HttpStatus.OK);
 
     }
 
