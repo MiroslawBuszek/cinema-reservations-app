@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +18,24 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/signup")
+    public ResponseEntity<UserDTO> addClient(@Valid @RequestBody UserDTO userDTO) {
+
+        return new ResponseEntity<>(userService.createAccount(userDTO, false), HttpStatus.CREATED);
+
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserDTO> addEmployee(@Valid @RequestBody UserDTO userDTO) {
+
+        return new ResponseEntity<>(userService.createAccount(userDTO, true), HttpStatus.CREATED);
+
+    }
+
     @GetMapping("/myaccount")
     public ResponseEntity<UserDTO> getUser() {
 
-        return new ResponseEntity<>(userService.getUser(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
 
     }
 

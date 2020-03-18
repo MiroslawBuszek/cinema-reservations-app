@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.UserDTO;
@@ -25,27 +26,44 @@ public class UserService {
     private IAuthenticationFacade authenticationFacade;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     UserRepository userRepository;
 
-    public Iterable<User> findAll() {
-        return userRepository.findAll();
-    }
+    public UserDTO createAccount(UserDTO userDTO, boolean isEmployee) {
 
-    public UserDTO getUser() {
+        if (userRepository.findByUsername(userDTO.getUsername()) != null) {
+            throw new BadRequestException("user {username=" + userDTO.getUsername() + "} was found");
+        }
 
-        User user = findLoggedUser();
-
+        userDTO.setEncodedPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userDTO.setPassword(null);
         UserMapper userMapper = new UserMapper();
-        UserDTO userDTO = userMapper.mapDTOFromEntity(user);
+        User user;
+
+        if (isEmployee) {
+            user = userMapper.mapEmployeeFromDTO(userDTO);
+        } else {
+            user = userMapper.mapClientFromDTO(userDTO);
+        }
+
+        userDTO.setEncodedPassword(null);
+        userRepository.save(user);
+        log.info("User added: " + user.toString());
 
         return userDTO;
 
     }
 
+    public UserDTO getLoggedUser() {
 
-    public User findLoggedUser() {
+        User user = userRepository.findByUsername(authenticationFacade.getAuthentication().getName());
 
-        return userRepository.findByUsername(authenticationFacade.getAuthentication().getName());
+        UserMapper userMapper = new UserMapper();
+        UserDTO userDTO = userMapper.mapDTOFromEntity(user);
+
+        return userDTO;
 
     }
 
@@ -74,6 +92,7 @@ public class UserService {
         UserMapper userMapper = new UserMapper();
 
         return userMapper.mapDTOFromEntity(existingUser);
+
     }
 
     public List<UserDTO> getClientByExample(Map<String, String> requestParam) {
@@ -106,9 +125,5 @@ public class UserService {
         return userMapper.mapDTOFromEntity(userRepository.findAll(exampleUser));
 
     }
-
-//    public void deleteById(String id) {
-//        userRepository.deleteById(id);
-//    }
 
 }
