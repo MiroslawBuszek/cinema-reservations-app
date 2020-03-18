@@ -5,6 +5,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 
@@ -16,6 +17,12 @@ public class MovieService {
 
     @Autowired
     MovieRepository movieRepository;
+
+    public Movie findById(long id) {
+
+        return movieRepository.findById(id);
+
+    }
 
     public List<Movie> getMovieByExample(Map<String, String> requestParam) {
 
@@ -47,34 +54,52 @@ public class MovieService {
 
     }
 
-
     public Movie save(Movie movie) {
         return movieRepository.save(movie);
     }
 
     @Transactional
     public Movie updateById(long id, Movie movie) {
+
         Movie existingMovie = movieRepository.findById(id);
+
+        if (existingMovie == null) {
+            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
+        }
+
         if (movie.getTitle() != null) {
             existingMovie.setTitle(movie.getTitle());
         }
+
         if (movie.getCategory() != null) {
             existingMovie.setCategory(movie.getCategory());
         }
+
         if (movie.getLength() != 0) {
             existingMovie.setLength(movie.getLength());
         }
+
         if (movie.getDescription() != null) {
             existingMovie.setDescription(movie.getDescription());
         }
+
         if (movie.getAgeLimit() != 0) {
             existingMovie.setAgeLimit(movie.getAgeLimit());
         }
+
         return existingMovie;
     }
 
     public void deleteById(long id) {
+
+        Movie movie = movieRepository.findById(id);
+
+        if (movie == null) {
+            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
+        }
+
         movieRepository.deleteById(id);
+
     }
 
     public Movie updateMovie(long id, Movie updatedMovie) {
