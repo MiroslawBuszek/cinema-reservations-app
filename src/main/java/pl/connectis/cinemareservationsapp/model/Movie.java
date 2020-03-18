@@ -7,10 +7,8 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
+@Data
 @EqualsAndHashCode(of = "id")
-@ToString
 public class Movie {
 
     @Id

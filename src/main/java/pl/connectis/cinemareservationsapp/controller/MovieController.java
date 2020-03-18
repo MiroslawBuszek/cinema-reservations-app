@@ -20,7 +20,7 @@ public class MovieController {
 
     @GetMapping
     public ResponseEntity<List<Movie>> getMovieByExample(@RequestParam Map<String, String> requestParam) {
-        
+
         return new ResponseEntity<>(movieService.getMovieByExample(requestParam), HttpStatus.OK);
 
     }

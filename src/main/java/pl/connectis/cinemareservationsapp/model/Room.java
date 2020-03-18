@@ -1,16 +1,17 @@
 package pl.connectis.cinemareservationsapp.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
+@Data
 @EqualsAndHashCode(of = "id")
-@ToString
 public class Room {
 
     @Id
@@ -20,6 +21,6 @@ public class Room {
     private int capacity;
 
     @Column(nullable = false)
-    private int[] layout;
+    private String layout;
 
 }

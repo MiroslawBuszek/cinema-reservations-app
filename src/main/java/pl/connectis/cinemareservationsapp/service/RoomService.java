@@ -1,10 +1,15 @@
 package pl.connectis.cinemareservationsapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
+
+import java.util.*;
 
 @Service
 public class RoomService {
@@ -12,24 +17,46 @@ public class RoomService {
     @Autowired
     private RoomRepository roomRepository;
 
-    public Iterable<Room> findAll() {
-        return roomRepository.findAll();
+
+    public List<Room> findRoom(Map<String, String> requestParam) {
+
+        Room room = new Room();
+
+        if (requestParam.containsKey("id")) {
+            room.setId(Long.parseLong(requestParam.get("id")));
+        }
+
+        Example<Room> roomExample = Example.of(room);
+        return roomRepository.findAll(roomExample);
+
     }
 
-    public Room findById(long id) {
-        return roomRepository.findById(id);
+    public boolean roomExists(long id) {
+
+        Map<String, String> request = new HashMap<>();
+        request.put("id", String.valueOf(id));
+
+        if (findRoom(request).size() == 0) {
+            return false;
+        }
+
+        return true;
+
     }
 
     public Room save(Room room) {
-        return roomRepository.save(room);
-    }
 
-    public Iterable<Room> saveAll(Iterable<Room> roomList) {
-        return roomRepository.saveAll(roomList);
+        validateRoom(room);
+        return roomRepository.save(room);
+
     }
 
     @Transactional
     public Room updateById(long id, Room room) {
+
+        validateRoomExists(id);
+        validateRoom(room);
+
         Room existingRoom = roomRepository.findById(id);
         if (room.getLayout() != null) {
             existingRoom.setLayout(room.getLayout());
@@ -39,23 +66,72 @@ public class RoomService {
     }
 
     public void deleteById(long id) {
+
+        validateRoomExists(id);
         roomRepository.deleteById(id);
+
     }
 
-    public boolean validateCapacity(Room room) {
-        return getCapacityFromLayout(room) == room.getCapacity();
-    }
+    private void validateRoomExists(long id) {
 
-    public int getCapacityFromLayout(Room room) {
-        int capacity = 0;
-        int[] layout = room.getLayout();
-        for (int i = 0; i < layout.length; i++) {
-            capacity += layout[i];
+        if (roomExists(id)) {
+            throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
-        return capacity;
+
     }
 
-    public void setCapacityFromLayout(Room room) {
-        room.setCapacity(getCapacityFromLayout(room));
+    private void validateRoom(Room room) {
+
+        if (!validateCapacity(room)) {
+            throw new BadRequestException("capacity does not correspond to layout");
+        } else if (room.getCapacity() == 0) {
+            setCapacityFromLayout(room);
+        }
+
     }
+
+    private boolean validateCapacity(Room room) {
+
+        return getCapacityFromLayout(room) == room.getCapacity();
+
+    }
+
+    private int getCapacityFromLayout(Room room) {
+
+        List<Integer> layoutIntegerList = getLayoutAsList(room.getLayout());
+        return layoutIntegerList.stream().mapToInt(Integer::intValue).sum();
+
+    }
+
+    private void setCapacityFromLayout(Room room) {
+
+        room.setCapacity(getCapacityFromLayout(room));
+
+    }
+
+    private List<Integer> getLayoutAsList(String layout) {
+
+        List<String> layoutStringList;
+        List<Integer> layoutIntegerList = new ArrayList<>();
+
+        try {
+
+            layoutStringList = Arrays.asList(layout.split(","));
+
+            for (String rowCapacityString : layoutStringList) {
+
+                layoutIntegerList.add(Integer.parseInt(rowCapacityString));
+
+            }
+
+        } catch (Exception exception) {
+
+            throw new BadRequestException("inappropriate layout format");
+
+        }
+
+        return layoutIntegerList;
+
+    }
+
 }
