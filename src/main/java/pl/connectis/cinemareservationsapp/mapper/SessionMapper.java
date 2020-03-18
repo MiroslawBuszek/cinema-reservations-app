@@ -54,7 +54,7 @@ public class SessionMapper {
         session.setStartTime(sessionDTO.getStartDateTime());
         session.setStartDate(sessionDTO.getStartDateTime().toLocalDate());
         return session;
-        
+
     }
 
 }

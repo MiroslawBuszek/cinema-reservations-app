@@ -5,18 +5,24 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
+import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
+import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
-import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import pl.connectis.cinemareservationsapp.repository.TicketRepository;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
+import pl.connectis.cinemareservationsapp.security.IAuthenticationFacade;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TicketService {
+
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
 
     @Autowired
     TicketRepository ticketRepository;
@@ -27,9 +33,40 @@ public class TicketService {
     @Autowired
     UserRepository userRepository;
 
-    public List<Ticket> findAll(Example<Ticket> exampleTicket) {
-        return ticketRepository.findAll();
+    public List<TicketDTO> getTicketsByExample(Map<String, String> requestParam) {
+
+        TicketDTO ticketDTO = new TicketDTO();
+
+        if (requestParam.containsKey("id")) {
+            ticketDTO.setId(Long.parseLong(requestParam.get("id")));
+        }
+
+        if (requestParam.containsKey("sessionId")) {
+            ticketDTO.setSessionId(Long.parseLong(requestParam.get("sessionId")));
+        }
+
+        if (requestParam.containsKey("client")) {
+            ticketDTO.setSessionId(Long.parseLong(requestParam.get("client")));
+        }
+
+        Example<Ticket> ticketExample = Example.of(convertToEntity(ticketDTO));
+        return convertToDTO(ticketRepository.findAll(ticketExample));
+
     }
+
+    public List<TicketDTO> getMyTicketsByExample(Map<String, String> requestParam) {
+
+        String client = authenticationFacade.getAuthentication().getName();
+
+        if (requestParam.containsKey("client")) {
+            requestParam.remove("client");
+        }
+
+        requestParam.put("client", client);
+        return getTicketsByExample(requestParam);
+
+    }
+
 
     public Ticket findById(long ticketId) {
         return ticketRepository.findById(ticketId);
@@ -50,41 +87,65 @@ public class TicketService {
     }
 
     public void deleteById(long id) {
+
+        validateTicketExists(id);
         ticketRepository.deleteById(id);
+
     }
 
 
     public void reserveSeat(TicketDTO ticketDTO) {
+
         Session session = sessionRepository.findById(ticketDTO.getSessionId());
         List<Integer> reservedSeats = session.getReservedSeats();
         reservedSeats.add(ticketDTO.getRowNumber() * 1000 + ticketDTO.getSeatNumber());
+
     }
 
     @Transactional
     public TicketDTO makeReservation(TicketDTO ticketDTO) {
+
+        validateUserExists(ticketDTO.getClient());
+        validateSessionExists(ticketDTO.getSessionId());
+        validateSeatUnoccupied(ticketDTO);
         reserveSeat(ticketDTO);
         return save(ticketDTO);
+
     }
 
-    public boolean validateSeatUnoccupied(TicketDTO ticketDTO) {
+    private void validateSeatUnoccupied(TicketDTO ticketDTO) {
         int ticketNumber = ticketDTO.getRowNumber() * 1000 + ticketDTO.getSeatNumber();
         List<Integer> reservedSeats = sessionRepository.findById(ticketDTO.getSessionId()).getReservedSeats();
-        return !reservedSeats.contains(ticketNumber);
+
+        if (reservedSeats.contains(ticketNumber)) {
+            throw new BadRequestException("seat " + ticketDTO.getSeatNumber() +
+                " in row " + ticketDTO.getRowNumber() + " is reserved");
+        }
+
     }
 
-    public boolean validateTicketExists(long ticketId) {
-        Ticket ticket = ticketRepository.findById(ticketId);
-        return ticket != null;
+    private void validateTicketExists(long ticketId) {
+
+        if (ticketRepository.findById(ticketId) == null) {
+            throw new ResourceNotFoundException("ticket {id=" + ticketId + "} was not found");
+        }
+
+    }
+    private void validateSessionExists(long sessionId) {
+
+        if (sessionRepository.findById(sessionId) == null) {
+            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+        }
+
     }
 
-    public boolean validateSessionExists(long sessionId) {
-        Session session = sessionRepository.findById(sessionId);
-        return session != null;
-    }
+    private void validateUserExists(String username) {
 
-    public boolean validateUserExists(String username) {
-        User user = userRepository.findByUsername(username);
-        return user != null;
+        if (userRepository.findByUsername(username) == null) {
+            throw new ResourceNotFoundException("user {username=" + username + "} was not found");
+
+        }
+
     }
 
     public TicketDTO convertToDTO(Ticket ticket) {

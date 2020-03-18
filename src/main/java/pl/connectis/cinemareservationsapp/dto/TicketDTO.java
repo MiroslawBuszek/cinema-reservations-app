@@ -15,6 +15,8 @@ public class TicketDTO {
 
     private long sessionId;
 
+    private String client;
+
     private int rowNumber;
 
     private int seatNumber;

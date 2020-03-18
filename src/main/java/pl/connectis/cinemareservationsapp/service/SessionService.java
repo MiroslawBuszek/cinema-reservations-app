@@ -43,14 +43,17 @@ public class SessionService {
             validateSessionExists(Long.parseLong(requestParams.get("id")));
             sessionDTO.setId(Long.parseLong(requestParams.get("id")));
         }
+
         if (requestParams.containsKey("movie")) {
             validateMovieExists(Long.parseLong(requestParams.get("movie")));
             sessionDTO.setMovieId(Long.parseLong(requestParams.get("movie")));
         }
+
         if (requestParams.containsKey("room")) {
             validateRoomExists(Long.parseLong(requestParams.get("room")));
             sessionDTO.setRoomId(Long.parseLong(requestParams.get("room")));
         }
+
         if (requestParams.containsKey("date")) {
             sessionDTO.setStartDateTime(LocalDateTime.parse(requestParams.get("date")));
         }
