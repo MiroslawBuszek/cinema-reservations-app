@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +20,9 @@ public class SessionDTO {
 
     private long roomId;
 
-    private LocalDateTime startDateTime;
+    private LocalDate startDate;
+
+    private LocalTime startTime;
 
 }
 

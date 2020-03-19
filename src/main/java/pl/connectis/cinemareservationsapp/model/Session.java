@@ -4,9 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -29,11 +28,12 @@ public class Session {
     @JoinColumn(nullable = false)
     private Room room;
 
-    private ArrayList<Integer> reservedSeats;
+    private ArrayList<Integer> reservedSeats = new ArrayList<>();
 
     @Column(nullable = false)
-    private LocalDateTime startTime;
-
     private LocalDate startDate;
+
+    @Column(nullable = false)
+    private LocalTime startTime;
 
 }

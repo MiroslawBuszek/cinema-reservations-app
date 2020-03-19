@@ -27,7 +27,8 @@ public class SessionMapper {
         if (session.getRoom() != null) {
             sessionDTO.setRoomId(session.getRoom().getId());
         }
-        sessionDTO.setStartDateTime(session.getStartTime());
+        sessionDTO.setStartDate(session.getStartDate());
+        sessionDTO.setStartTime(session.getStartTime());
         return sessionDTO;
 
     }
@@ -46,13 +47,13 @@ public class SessionMapper {
 
     }
 
-    public Session convertToEntity(SessionDTO sessionDTO) {
+    public Session mapEntityFromDTO(SessionDTO sessionDTO) {
 
         Session session = new Session();
         session.setMovie(movieRepository.findById(sessionDTO.getMovieId()));
         session.setRoom(roomRepository.findById(sessionDTO.getRoomId()));
-        session.setStartTime(sessionDTO.getStartDateTime());
-        session.setStartDate(sessionDTO.getStartDateTime().toLocalDate());
+        session.setStartTime(sessionDTO.getStartTime());
+        session.setStartDate(sessionDTO.getStartDate());
         return session;
 
     }

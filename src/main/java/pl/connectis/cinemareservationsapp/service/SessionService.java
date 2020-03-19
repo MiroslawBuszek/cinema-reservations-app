@@ -1,5 +1,6 @@
 package pl.connectis.cinemareservationsapp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,12 @@ import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalTime;
+import java.util.*;
 
+@Slf4j
 @Service
 public class SessionService {
 
@@ -39,33 +40,26 @@ public class SessionService {
 
         SessionDTO sessionDTO = new SessionDTO();
 
-        if (requestParams.containsKey("id")) {
-            validateSessionExists(Long.parseLong(requestParams.get("id")));
-            sessionDTO.setId(Long.parseLong(requestParams.get("id")));
-        }
-
         if (requestParams.containsKey("movie")) {
-            validateMovieExists(Long.parseLong(requestParams.get("movie")));
             sessionDTO.setMovieId(Long.parseLong(requestParams.get("movie")));
         }
 
         if (requestParams.containsKey("room")) {
-            validateRoomExists(Long.parseLong(requestParams.get("room")));
             sessionDTO.setRoomId(Long.parseLong(requestParams.get("room")));
         }
 
         if (requestParams.containsKey("date")) {
-            sessionDTO.setStartDateTime(LocalDateTime.parse(requestParams.get("date")));
+            sessionDTO.setStartDate(LocalDate.parse(requestParams.get("date")));
         }
 
-        Example<Session> sessionExample = Example.of(sessionMapper.convertToEntity(sessionDTO));
+        if (requestParams.containsKey("time")) {
+            sessionDTO.setStartTime(LocalTime.parse(requestParams.get("time")));
+        }
 
+        Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
+        Example<Session> sessionExample = Example.of(session);
         return sessionMapper.mapDTOFromEntity(sessionRepository.findAll(sessionExample));
 
-    }
-
-    public Session findById(long sessionId) {
-        return sessionRepository.findById(sessionId);
     }
 
     public Session save(Session session) {
@@ -76,8 +70,8 @@ public class SessionService {
 
         validateMovieExists(sessionDTO.getMovieId());
         validateRoomExists(sessionDTO.getRoomId());
-        validateStartTime(sessionDTO.getStartDateTime());
-        Session session = sessionMapper.convertToEntity(sessionDTO);
+        validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
+        Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
         save(session);
         return sessionMapper.mapDTOFromEntity(session);
 
@@ -85,8 +79,8 @@ public class SessionService {
 
     @Transactional
     public SessionDTO updateById(SessionDTO sessionDTO) {
-        validateSessionExists(sessionDTO.getId());
 
+        validateSessionExists(sessionDTO.getId());
         Session existingSession = sessionRepository.findById(sessionDTO.getId());
 
         if (sessionDTO.getRoomId() != 0) {
@@ -99,10 +93,9 @@ public class SessionService {
             existingSession.setMovie(movieRepository.findById(sessionDTO.getMovieId()));
         }
 
-        if (sessionDTO.getStartDateTime() != null) {
-            validateStartTime(sessionDTO.getStartDateTime());
-            existingSession.setStartTime(sessionDTO.getStartDateTime());
-            existingSession.setStartDate(sessionDTO.getStartDateTime().toLocalDate());
+        if (sessionDTO.getStartDate() != null && sessionDTO.getStartTime() != null) {
+            validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
+            existingSession.setStartTime(sessionDTO.getStartTime());
         }
 
         return sessionMapper.mapDTOFromEntity(existingSession);
@@ -139,9 +132,10 @@ public class SessionService {
 
     }
 
-    private void validateStartTime(LocalDateTime startTime) {
+    private void validateStartTime(LocalDate startDate, LocalTime startTime) {
 
-        if (startTime.isBefore(LocalDateTime.now())) {
+        LocalDateTime startDataTime = LocalDateTime.of(startDate, startTime);
+        if (startDataTime.isBefore(LocalDateTime.now())) {
             throw new BadRequestException("start time should be in future");
         }
 
@@ -156,9 +150,9 @@ public class SessionService {
         List<Integer> reservedSeats = sessionRepository.findById(id).getReservedSeats();
         List<Integer> layoutList = getLayoutList(sessionRepository.findById(id).getRoom().getLayout());
 
-        for (int i = 0; i < layoutList.size(); i++) {
+        for (int i = 1; i < (layoutList.size() + 1 ); i++) {
 
-            for (int j = 0; j < layoutList.get(i); j++) {
+            for (int j = 1; j < (layoutList.get(i - 1) + 1); j++) {
 
                 int seatAddress = i * 1000 + j;
 
@@ -191,4 +185,5 @@ public class SessionService {
         return layoutIntegerList;
 
     }
+
 }

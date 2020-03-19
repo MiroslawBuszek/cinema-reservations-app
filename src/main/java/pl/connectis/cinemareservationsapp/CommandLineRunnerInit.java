@@ -12,7 +12,7 @@ import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.service.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Service
@@ -112,23 +112,23 @@ public class CommandLineRunnerInit implements CommandLineRunner {
     private void addMovies() {
 
         movieService.save(
-                new Movie(1, "Gwiezdne wojny: Skywalker. Odrodzenie", "Familijny", 142,
+                new Movie(1L, "Gwiezdne wojny: Skywalker. Odrodzenie", "Familijny", 142,
                         "Członkowie organizacji Ruchu Oporu ponownie stawiają czoła Najwyższemu Porządkowi.",
                         10));
         movieService.save(
-                new Movie(2, "Jak zostałem gangsterem. Historia prawdziwa", "Akcja", 140,
+                new Movie(2L, "Jak zostałem gangsterem. Historia prawdziwa", "Akcja", 140,
                         "Historia najniebezpieczniejszego gangstera w Polsce, dla którego władza, bycie " +
                                 "ponad stan i pieniądze stanowią priorytet.", 15));
         movieService.save(
-                new Movie(3, "Judy", "Dramat", 118,
+                new Movie(3L, "Judy", "Dramat", 118,
                         "Zima 1968 roku. Ciesząca się ogromną popularnością Judy Garland przybywa do " +
                                 "Londynu na serię koncertów.", 15));
         movieService.save(
-                new Movie(4, "Oficer i szpieg", "Thriller szpiegowski", 132,
+                new Movie(4L, "Oficer i szpieg", "Thriller szpiegowski", 132,
                         "Historia francuskiego kapitana Alfreda Dreyfusa, który został niesłusznie " +
                                 "oskarżony o zdradę stanu i skazany na dożywotnie więzienie.", 15));
         movieService.save(
-                new Movie(5, "Jumanji: Przygoda w dżungli", "Familijny", 123,
+                new Movie(5L, "Jumanji: Przygoda w dżungli", "Familijny", 123,
                         "Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu " +
                                 "stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów " +
                                 "dolarów.", 12));
@@ -137,49 +137,49 @@ public class CommandLineRunnerInit implements CommandLineRunner {
 
     private void addRooms() {
 
-        roomService.save(new Room(1, 154, "22,22,22,22,22,22,22"));
-        roomService.save(new Room(2, 50, "10,10,10,10,10"));
-        roomService.save(new Room(3, 300, "30,30,30,30,30,30,30,30,30,30"));
-        roomService.save(new Room(4, 90, "15,15,15,15,15,15"));
+        roomService.save(new Room(1L, 154, "22,22,22,22,22,22,22"));
+        roomService.save(new Room(2L, 50, "10,10,10,10,10"));
+        roomService.save(new Room(3L, 300, "30,30,30,30,30,30,30,30,30,30"));
+        roomService.save(new Room(4L, 90, "15,15,15,15,15,15"));
 
     }
 
     private void addSessions() {
 
-        sessionService.save(new SessionDTO(1, 3, 1,
-                LocalDateTime.of(2020, 4, 10, 15, 00)));
-        sessionService.save(new SessionDTO(2, 2, 2,
-                LocalDateTime.of(2020, 4, 2, 16, 00)));
-        sessionService.save(new SessionDTO(3, 1, 4,
-                LocalDateTime.of(2020, 4, 2, 17, 00)));
-        sessionService.save(new SessionDTO(4, 4, 1,
-                LocalDateTime.of(2020, 4, 2, 18, 00)));
-        sessionService.save(new SessionDTO(5, 2, 3,
-                LocalDateTime.of(2020, 4, 2, 18, 30)));
-        sessionService.save(new SessionDTO(6, 2, 2,
-                LocalDateTime.of(2020, 4, 2, 21, 00)));
-        sessionService.save(new SessionDTO(7, 2, 3,
-                LocalDateTime.of(2020, 4, 2, 21, 00)));
+        sessionService.save(new SessionDTO(1L, 3L, 1L,
+                LocalDate.of(2020, 4, 10), LocalTime.of(15, 00)));
+        sessionService.save(new SessionDTO(2L, 2L, 2L,
+                LocalDate.of(2020, 4, 2), LocalTime.of(16, 00)));
+        sessionService.save(new SessionDTO(3L, 1L, 4L,
+                LocalDate.of(2020, 4, 2), LocalTime.of(17, 00)));
+        sessionService.save(new SessionDTO(4L, 4L, 1L,
+                LocalDate.of(2020, 4, 2), LocalTime.of(18, 00)));
+        sessionService.save(new SessionDTO(5L, 2L, 3L,
+                LocalDate.of(2020, 4, 2), LocalTime.of(18, 30)));
+        sessionService.save(new SessionDTO(6L, 2L, 2L,
+                LocalDate.of(2020, 4, 2), LocalTime.of(21, 00)));
+        sessionService.save(new SessionDTO(7L, 2L, 3L,
+                LocalDate.of(2020, 4, 2), LocalTime.of(21, 00)));
 
     }
 
     private void addTickets() {
 
-        ticketService.save(new TicketDTO(1, 4, "adrian.budny@poczta.pl", 4, 10,14.99));
-        ticketService.save(new TicketDTO(2, 4, "filip.chmielewski@poczta.pl", 3, 10, 14.99));
-        ticketService.save(new TicketDTO(3, 4, "filip.chmielewski@poczta.pl", 3, 11, 14.99));
-        ticketService.save(new TicketDTO(4, 2, "boleslaw.sniegowski@poczta.pl", 5, 8, 19.99));
-        ticketService.save(new TicketDTO(5, 2, "boleslaw.sniegowski@poczta.pl", 5, 9, 19.99));
-        ticketService.save(new TicketDTO(6, 1, "sylwester.lis@poczta.pl", 2, 5, 19.99));
-        ticketService.save(new TicketDTO(7, 1, "sylwester.lis@poczta.pl", 2, 6, 19.99));
-        ticketService.save(new TicketDTO(8, 1, "sylwester.lis@poczta.pl", 2, 7, 19.99));
-        ticketService.save(new TicketDTO(9, 1, "boleslaw.sniegowski@poczta.pl", 4, 10, 14.99));
-        ticketService.save(new TicketDTO(10, 6, "marta.fabian@poczta.pl", 3, 6, 14.99));
-        ticketService.save(new TicketDTO(11, 7, "diana.czajka@poczta.pl", 6, 16, 14.99));
-        ticketService.save(new TicketDTO(12, 7, "diana.czajka@poczta.pl", 6, 17, 14.99));
-        ticketService.save(new TicketDTO(13, 5, "filip.chmielewski@poczta.pl", 7, 14, 14.99));
-        ticketService.save(new TicketDTO(14, 5, "filip.chmielewski@poczta.pl", 7, 15, 14.99));
-        ticketService.save(new TicketDTO(15, 1, "marta.fabian@poczta.pl", 4, 11, 14.99));
+        ticketService.save(new TicketDTO(1L, 4L, "adrian.budny@poczta.pl", 4, 10,14.99));
+        ticketService.save(new TicketDTO(2L, 4L, "filip.chmielewski@poczta.pl", 3, 10, 14.99));
+        ticketService.save(new TicketDTO(3L, 4L, "filip.chmielewski@poczta.pl", 3, 11, 14.99));
+        ticketService.save(new TicketDTO(4L, 2L, "boleslaw.sniegowski@poczta.pl", 5, 8, 19.99));
+        ticketService.save(new TicketDTO(5L, 2L, "boleslaw.sniegowski@poczta.pl", 5, 9, 19.99));
+        ticketService.save(new TicketDTO(6L, 1L, "sylwester.lis@poczta.pl", 2, 5, 19.99));
+        ticketService.save(new TicketDTO(7L, 1L, "sylwester.lis@poczta.pl", 2, 6, 19.99));
+        ticketService.save(new TicketDTO(8L, 1L, "sylwester.lis@poczta.pl", 2, 7, 19.99));
+        ticketService.save(new TicketDTO(9L, 1L, "boleslaw.sniegowski@poczta.pl", 4, 10, 14.99));
+        ticketService.save(new TicketDTO(10L, 6L, "marta.fabian@poczta.pl", 3, 6, 14.99));
+        ticketService.save(new TicketDTO(11L, 7L, "diana.czajka@poczta.pl", 6, 16, 14.99));
+        ticketService.save(new TicketDTO(12L, 7L, "diana.czajka@poczta.pl", 6, 17, 14.99));
+        ticketService.save(new TicketDTO(13L, 5L, "filip.chmielewski@poczta.pl", 7, 14, 14.99));
+        ticketService.save(new TicketDTO(14L, 5L, "filip.chmielewski@poczta.pl", 7, 15, 14.99));
+        ticketService.save(new TicketDTO(15L, 1L, "marta.fabian@poczta.pl", 4, 11, 14.99));
 
     }
 
