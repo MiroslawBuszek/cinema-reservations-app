@@ -32,14 +32,14 @@ public class RoomController {
     }
 
     @PutMapping
-    public ResponseEntity<Room> updateById(@RequestParam long id, @Valid @RequestBody Room room) {
+    public ResponseEntity<Room> updateById(@RequestParam Long id, @Valid @RequestBody Room room) {
 
         return new ResponseEntity<>(roomService.updateById(id, room), HttpStatus.CREATED);
 
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteRoom(@RequestParam long id) {
+    public ResponseEntity<?> deleteRoom(@RequestParam Long id) {
 
         roomService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

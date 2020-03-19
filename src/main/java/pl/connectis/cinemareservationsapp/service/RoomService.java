@@ -17,7 +17,6 @@ public class RoomService {
     @Autowired
     private RoomRepository roomRepository;
 
-
     public List<Room> findRoom(Map<String, String> requestParam) {
 
         Room room = new Room();
@@ -37,14 +36,7 @@ public class RoomService {
 
     public boolean roomExists(Long id) {
 
-        Map<String, String> request = new HashMap<>();
-        request.put("id", String.valueOf(id));
-
-        if (findRoom(request).size() == 0) {
-            return false;
-        }
-
-        return true;
+        return roomRepository.findById(id).isPresent();
 
     }
 
@@ -78,7 +70,7 @@ public class RoomService {
 
     private void validateRoomExists(Long id) {
 
-        if (roomExists(id)) {
+        if (!roomExists(id)) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
 
@@ -88,7 +80,7 @@ public class RoomService {
 
         if (!validateCapacity(room)) {
             throw new BadRequestException("capacity does not correspond to layout");
-        } else if (room.getCapacity() == 0) {
+        } else if (room.getCapacity() == null) {
             setCapacityFromLayout(room);
         }
 
