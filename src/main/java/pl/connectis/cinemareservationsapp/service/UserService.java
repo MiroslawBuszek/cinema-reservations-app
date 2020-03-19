@@ -31,6 +31,9 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserMapper userMapper;
+
     public UserDTO createAccount(UserDTO userDTO, boolean isEmployee) {
 
         if (userRepository.findByUsername(userDTO.getUsername()) != null) {
@@ -39,7 +42,6 @@ public class UserService {
 
         userDTO.setEncodedPassword(passwordEncoder.encode(userDTO.getPassword()));
         userDTO.setPassword(null);
-        UserMapper userMapper = new UserMapper();
         User user;
 
         if (isEmployee) {
@@ -59,10 +61,7 @@ public class UserService {
     public UserDTO getLoggedUser() {
 
         User user = userRepository.findByUsername(authenticationFacade.getAuthentication().getName());
-
-        UserMapper userMapper = new UserMapper();
         UserDTO userDTO = userMapper.mapDTOFromEntity(user);
-
         return userDTO;
 
     }
@@ -88,9 +87,6 @@ public class UserService {
             existingUser.setBirthDate(userDTO.getBirthDate());
         }
 
-
-        UserMapper userMapper = new UserMapper();
-
         return userMapper.mapDTOFromEntity(existingUser);
 
     }
@@ -115,7 +111,6 @@ public class UserService {
             userDTO.setBirthDate(LocalDate.parse(requestParam.get("birthDate")));
         }
 
-        UserMapper userMapper = new UserMapper();
         User user = userMapper.mapClientFromDTO(userDTO);
         ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
         Example<User> userExample = Example.of(user, caseInsensitiveExampleMatcher);

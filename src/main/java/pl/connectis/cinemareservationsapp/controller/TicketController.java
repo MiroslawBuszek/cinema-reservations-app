@@ -51,6 +51,7 @@ public class TicketController {
 
         ticketService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
 

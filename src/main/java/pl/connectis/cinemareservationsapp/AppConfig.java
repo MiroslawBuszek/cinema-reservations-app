@@ -1,19 +1,41 @@
 package pl.connectis.cinemareservationsapp;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.connectis.cinemareservationsapp.mapper.SessionMapper;
+import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
+import pl.connectis.cinemareservationsapp.mapper.UserMapper;
 
 @Configuration
 public class AppConfig {
 
     @Bean
-    public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
-        return modelMapper;
+    public SessionMapper sessionMapper() {
+
+        return new SessionMapper();
+
     }
+
+    @Bean
+    public TicketMapper ticketMapper() {
+
+        return new TicketMapper();
+
+    }
+
+    @Bean
+    public UserMapper userMapper() {
+
+        return new UserMapper();
+
+    }
+
+//    @Bean
+//    public ModelMapper modelMapper() {
+//        ModelMapper modelMapper = new ModelMapper();
+//        modelMapper.getConfiguration()
+//                .setMatchingStrategy(MatchingStrategies.LOOSE);
+//        return modelMapper;
+//    }
 
 }
