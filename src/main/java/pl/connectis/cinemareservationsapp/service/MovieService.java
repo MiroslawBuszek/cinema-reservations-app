@@ -1,5 +1,6 @@
 package pl.connectis.cinemareservationsapp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -11,18 +12,14 @@ import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+@Slf4j
 @Service
 public class MovieService {
 
     @Autowired
     MovieRepository movieRepository;
-
-    public Movie findById(long id) {
-
-        return movieRepository.findById(id);
-
-    }
 
     public List<Movie> getMovieByExample(Map<String, String> requestParam) {
 
@@ -61,11 +58,7 @@ public class MovieService {
     @Transactional
     public Movie updateById(long id, Movie movie) {
 
-        Movie existingMovie = movieRepository.findById(id);
-
-        if (existingMovie == null) {
-            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
-        }
+        Movie existingMovie = getMovie(id);
 
         if (movie.getTitle() != null) {
             existingMovie.setTitle(movie.getTitle());
@@ -92,17 +85,24 @@ public class MovieService {
 
     public void deleteById(long id) {
 
-        Movie movie = movieRepository.findById(id);
-
-        if (movie == null) {
-            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
-        }
-
+        getMovie(id);
         movieRepository.deleteById(id);
 
     }
 
     public Movie updateMovie(long id, Movie updatedMovie) {
         return updatedMovie;
+    }
+
+    private Movie getMovie(Long id) {
+
+        Optional<Movie> movieOptional = movieRepository.findById(id);
+
+        if (!movieOptional.isPresent()) {
+            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
+        }
+
+        return movieOptional.get();
+
     }
 }

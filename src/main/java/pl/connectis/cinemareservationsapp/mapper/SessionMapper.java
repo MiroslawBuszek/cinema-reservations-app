@@ -50,7 +50,7 @@ public class SessionMapper {
     public Session mapEntityFromDTO(SessionDTO sessionDTO) {
 
         Session session = new Session();
-        session.setMovie(movieRepository.findById(sessionDTO.getMovieId()));
+        session.setMovie(movieRepository.findById(sessionDTO.getMovieId()).get());
         session.setRoom(roomRepository.findById(sessionDTO.getRoomId()));
         session.setStartTime(sessionDTO.getStartTime());
         session.setStartDate(sessionDTO.getStartDate());

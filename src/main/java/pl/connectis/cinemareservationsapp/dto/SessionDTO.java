@@ -16,7 +16,7 @@ public class SessionDTO {
 
     private long id;
 
-    private long movieId;
+    private Long movieId;
 
     private long roomId;
 

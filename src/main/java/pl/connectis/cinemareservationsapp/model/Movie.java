@@ -13,7 +13,7 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -21,11 +21,11 @@ public class Movie {
     private String category;
 
     @Column(nullable = false)
-    private int length;
+    private Integer length;
 
     private String description;
 
     @Column(nullable = false)
-    private int ageLimit;
+    private Integer ageLimit;
 
 }
