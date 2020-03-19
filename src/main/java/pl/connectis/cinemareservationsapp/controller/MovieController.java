@@ -33,15 +33,16 @@ public class MovieController {
     }
 
     @PutMapping
-    public ResponseEntity<Movie> updateMovie(@RequestParam long id, @Valid @RequestBody Movie movie) {
+    public ResponseEntity<Movie> updateMovie(@RequestParam Long id, @Valid @RequestBody Movie movie) {
 
         return new ResponseEntity<>(movieService.updateById(id, movie), HttpStatus.CREATED);
 
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteMovie(@RequestParam long id) {
+    public ResponseEntity<?> deleteMovie(@RequestParam Long id) {
 
+        movieService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
