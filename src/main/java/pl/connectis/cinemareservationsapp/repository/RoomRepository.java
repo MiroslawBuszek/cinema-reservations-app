@@ -6,12 +6,13 @@ import org.springframework.stereotype.Repository;
 import pl.connectis.cinemareservationsapp.model.Room;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
     List<Room> findAll(Example example);
 
-    Room findById(long id);
+    Optional<Room> findById(Long id);
 
 }

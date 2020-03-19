@@ -16,9 +16,9 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private int capacity;
+    private Integer capacity;
 
     @Column(nullable = false)
     private String layout;

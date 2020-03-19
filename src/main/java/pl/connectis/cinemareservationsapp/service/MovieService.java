@@ -56,7 +56,7 @@ public class MovieService {
     }
 
     @Transactional
-    public Movie updateById(long id, Movie movie) {
+    public Movie updateById(Long id, Movie movie) {
 
         Movie existingMovie = getMovie(id);
 
@@ -83,14 +83,14 @@ public class MovieService {
         return existingMovie;
     }
 
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
 
         getMovie(id);
         movieRepository.deleteById(id);
 
     }
 
-    public Movie updateMovie(long id, Movie updatedMovie) {
+    public Movie updateMovie(Long id, Movie updatedMovie) {
         return updatedMovie;
     }
 

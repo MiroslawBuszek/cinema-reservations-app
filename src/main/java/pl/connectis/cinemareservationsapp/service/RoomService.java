@@ -26,12 +26,16 @@ public class RoomService {
             room.setId(Long.parseLong(requestParam.get("id")));
         }
 
+        if (requestParam.containsKey("capacity")) {
+            room.setCapacity(Integer.parseInt(requestParam.get("capacity")));
+        }
+
         Example<Room> roomExample = Example.of(room);
         return roomRepository.findAll(roomExample);
 
     }
 
-    public boolean roomExists(long id) {
+    public boolean roomExists(Long id) {
 
         Map<String, String> request = new HashMap<>();
         request.put("id", String.valueOf(id));
@@ -52,12 +56,12 @@ public class RoomService {
     }
 
     @Transactional
-    public Room updateById(long id, Room room) {
+    public Room updateById(Long id, Room room) {
 
         validateRoomExists(id);
         validateRoom(room);
 
-        Room existingRoom = roomRepository.findById(id);
+        Room existingRoom = getRoom(id);
         if (room.getLayout() != null) {
             existingRoom.setLayout(room.getLayout());
         }
@@ -65,14 +69,14 @@ public class RoomService {
         return existingRoom;
     }
 
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
 
         validateRoomExists(id);
         roomRepository.deleteById(id);
 
     }
 
-    private void validateRoomExists(long id) {
+    private void validateRoomExists(Long id) {
 
         if (roomExists(id)) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
@@ -131,6 +135,18 @@ public class RoomService {
         }
 
         return layoutIntegerList;
+
+    }
+
+    private Room getRoom(Long id) {
+
+        Optional<Room> roomOptional = roomRepository.findById(id);
+
+        if (!roomOptional.isPresent()) {
+            throw new ResourceNotFoundException("room {id=" + id + "} was not found");
+        }
+
+        return roomOptional.get();
 
     }
 

@@ -51,7 +51,7 @@ public class SessionMapper {
 
         Session session = new Session();
         session.setMovie(movieRepository.findById(sessionDTO.getMovieId()).get());
-        session.setRoom(roomRepository.findById(sessionDTO.getRoomId()));
+        session.setRoom(roomRepository.findById(sessionDTO.getRoomId()).get());
         session.setStartTime(sessionDTO.getStartTime());
         session.setStartDate(sessionDTO.getStartDate());
         return session;

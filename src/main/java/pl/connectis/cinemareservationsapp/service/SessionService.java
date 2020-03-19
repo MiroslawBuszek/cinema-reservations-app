@@ -85,7 +85,7 @@ public class SessionService {
 
         if (sessionDTO.getRoomId() != 0) {
             validateRoomExists(sessionDTO.getRoomId());
-            existingSession.setRoom(roomRepository.findById(sessionDTO.getRoomId()));
+            existingSession.setRoom(roomRepository.findById(sessionDTO.getRoomId()).get());
         }
 
         if (sessionDTO.getMovieId() != null) {
