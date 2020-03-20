@@ -147,19 +147,19 @@ public class CommandLineRunnerInit implements CommandLineRunner {
     private void addSessions() {
 
         sessionService.save(new SessionDTO(1L, 3L, 1L,
-                LocalDate.of(2020, 4, 10), LocalTime.of(15, 00)));
+                LocalDate.of(2020, 4, 10), LocalTime.of(15, 00), 14.99));
         sessionService.save(new SessionDTO(2L, 2L, 2L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(16, 00)));
+                LocalDate.of(2020, 4, 2), LocalTime.of(16, 00), 14.99));
         sessionService.save(new SessionDTO(3L, 1L, 4L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(17, 00)));
+                LocalDate.of(2020, 4, 2), LocalTime.of(17, 00), 14.99));
         sessionService.save(new SessionDTO(4L, 4L, 1L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(18, 00)));
+                LocalDate.of(2020, 4, 2), LocalTime.of(18, 00), 14.99));
         sessionService.save(new SessionDTO(5L, 2L, 3L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(18, 30)));
+                LocalDate.of(2020, 4, 2), LocalTime.of(18, 30), 14.99));
         sessionService.save(new SessionDTO(6L, 2L, 2L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(21, 00)));
+                LocalDate.of(2020, 4, 2), LocalTime.of(21, 00), 14.99));
         sessionService.save(new SessionDTO(7L, 2L, 3L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(21, 00)));
+                LocalDate.of(2020, 4, 2), LocalTime.of(21, 00), 14.99));
 
     }
 

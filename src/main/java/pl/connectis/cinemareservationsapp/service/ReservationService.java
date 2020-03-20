@@ -119,7 +119,7 @@ public class ReservationService {
         return ticketMapper.mapDTOFromEntity(ticketRepository.saveAll(ticketsForReservation));
 
     }
-    
+
     public void reserveSeat(Ticket ticket) {
 
         Session session = ticket.getSession();

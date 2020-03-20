@@ -72,7 +72,7 @@ public class TicketMapper {
             ticketDTO.setClient(username);
             ticketDTO.setRowNumber(seat.getRowNumber());
             ticketDTO.setSeatNumber(seat.getSeatNumber());
-            ticketDTO.setPrice(14.99);
+            ticketDTO.setPrice(sessionRepository.findById(reservationDTO.getSessionId()).get().getTicketPrice());
             tickets.add(mapEntityFromDTO(ticketDTO));
         }
 

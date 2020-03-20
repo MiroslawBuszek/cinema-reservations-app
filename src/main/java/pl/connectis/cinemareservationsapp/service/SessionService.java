@@ -55,6 +55,10 @@ public class SessionService {
             sessionDTO.setStartTime(LocalTime.parse(requestParams.get("time")));
         }
 
+        if (requestParams.containsKey("price")) {
+            sessionDTO.setTicketPrice(Double.parseDouble(requestParams.get("price")));
+        }
+
         Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
         Example<Session> sessionExample = Example.of(session);
         return sessionMapper.mapDTOFromEntity(sessionRepository.findAll(sessionExample));
@@ -96,6 +100,10 @@ public class SessionService {
 
         if (validateStartTime(sessionDTO)) {
             existingSession.setStartTime(sessionDTO.getStartTime());
+        }
+
+        if (sessionDTO.getTicketPrice() != null) {
+            existingSession.setTicketPrice(sessionDTO.getTicketPrice());
         }
 
         return sessionMapper.mapDTOFromEntity(existingSession);

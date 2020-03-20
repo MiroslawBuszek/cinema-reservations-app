@@ -24,5 +24,7 @@ public class SessionDTO {
 
     private LocalTime startTime;
 
+    private Double ticketPrice;
+
 }
 

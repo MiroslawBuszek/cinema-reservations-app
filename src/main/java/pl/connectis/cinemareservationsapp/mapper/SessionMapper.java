@@ -29,6 +29,7 @@ public class SessionMapper {
         }
         sessionDTO.setStartDate(session.getStartDate());
         sessionDTO.setStartTime(session.getStartTime());
+        sessionDTO.setTicketPrice(session.getTicketPrice());
         return sessionDTO;
 
     }
@@ -58,6 +59,7 @@ public class SessionMapper {
         }
         session.setStartTime(sessionDTO.getStartTime());
         session.setStartDate(sessionDTO.getStartDate());
+        session.setTicketPrice(sessionDTO.getTicketPrice());
         return session;
 
     }
