@@ -15,7 +15,7 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -26,12 +26,12 @@ public class Ticket {
     private User user;
 
     @Column(nullable = false)
-    private int rowNumber;
+    private Integer rowNumber;
 
     @Column(nullable = false)
-    private int seatNumber;
+    private Integer seatNumber;
 
     @Column(nullable = false)
-    private double price;
+    private Double price;
 
 }

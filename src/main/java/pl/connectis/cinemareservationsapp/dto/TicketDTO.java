@@ -11,16 +11,16 @@ import lombok.Setter;
 @Getter
 public class TicketDTO {
 
-    private long id;
+    private Long id;
 
-    private long sessionId;
+    private Long sessionId;
 
     private String client;
 
-    private int rowNumber;
+    private Integer rowNumber;
 
-    private int seatNumber;
+    private Integer seatNumber;
 
-    private double price;
+    private Double price;
 
 }

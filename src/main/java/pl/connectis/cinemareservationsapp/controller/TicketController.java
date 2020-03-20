@@ -5,10 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
-import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.service.TicketService;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +17,7 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    @GetMapping("/myticket")
+    @GetMapping("/mytickets")
     public ResponseEntity<List<TicketDTO>> getTicketById(@RequestParam Map<String, String> requestParam) {
 
         return new ResponseEntity<>(ticketService.getMyTicketsByExample(requestParam), HttpStatus.OK);
@@ -33,6 +31,7 @@ public class TicketController {
 
     }
 
+    // TODO: implement adding of multiple tickets with validation
     @PostMapping
     public ResponseEntity<TicketDTO> addTicket(@RequestBody TicketDTO ticketDTO) {
 
@@ -40,14 +39,8 @@ public class TicketController {
 
     }
 
-    // TODO: implement adding of multiple tickets with validation
-    @PostMapping("/many")
-    public Iterable<Ticket> addTicketList(@Valid @RequestBody Iterable<Ticket> ticketList) {
-        return ticketService.saveAll(ticketList);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<?> deleteTicket(@RequestParam long id) {
+    @DeleteMapping("/ticket")
+    public ResponseEntity<?> deleteTicket(@RequestParam Long id) {
 
         ticketService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

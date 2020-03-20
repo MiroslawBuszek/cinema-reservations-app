@@ -6,12 +6,13 @@ import org.springframework.stereotype.Repository;
 import pl.connectis.cinemareservationsapp.model.Ticket;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findAll(Example example);
 
-    Ticket findById(long id);
+    Optional<Ticket> findById(Long id);
 
 }

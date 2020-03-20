@@ -1,7 +1,9 @@
 package pl.connectis.cinemareservationsapp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class TicketService {
 
@@ -45,15 +48,18 @@ public class TicketService {
             ticketDTO.setId(Long.parseLong(requestParam.get("id")));
         }
 
-        if (requestParam.containsKey("sessionId")) {
-            ticketDTO.setSessionId(Long.parseLong(requestParam.get("sessionId")));
+        if (requestParam.containsKey("session")) {
+            ticketDTO.setSessionId(Long.parseLong(requestParam.get("session")));
         }
 
         if (requestParam.containsKey("client")) {
-            ticketDTO.setSessionId(Long.parseLong(requestParam.get("client")));
+            ticketDTO.setClient(requestParam.get("client"));
         }
 
-        Example<Ticket> ticketExample = Example.of(ticketMapper.mapEntityFromDTO(ticketDTO));
+        Ticket ticket = ticketMapper.mapEntityFromDTO(ticketDTO);
+        log.info(ticketDTO.toString());
+        ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
+        Example<Ticket> ticketExample = Example.of(ticket, caseInsensitiveExampleMatcher);
         return ticketMapper.mapDTOFromEntity(ticketRepository.findAll(ticketExample));
 
     }
@@ -68,13 +74,6 @@ public class TicketService {
 
         requestParam.put("client", client);
         return getTicketsByExample(requestParam);
-
-    }
-
-
-    public Ticket findById(long ticketId) {
-
-        return ticketRepository.findById(ticketId);
 
     }
 
@@ -95,7 +94,7 @@ public class TicketService {
 
     }
 
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
 
         validateTicketExists(id);
         ticketRepository.deleteById(id);
@@ -133,16 +132,16 @@ public class TicketService {
 
     }
 
-    private void validateTicketExists(long ticketId) {
+    private void validateTicketExists(Long ticketId) {
 
-        if (ticketRepository.findById(ticketId) == null) {
+        if (!ticketRepository.findById(ticketId).isPresent()) {
             throw new ResourceNotFoundException("ticket {id=" + ticketId + "} was not found");
         }
 
     }
-    private void validateSessionExists(long sessionId) {
+    private void validateSessionExists(Long sessionId) {
 
-        if (sessionRepository.findById(sessionId) == null) {
+        if (!sessionRepository.findById(sessionId).isPresent()) {
             throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
         }
 

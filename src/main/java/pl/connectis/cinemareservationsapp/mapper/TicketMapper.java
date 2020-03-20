@@ -46,8 +46,12 @@ public class TicketMapper {
     public Ticket mapEntityFromDTO(TicketDTO ticketDTO) {
 
         Ticket ticket = new Ticket();
-        ticket.setUser(userRepository.findByUsername(ticketDTO.getClient()));
-        ticket.setSession(sessionRepository.findById(ticketDTO.getSessionId()).get());
+        if (ticketDTO.getClient() != null) {
+            ticket.setUser(userRepository.findByUsername(ticketDTO.getClient()));
+        }
+        if (ticketDTO.getSessionId() != null) {
+            ticket.setSession(sessionRepository.findById(ticketDTO.getSessionId()).get());
+        }
         ticket.setRowNumber(ticketDTO.getRowNumber());
         ticket.setSeatNumber(ticketDTO.getSeatNumber());
         ticket.setPrice(ticketDTO.getPrice());
