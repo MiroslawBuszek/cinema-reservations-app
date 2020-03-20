@@ -80,10 +80,9 @@ public class SessionService {
     @Transactional
     public SessionDTO updateById(SessionDTO sessionDTO) {
 
-        validateSessionExists(sessionDTO.getId());
-        Session existingSession = sessionRepository.findById(sessionDTO.getId());
+        Session existingSession = getSession(sessionDTO.getId());
 
-        if (sessionDTO.getRoomId() != 0) {
+        if (sessionDTO.getRoomId() != null) {
             validateRoomExists(sessionDTO.getRoomId());
             existingSession.setRoom(roomRepository.findById(sessionDTO.getRoomId()).get());
         }
@@ -101,32 +100,32 @@ public class SessionService {
         return sessionMapper.mapDTOFromEntity(existingSession);
     }
 
-    public void deleteById(long sessionId) {
+    public void deleteById(Long sessionId) {
 
         validateSessionExists(sessionId);
         sessionRepository.deleteById(sessionId);
 
     }
 
-    private void validateSessionExists(long sessionId) {
+    private void validateSessionExists(Long sessionId) {
 
-        if (sessionRepository.findById(sessionId) == null) {
+        if (!sessionRepository.findById(sessionId).isPresent()) {
             throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
         }
 
     }
 
-    private void validateRoomExists(long roomId) {
+    private void validateRoomExists(Long roomId) {
 
-        if (roomRepository.findById(roomId) == null) {
+        if (!roomRepository.findById(roomId).isPresent()) {
             throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
         }
 
     }
 
-    private void validateMovieExists(long movieId) {
+    private void validateMovieExists(Long movieId) {
 
-        if (movieRepository.findById(movieId) == null) {
+        if (!movieRepository.findById(movieId).isPresent()) {
             throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
         }
 
@@ -143,12 +142,12 @@ public class SessionService {
 
 
 
-    public List<SeatDTO> getSeats(long id) {
+    public List<SeatDTO> getSeats(Long sessionId) {
 
-        validateSessionExists(id);
+        validateSessionExists(sessionId);
         List<SeatDTO> seats = new ArrayList<>();
-        List<Integer> reservedSeats = sessionRepository.findById(id).getReservedSeats();
-        List<Integer> layoutList = getLayoutList(sessionRepository.findById(id).getRoom().getLayout());
+        List<Integer> reservedSeats = getSession(sessionId).getReservedSeats();
+        List<Integer> layoutList = getLayoutList(getSession(sessionId).getRoom().getLayout());
 
         for (int i = 1; i < (layoutList.size() + 1 ); i++) {
 
@@ -183,6 +182,18 @@ public class SessionService {
         }
 
         return layoutIntegerList;
+
+    }
+
+    private Session getSession(Long sessionId) {
+
+        Optional<Session> sessionOptional = sessionRepository.findById(sessionId);
+
+        if (!sessionOptional.isPresent()) {
+            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+        }
+
+        return sessionOptional.get();
 
     }
 

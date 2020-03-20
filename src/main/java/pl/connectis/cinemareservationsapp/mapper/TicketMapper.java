@@ -47,7 +47,7 @@ public class TicketMapper {
 
         Ticket ticket = new Ticket();
         ticket.setUser(userRepository.findByUsername(ticketDTO.getClient()));
-        ticket.setSession(sessionRepository.findById(ticketDTO.getSessionId()));
+        ticket.setSession(sessionRepository.findById(ticketDTO.getSessionId()).get());
         ticket.setRowNumber(ticketDTO.getRowNumber());
         ticket.setSeatNumber(ticketDTO.getSeatNumber());
         ticket.setPrice(ticketDTO.getPrice());

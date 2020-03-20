@@ -14,11 +14,11 @@ import java.time.LocalTime;
 @Getter
 public class SessionDTO {
 
-    private long id;
+    private Long id;
 
     private Long movieId;
 
-    private long roomId;
+    private Long roomId;
 
     private LocalDate startDate;
 

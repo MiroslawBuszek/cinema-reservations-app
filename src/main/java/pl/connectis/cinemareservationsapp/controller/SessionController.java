@@ -26,7 +26,7 @@ public class SessionController {
     }
 
     @GetMapping("/seats")
-    public ResponseEntity<List<SeatDTO>> getSeats(@RequestParam long id) {
+    public ResponseEntity<List<SeatDTO>> getSeats(@RequestParam Long id) {
 
         return new ResponseEntity<>(sessionService.getSeats(id), HttpStatus.OK);
 
@@ -47,7 +47,7 @@ public class SessionController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteSession(@RequestParam long id) {
+    public ResponseEntity<?> deleteSession(@RequestParam Long id) {
 
         sessionService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

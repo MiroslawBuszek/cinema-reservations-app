@@ -18,7 +18,7 @@ public class Session {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -28,7 +28,7 @@ public class Session {
     @JoinColumn(nullable = false)
     private Room room;
 
-    private ArrayList<Integer> reservedSeats = new ArrayList<>();
+    private ArrayList<Integer> reservedSeats;
 
     @Column(nullable = false)
     private LocalDate startDate;

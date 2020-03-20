@@ -17,6 +17,7 @@ import pl.connectis.cinemareservationsapp.security.IAuthenticationFacade;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class TicketService {
@@ -104,7 +105,7 @@ public class TicketService {
 
     public void reserveSeat(TicketDTO ticketDTO) {
 
-        Session session = sessionRepository.findById(ticketDTO.getSessionId());
+        Session session = getSession(ticketDTO.getSessionId());
         List<Integer> reservedSeats = session.getReservedSeats();
         reservedSeats.add(ticketDTO.getRowNumber() * 1000 + ticketDTO.getSeatNumber());
 
@@ -123,7 +124,7 @@ public class TicketService {
 
     private void validateSeatUnoccupied(TicketDTO ticketDTO) {
         int ticketNumber = ticketDTO.getRowNumber() * 1000 + ticketDTO.getSeatNumber();
-        List<Integer> reservedSeats = sessionRepository.findById(ticketDTO.getSessionId()).getReservedSeats();
+        List<Integer> reservedSeats = getSession(ticketDTO.getSessionId()).getReservedSeats();
 
         if (reservedSeats.contains(ticketNumber)) {
             throw new BadRequestException("seat " + ticketDTO.getSeatNumber() +
@@ -153,6 +154,18 @@ public class TicketService {
             throw new ResourceNotFoundException("user {username=" + username + "} was not found");
 
         }
+
+    }
+
+    private Session getSession(Long sessionId) {
+
+        Optional<Session> sessionOptional = sessionRepository.findById(sessionId);
+
+        if (!sessionOptional.isPresent()) {
+            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+        }
+
+        return sessionOptional.get();
 
     }
 
