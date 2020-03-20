@@ -92,12 +92,44 @@ public class SessionService {
             existingSession.setMovie(movieRepository.findById(sessionDTO.getMovieId()).get());
         }
 
-        if (sessionDTO.getStartDate() != null && sessionDTO.getStartTime() != null) {
-            validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
+        if (validateStartDate(sessionDTO)) {
+            existingSession.setStartDate(sessionDTO.getStartDate());
+        }
+
+        if (validateStartTime(sessionDTO)) {
             existingSession.setStartTime(sessionDTO.getStartTime());
         }
 
         return sessionMapper.mapDTOFromEntity(existingSession);
+    }
+
+    private boolean validateStartDate(SessionDTO sessionDTO) {
+
+        if (sessionDTO.getStartDate() != null && sessionDTO.getStartDate().isAfter(LocalDate.now())) {
+            return true;
+        }
+        return false;
+
+    }
+
+    private boolean validateStartTime(SessionDTO sessionDTO) {
+
+        LocalTime startTime = sessionDTO.getStartTime();
+
+        if (startTime == null) {
+            return false;
+        }
+
+        LocalDate startDate = sessionDTO.getStartDate();
+
+        if (startDate == null) {
+            startDate = getSession(sessionDTO.getId()).getStartDate();
+        }
+
+        LocalDateTime startDataTime = LocalDateTime.of(startDate, startTime);
+
+        return startDataTime.isAfter(LocalDateTime.now());
+
     }
 
     public void deleteById(Long sessionId) {
@@ -139,8 +171,6 @@ public class SessionService {
         }
 
     }
-
-
 
     public List<SeatDTO> getSeats(Long sessionId) {
 
