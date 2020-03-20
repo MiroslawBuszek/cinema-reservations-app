@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.service.SessionService;
 
@@ -22,13 +21,6 @@ public class SessionController {
     public ResponseEntity<List<SessionDTO>> getSessionsByExample(@RequestParam Map<String, String> requestParams) {
 
         return new ResponseEntity<>(sessionService.getSessionsByExample(requestParams), HttpStatus.OK);
-
-    }
-
-    @GetMapping("/seats")
-    public ResponseEntity<List<SeatDTO>> getSeats(@RequestParam Long id) {
-
-        return new ResponseEntity<>(sessionService.getSeats(id), HttpStatus.OK);
 
     }
 

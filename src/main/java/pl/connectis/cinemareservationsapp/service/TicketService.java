@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
-import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
 import pl.connectis.cinemareservationsapp.model.Session;
@@ -77,20 +75,10 @@ public class TicketService {
 
     }
 
-    public Ticket save(Ticket ticket) {
-        return ticketRepository.save(ticket);
-    }
-
     public TicketDTO save(TicketDTO ticketDTO) {
 
-        save(ticketMapper.mapEntityFromDTO(ticketDTO));
+        ticketRepository.save(ticketMapper.mapEntityFromDTO(ticketDTO));
         return ticketDTO;
-
-    }
-
-    public Iterable<Ticket> saveAll(Iterable<Ticket> ticketList) {
-
-        return ticketRepository.saveAll(ticketList);
 
     }
 
@@ -101,57 +89,10 @@ public class TicketService {
 
     }
 
-
-    public void reserveSeat(TicketDTO ticketDTO) {
-
-        Session session = getSession(ticketDTO.getSessionId());
-        List<Integer> reservedSeats = session.getReservedSeats();
-        reservedSeats.add(ticketDTO.getRowNumber() * 1000 + ticketDTO.getSeatNumber());
-
-    }
-
-    @Transactional
-    public TicketDTO makeReservation(TicketDTO ticketDTO) {
-
-        validateUserExists(ticketDTO.getClient());
-        validateSessionExists(ticketDTO.getSessionId());
-        validateSeatUnoccupied(ticketDTO);
-        reserveSeat(ticketDTO);
-        return save(ticketDTO);
-
-    }
-
-    private void validateSeatUnoccupied(TicketDTO ticketDTO) {
-        int ticketNumber = ticketDTO.getRowNumber() * 1000 + ticketDTO.getSeatNumber();
-        List<Integer> reservedSeats = getSession(ticketDTO.getSessionId()).getReservedSeats();
-
-        if (reservedSeats.contains(ticketNumber)) {
-            throw new BadRequestException("seat " + ticketDTO.getSeatNumber() +
-                " in row " + ticketDTO.getRowNumber() + " is reserved");
-        }
-
-    }
-
     private void validateTicketExists(Long ticketId) {
 
         if (!ticketRepository.findById(ticketId).isPresent()) {
             throw new ResourceNotFoundException("ticket {id=" + ticketId + "} was not found");
-        }
-
-    }
-    private void validateSessionExists(Long sessionId) {
-
-        if (!sessionRepository.findById(sessionId).isPresent()) {
-            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
-        }
-
-    }
-
-    private void validateUserExists(String username) {
-
-        if (userRepository.findByUsername(username) == null) {
-            throw new ResourceNotFoundException("user {username=" + username + "} was not found");
-
         }
 
     }

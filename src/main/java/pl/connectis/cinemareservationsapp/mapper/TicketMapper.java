@@ -1,6 +1,8 @@
 package pl.connectis.cinemareservationsapp.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.connectis.cinemareservationsapp.dto.ReservationDTO;
+import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
 import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
@@ -56,6 +58,25 @@ public class TicketMapper {
         ticket.setSeatNumber(ticketDTO.getSeatNumber());
         ticket.setPrice(ticketDTO.getPrice());
         return ticket;
+
+    }
+
+    public List<Ticket> mapTicketsFromReservationDTO(ReservationDTO reservationDTO, String username) {
+
+        List<Ticket> tickets = new ArrayList<>();
+        List<SeatDTO> seats = reservationDTO.getReservedSeats();
+
+        for (SeatDTO seat : seats) {
+            TicketDTO ticketDTO = new TicketDTO();
+            ticketDTO.setSessionId(reservationDTO.getSessionId());
+            ticketDTO.setClient(username);
+            ticketDTO.setRowNumber(seat.getRowNumber());
+            ticketDTO.setSeatNumber(seat.getSeatNumber());
+            ticketDTO.setPrice(14.99);
+            tickets.add(mapEntityFromDTO(ticketDTO));
+        }
+
+        return tickets;
 
     }
 

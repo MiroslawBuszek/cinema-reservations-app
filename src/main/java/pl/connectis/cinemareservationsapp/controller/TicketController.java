@@ -31,14 +31,6 @@ public class TicketController {
 
     }
 
-    // TODO: implement adding of multiple tickets with validation
-    @PostMapping
-    public ResponseEntity<TicketDTO> addTicket(@RequestBody TicketDTO ticketDTO) {
-
-        return new ResponseEntity<>(ticketService.makeReservation(ticketDTO), HttpStatus.CREATED);
-
-    }
-
     @DeleteMapping("/ticket")
     public ResponseEntity<?> deleteTicket(@RequestParam Long id) {
 

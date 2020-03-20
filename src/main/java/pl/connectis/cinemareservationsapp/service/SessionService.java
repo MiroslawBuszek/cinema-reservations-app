@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
@@ -62,17 +61,16 @@ public class SessionService {
 
     }
 
-    public Session save(Session session) {
-        return sessionRepository.save(session);
-    }
-
     public SessionDTO save(SessionDTO sessionDTO) {
 
         validateMovieExists(sessionDTO.getMovieId());
         validateRoomExists(sessionDTO.getRoomId());
         validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
         Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
-        save(session);
+        if (session.getReservedSeats() == null) {
+            session.setReservedSeats(new ArrayList<>());
+        }
+        sessionRepository.save(session);
         return sessionMapper.mapDTOFromEntity(session);
 
     }
@@ -169,49 +167,6 @@ public class SessionService {
         if (startDataTime.isBefore(LocalDateTime.now())) {
             throw new BadRequestException("start time should be in future");
         }
-
-    }
-
-    public List<SeatDTO> getSeats(Long sessionId) {
-
-        validateSessionExists(sessionId);
-        List<SeatDTO> seats = new ArrayList<>();
-        List<Integer> reservedSeats = getSession(sessionId).getReservedSeats();
-        List<Integer> layoutList = getLayoutList(getSession(sessionId).getRoom().getLayout());
-
-        for (int i = 1; i < (layoutList.size() + 1 ); i++) {
-
-            for (int j = 1; j < (layoutList.get(i - 1) + 1); j++) {
-
-                int seatAddress = i * 1000 + j;
-
-                if (reservedSeats.contains(seatAddress)) {
-                    seats.add(new SeatDTO(i, j, true));
-                } else {
-                    seats.add(new SeatDTO(i, j, false));
-                }
-
-            }
-
-        }
-
-        return seats;
-
-    }
-
-    private List<Integer> getLayoutList(String layout) {
-
-        List<String> layoutStringList;
-        List<Integer> layoutIntegerList = new ArrayList<>();
-        layoutStringList = Arrays.asList(layout.split(","));
-
-        for (String rowCapacityString : layoutStringList) {
-
-            layoutIntegerList.add(Integer.parseInt(rowCapacityString));
-
-        }
-
-        return layoutIntegerList;
 
     }
 
