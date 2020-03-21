@@ -2,10 +2,10 @@ package pl.connectis.cinemareservationsapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.connectis.cinemareservationsapp.dto.ReservationDTO;
+import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
-import pl.connectis.cinemareservationsapp.dto.TicketDTO;
 import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.model.Room;
@@ -13,13 +13,12 @@ import pl.connectis.cinemareservationsapp.service.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 @Service
 public class CommandLineRunnerInit implements CommandLineRunner {
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @Autowired
     UserService userService;
@@ -34,8 +33,7 @@ public class CommandLineRunnerInit implements CommandLineRunner {
     SessionService sessionService;
 
     @Autowired
-    TicketService ticketService;
-
+    ReservationService reservationService;
 
     @Override
     public void run(String... args) {
@@ -165,21 +163,30 @@ public class CommandLineRunnerInit implements CommandLineRunner {
 
     private void addTickets() {
 
-        ticketService.save(new TicketDTO(1L, 4L, "adrian.budny@poczta.pl", 4, 10,14.99));
-        ticketService.save(new TicketDTO(2L, 4L, "filip.chmielewski@poczta.pl", 3, 10, 14.99));
-        ticketService.save(new TicketDTO(3L, 4L, "filip.chmielewski@poczta.pl", 3, 11, 14.99));
-        ticketService.save(new TicketDTO(4L, 2L, "boleslaw.sniegowski@poczta.pl", 5, 8, 19.99));
-        ticketService.save(new TicketDTO(5L, 2L, "boleslaw.sniegowski@poczta.pl", 5, 9, 19.99));
-        ticketService.save(new TicketDTO(6L, 1L, "sylwester.lis@poczta.pl", 2, 5, 19.99));
-        ticketService.save(new TicketDTO(7L, 1L, "sylwester.lis@poczta.pl", 2, 6, 19.99));
-        ticketService.save(new TicketDTO(8L, 1L, "sylwester.lis@poczta.pl", 2, 7, 19.99));
-        ticketService.save(new TicketDTO(9L, 1L, "boleslaw.sniegowski@poczta.pl", 4, 10, 14.99));
-        ticketService.save(new TicketDTO(10L, 6L, "marta.fabian@poczta.pl", 3, 6, 14.99));
-        ticketService.save(new TicketDTO(11L, 7L, "diana.czajka@poczta.pl", 6, 16, 14.99));
-        ticketService.save(new TicketDTO(12L, 7L, "diana.czajka@poczta.pl", 6, 17, 14.99));
-        ticketService.save(new TicketDTO(13L, 5L, "filip.chmielewski@poczta.pl", 7, 14, 14.99));
-        ticketService.save(new TicketDTO(14L, 5L, "filip.chmielewski@poczta.pl", 7, 15, 14.99));
-        ticketService.save(new TicketDTO(15L, 1L, "marta.fabian@poczta.pl", 4, 11, 14.99));
+        reservationService.makeReservation(new ReservationDTO(4L, new ArrayList<>(Arrays.asList(
+                new SeatDTO(4, 10, false)))), "adrian.budny@poczta.pl");
+        reservationService.makeReservation(new ReservationDTO(4L, new ArrayList<>(Arrays.asList(
+                new SeatDTO(3, 10, false),
+                new SeatDTO(3, 11, false)))), "filip.chmielewski@poczta.pl");
+        reservationService.makeReservation(new ReservationDTO(2L, new ArrayList<>(Arrays.asList(
+                new SeatDTO(5, 8, false),
+                new SeatDTO(5, 9, false)))), "boleslaw.sniegowski@poczta.pl");
+        reservationService.makeReservation(new ReservationDTO(1L, new ArrayList<>(Arrays.asList(
+                new SeatDTO(2, 5, false),
+                new SeatDTO(2, 6, false),
+                new SeatDTO(2, 7, false)))), "sylwester.lis@poczta.pl");
+        reservationService.makeReservation(new ReservationDTO(1L, new ArrayList<>(Arrays.asList(
+                new SeatDTO(4, 10, false)))), "boleslaw.sniegowski@poczta.pl");
+        reservationService.makeReservation(new ReservationDTO(6L, new ArrayList<>(Arrays.asList(
+                new SeatDTO(3, 6, false)))), "marta.fabian@poczta.pl");
+        reservationService.makeReservation(new ReservationDTO(7L, new ArrayList<>(Arrays.asList(
+                new SeatDTO(6, 16, false),
+                new SeatDTO(6, 17, false)))), "diana.czajka@poczta.pl");
+        reservationService.makeReservation(new ReservationDTO(5L, new ArrayList<>(Arrays.asList(
+                new SeatDTO(7, 14, false),
+                new SeatDTO(7, 15, false)))), "filip.chmielewski@poczta.pl");
+        reservationService.makeReservation(new ReservationDTO(1L, new ArrayList<>(Arrays.asList(
+                new SeatDTO(4, 11, false)))), "marta.fabian@poczta.pl");
 
     }
 

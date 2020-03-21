@@ -45,7 +45,6 @@ public class ReservationService {
 
         List<SeatDTO> seats = new ArrayList<>();
         List<Integer> reservedSeats = getSession(sessionId).getReservedSeats();
-        log.info(reservedSeats.toString());
         List<Integer> layoutList = getLayoutList(getSession(sessionId).getRoom().getLayout());
 
         for (int i = 1; i < (layoutList.size() + 1 ); i++) {
@@ -95,8 +94,13 @@ public class ReservationService {
 
     }
 
-    @Transactional
     public List<TicketDTO> makeReservation(ReservationDTO reservationDTO) {
+        String username = authenticationFacade.getAuthentication().getName();
+        return makeReservation(reservationDTO, username);
+    }
+
+    @Transactional
+    public List<TicketDTO> makeReservation(ReservationDTO reservationDTO, String username) {
 
         validateSessionExists(reservationDTO.getSessionId());
 
@@ -111,7 +115,7 @@ public class ReservationService {
             }
         }
 
-        String username = authenticationFacade.getAuthentication().getName();
+
         List<Ticket> ticketsForReservation = ticketMapper.mapTicketsFromReservationDTO(reservationDTO, username);
         for (Ticket ticket : ticketsForReservation) {
             reserveSeat(ticket);
@@ -120,7 +124,7 @@ public class ReservationService {
 
     }
 
-    public void reserveSeat(Ticket ticket) {
+    private void reserveSeat(Ticket ticket) {
 
         Session session = ticket.getSession();
         ArrayList<Integer> reservedSeats = session.getReservedSeats();
