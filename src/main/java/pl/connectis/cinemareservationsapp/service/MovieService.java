@@ -68,7 +68,7 @@ public class MovieService {
             existingMovie.setCategory(movie.getCategory());
         }
 
-        if (movie.getLength() != 0) {
+        if (movie.getLength() != null) {
             existingMovie.setLength(movie.getLength());
         }
 
@@ -76,7 +76,7 @@ public class MovieService {
             existingMovie.setDescription(movie.getDescription());
         }
 
-        if (movie.getAgeLimit() != 0) {
+        if (movie.getAgeLimit() != null) {
             existingMovie.setAgeLimit(movie.getAgeLimit());
         }
 
