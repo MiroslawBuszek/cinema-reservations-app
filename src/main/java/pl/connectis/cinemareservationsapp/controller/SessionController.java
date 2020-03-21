@@ -32,9 +32,9 @@ public class SessionController {
     }
 
     @PutMapping
-    public ResponseEntity<SessionDTO> updateSession(@RequestBody SessionDTO sessionDTO) {
+    public ResponseEntity<SessionDTO> updateSession(@RequestParam Long id, @RequestBody SessionDTO sessionDTO) {
 
-        return new ResponseEntity<>(sessionService.updateById(sessionDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(sessionService.updateById(id, sessionDTO), HttpStatus.CREATED);
 
     }
 

@@ -80,9 +80,9 @@ public class SessionService {
     }
 
     @Transactional
-    public SessionDTO updateById(SessionDTO sessionDTO) {
+    public SessionDTO updateById(Long id, SessionDTO sessionDTO) {
 
-        Session existingSession = getSession(sessionDTO.getId());
+        Session existingSession = getSession(id);
 
         if (sessionDTO.getRoomId() != null) {
             validateRoomExists(sessionDTO.getRoomId());
