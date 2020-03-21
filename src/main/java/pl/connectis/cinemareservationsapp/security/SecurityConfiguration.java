@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .anonymous()
                 .antMatchers("/register", "/client", "/room", "/ticket")
                     .hasRole(String.valueOf(Role.EMPLOYEE))
-                .antMatchers("/mytickets")
+                .antMatchers("/reservation", "/mytickets")
                     .hasRole(String.valueOf(Role.CLIENT))
                 .antMatchers(HttpMethod.GET,"/movie/**", "/session/**")
                     .permitAll()
