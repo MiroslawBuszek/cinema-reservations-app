@@ -41,37 +41,28 @@ public class SessionService {
     }
 
     public List<SessionDTO> getSessionsByExample(Map<String, String> requestParams) {
-
         SessionDTO sessionDTO = new SessionDTO();
-
         if (requestParams.containsKey("movie")) {
             sessionDTO.setMovieId(Long.parseLong(requestParams.get("movie")));
         }
-
         if (requestParams.containsKey("room")) {
             sessionDTO.setRoomId(Long.parseLong(requestParams.get("room")));
         }
-
         if (requestParams.containsKey("date")) {
             sessionDTO.setStartDate(LocalDate.parse(requestParams.get("date")));
         }
-
         if (requestParams.containsKey("time")) {
             sessionDTO.setStartTime(LocalTime.parse(requestParams.get("time")));
         }
-
         if (requestParams.containsKey("price")) {
             sessionDTO.setTicketPrice(Double.parseDouble(requestParams.get("price")));
         }
-
         Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
         Example<Session> sessionExample = Example.of(session);
         return sessionMapper.mapDTOFromEntity(sessionRepository.findAll(sessionExample));
-
     }
 
     public SessionDTO save(SessionDTO sessionDTO) {
-
         validateMovieExists(sessionDTO.getMovieId());
         validateRoomExists(sessionDTO.getRoomId());
         validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
@@ -115,12 +106,7 @@ public class SessionService {
     }
 
     private boolean validateStartDate(SessionDTO sessionDTO) {
-
-        if (sessionDTO.getStartDate() != null && sessionDTO.getStartDate().isAfter(LocalDate.now())) {
-            return true;
-        }
-        return false;
-
+        return sessionDTO.getStartDate() != null && sessionDTO.getStartDate().isAfter(LocalDate.now());
     }
 
     private boolean validateStartTime(SessionDTO sessionDTO) {
@@ -144,43 +130,33 @@ public class SessionService {
     }
 
     public void deleteById(Long sessionId) {
-
         validateSessionExists(sessionId);
         sessionRepository.deleteById(sessionId);
-
     }
 
     private void validateSessionExists(Long sessionId) {
-
         if (!sessionRepository.findById(sessionId).isPresent()) {
             throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
         }
-
     }
 
     private void validateRoomExists(Long roomId) {
-
         if (!roomRepository.findById(roomId).isPresent()) {
             throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
         }
-
     }
 
     private void validateMovieExists(Long movieId) {
-
         if (!movieRepository.findById(movieId).isPresent()) {
             throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
         }
-
     }
 
     private void validateStartTime(LocalDate startDate, LocalTime startTime) {
-
         LocalDateTime startDataTime = LocalDateTime.of(startDate, startTime);
         if (startDataTime.isBefore(LocalDateTime.now())) {
             throw new BadRequestException("start time should be in future");
         }
-
     }
 
     private Session getSession(Long sessionId) {

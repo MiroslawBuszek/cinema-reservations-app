@@ -94,30 +94,14 @@ public class UserService {
     }
 
     public List<UserDTO> getClientByExample(Map<String, String> requestParam) {
-
         UserDTO userDTO = new UserDTO();
-
-        if (requestParam.containsKey("username")) {
-            userDTO.setUsername(requestParam.get("username"));
-        }
-
-        if (requestParam.containsKey("firstName")) {
-            userDTO.setFirstName(requestParam.get("firstName"));
-        }
-
-        if (requestParam.containsKey("lastName")) {
-            userDTO.setLastName(requestParam.get("lastName"));
-        }
-
         if (requestParam.containsKey("birthDate")) {
             userDTO.setBirthDate(LocalDate.parse(requestParam.get("birthDate")));
         }
-
         User user = userMapper.mapClientFromDTO(userDTO);
         ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
         Example<User> userExample = Example.of(user, caseInsensitiveExampleMatcher);
         return userMapper.mapDTOFromEntity(userRepository.findAll(userExample));
-
     }
 
 }

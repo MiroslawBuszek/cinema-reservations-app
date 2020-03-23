@@ -22,20 +22,15 @@ public class RoomService {
     }
 
     public List<Room> findRoom(Map<String, String> requestParam) {
-
         Room room = new Room();
-
         if (requestParam.containsKey("id")) {
             room.setId(Long.parseLong(requestParam.get("id")));
         }
-
         if (requestParam.containsKey("capacity")) {
             room.setCapacity(Integer.parseInt(requestParam.get("capacity")));
         }
-
         Example<Room> roomExample = Example.of(room);
         return roomRepository.findAll(roomExample);
-
     }
 
     public boolean roomExists(Long id) {
@@ -45,10 +40,8 @@ public class RoomService {
     }
 
     public Room save(Room room) {
-
         validateRoom(room);
         return roomRepository.save(room);
-
     }
 
     @Transactional
@@ -66,18 +59,14 @@ public class RoomService {
     }
 
     public void deleteById(Long id) {
-
         validateRoomExists(id);
         roomRepository.deleteById(id);
-
     }
 
     private void validateRoomExists(Long id) {
-
         if (!roomExists(id)) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
-
     }
 
     private void validateRoom(Room room) {
@@ -91,22 +80,16 @@ public class RoomService {
     }
 
     private boolean validateCapacity(Room room) {
-
         return getCapacityFromLayout(room) == room.getCapacity();
-
     }
 
     private int getCapacityFromLayout(Room room) {
-
         List<Integer> layoutIntegerList = getLayoutAsList(room.getLayout());
         return layoutIntegerList.stream().mapToInt(Integer::intValue).sum();
-
     }
 
     private void setCapacityFromLayout(Room room) {
-
         room.setCapacity(getCapacityFromLayout(room));
-
     }
 
     private List<Integer> getLayoutAsList(String layout) {
