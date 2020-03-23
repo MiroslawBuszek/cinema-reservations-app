@@ -8,6 +8,7 @@ import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.SessionMapper;
+import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
@@ -41,23 +42,24 @@ public class SessionService {
     }
 
     public List<SessionDTO> getSessionsByExample(Map<String, String> requestParams) {
-        SessionDTO sessionDTO = new SessionDTO();
-        if (requestParams.containsKey("movie")) {
-            sessionDTO.setMovieId(Long.parseLong(requestParams.get("movie")));
+        Session session = new Session();
+        if (requestParams.containsKey("movie") &&
+                movieRepository.findById(Long.parseLong(requestParams.get("movie"))).isPresent()) {
+            session.setMovie(movieRepository.findById(Long.parseLong(requestParams.get("movie"))).get());
         }
-        if (requestParams.containsKey("room")) {
-            sessionDTO.setRoomId(Long.parseLong(requestParams.get("room")));
+        if (requestParams.containsKey("room") &&
+                roomRepository.findById(Long.parseLong(requestParams.get("room"))).isPresent()) {
+            session.setRoom(roomRepository.findById(Long.parseLong(requestParams.get("room"))).get());
         }
         if (requestParams.containsKey("date")) {
-            sessionDTO.setStartDate(LocalDate.parse(requestParams.get("date")));
+            session.setStartDate(LocalDate.parse(requestParams.get("date")));
         }
         if (requestParams.containsKey("time")) {
-            sessionDTO.setStartTime(LocalTime.parse(requestParams.get("time")));
+            session.setStartTime(LocalTime.parse(requestParams.get("time")));
         }
         if (requestParams.containsKey("price")) {
-            sessionDTO.setTicketPrice(Double.parseDouble(requestParams.get("price")));
+            session.setTicketPrice(Double.parseDouble(requestParams.get("price")));
         }
-        Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
         Example<Session> sessionExample = Example.of(session);
         return sessionMapper.mapDTOFromEntity(sessionRepository.findAll(sessionExample));
     }
@@ -66,13 +68,26 @@ public class SessionService {
         validateMovieExists(sessionDTO.getMovieId());
         validateRoomExists(sessionDTO.getRoomId());
         validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
-        Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
+        Session session = mapEntityFromDTO(sessionDTO);
         if (session.getReservedSeats() == null) {
             session.setReservedSeats(new ArrayList<>());
         }
         sessionRepository.save(session);
         return sessionMapper.mapDTOFromEntity(session);
 
+    }
+
+    private Session mapEntityFromDTO(SessionDTO sessionDTO) {
+        Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
+        if (roomRepository.findById(session.getRoom().getId()).isPresent()) {
+            session.setRoom(roomRepository.findById(session.getRoom().getId()).get());
+        } else {
+            session.setRoom(new Room());
+        }
+        if (movieRepository.findById(session.getMovie().getId()).isPresent()) {
+            session.setMovie(movieRepository.findById(session.getMovie().getId()).get());
+        }
+        return session;
     }
 
     @Transactional
