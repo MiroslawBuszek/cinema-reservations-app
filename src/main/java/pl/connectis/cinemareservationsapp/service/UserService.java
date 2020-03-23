@@ -95,6 +95,9 @@ public class UserService {
 
     public List<UserDTO> getClientByExample(Map<String, String> requestParam) {
         UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(requestParam.get("username"));
+        userDTO.setFirstName(requestParam.get("firstName"));
+        userDTO.setLastName(requestParam.get("lastName"));
         if (requestParam.containsKey("birthDate")) {
             userDTO.setBirthDate(LocalDate.parse(requestParam.get("birthDate")));
         }

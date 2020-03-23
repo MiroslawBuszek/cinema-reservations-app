@@ -118,8 +118,9 @@ public class ReservationService {
         }
 
 
-        List<Ticket> ticketsForReservation = ticketMapper.mapTicketsFromReservationDTO(reservationDTO, username);
+        List<Ticket> ticketsForReservation = mapTicketsFromReservationDTO(reservationDTO, username);
         for (Ticket ticket : ticketsForReservation) {
+            log.info(ticket.toString());
             reserveSeat(ticket);
         }
         return ticketMapper.mapDTOFromEntity(ticketRepository.saveAll(ticketsForReservation));
@@ -141,6 +142,16 @@ public class ReservationService {
             throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
         }
 
+    }
+
+    private List<Ticket> mapTicketsFromReservationDTO(ReservationDTO reservationDTO, String username) {
+        List<Ticket> tickets = ticketMapper.mapTicketsFromReservationDTO(reservationDTO, username);
+        for (Ticket ticket : tickets) {
+            ticket.setUser(userRepository.findByUsername(username));
+            ticket.setSession(sessionRepository.findById(ticket.getSession().getId()).get());
+            ticket.setPrice(sessionRepository.findById(ticket.getSession().getId()).get().getTicketPrice());
+        }
+        return tickets;
     }
 
 }

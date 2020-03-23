@@ -39,15 +39,14 @@ public class TicketService {
     }
 
     public List<TicketDTO> getTicketsByExample(Map<String, String> requestParam) {
-        TicketDTO ticketDTO = new TicketDTO();
+        Ticket ticket = new Ticket();
         if (requestParam.containsKey("id")) {
-            ticketDTO.setId(Long.parseLong(requestParam.get("id")));
+            ticket.setId(Long.parseLong(requestParam.get("id")));
         }
+        ticket.setUser(userRepository.findByUsername(requestParam.get("client")));
         if (requestParam.containsKey("session")) {
-            ticketDTO.setSessionId(Long.parseLong(requestParam.get("session")));
+            ticket.setSession(sessionRepository.findById(Long.parseLong(requestParam.get("session"))).get());
         }
-        Ticket ticket = ticketMapper.mapEntityFromDTO(ticketDTO);
-        log.info(ticketDTO.toString());
         ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
         Example<Ticket> ticketExample = Example.of(ticket, caseInsensitiveExampleMatcher);
         return ticketMapper.mapDTOFromEntity(ticketRepository.findAll(ticketExample));
@@ -55,18 +54,9 @@ public class TicketService {
 
     public List<TicketDTO> getMyTicketsByExample(Map<String, String> requestParam) {
         String client = authenticationFacade.getAuthentication().getName();
-        if (requestParam.containsKey("client")) {
-            requestParam.remove("client");
-        }
+        requestParam.remove("client");
         requestParam.put("client", client);
         return getTicketsByExample(requestParam);
-    }
-
-    public TicketDTO save(TicketDTO ticketDTO) {
-
-        ticketRepository.save(ticketMapper.mapEntityFromDTO(ticketDTO));
-        return ticketDTO;
-
     }
 
     public void deleteById(Long id) {
@@ -78,6 +68,15 @@ public class TicketService {
         if (!ticketRepository.findById(ticketId).isPresent()) {
             throw new ResourceNotFoundException("ticket {id=" + ticketId + "} was not found");
         }
+    }
+
+    private Ticket mapEntityFromDTO(TicketDTO ticketDTO) {
+        Ticket ticket = ticketMapper.mapEntityFromDTO(ticketDTO);
+        ticket.setUser(userRepository.findByUsername(ticketDTO.getClient()));
+        if (sessionRepository.findById(ticketDTO.getSessionId()).isPresent()) {
+            ticket.setSession(sessionRepository.findById(ticketDTO.getSessionId()).get());
+        }
+        return ticket;
     }
 
 }

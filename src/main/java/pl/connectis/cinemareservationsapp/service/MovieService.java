@@ -28,12 +28,15 @@ public class MovieService {
         if (requestParam.containsKey("id")) {
             movie.setId(Long.parseLong(requestParam.get("id")));
         }
+        movie.setTitle(requestParam.get("title"));
+        movie.setCategory(requestParam.get("category"));
         if (requestParam.containsKey("length")) {
             movie.setLength(Integer.parseInt(requestParam.get("length")));
         }
         if (requestParam.containsKey("ageLimit")) {
             movie.setAgeLimit(Integer.parseInt(requestParam.get("ageLimit")));
         }
+        log.info(movie.toString());
         ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
         Example<Movie> movieExample = Example.of(movie, caseInsensitiveExampleMatcher);
         return movieRepository.findAll(movieExample);
