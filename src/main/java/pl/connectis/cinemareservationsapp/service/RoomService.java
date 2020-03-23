@@ -1,6 +1,6 @@
 package pl.connectis.cinemareservationsapp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,11 +11,15 @@ import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 
 import java.util.*;
 
+@Slf4j
 @Service
 public class RoomService {
 
-    @Autowired
-    private RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
+
+    public RoomService(RoomRepository roomRepository) {
+        this.roomRepository = roomRepository;
+    }
 
     public List<Room> findRoom(Map<String, String> requestParam) {
 

@@ -1,7 +1,6 @@
 package pl.connectis.cinemareservationsapp.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import pl.connectis.cinemareservationsapp.repository.TicketRepository;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
-import pl.connectis.cinemareservationsapp.security.IAuthenticationFacade;
+import pl.connectis.cinemareservationsapp.security.AuthenticationFacade;
 
 import java.util.List;
 import java.util.Map;
@@ -23,20 +22,23 @@ import java.util.Optional;
 @Service
 public class TicketService {
 
-    @Autowired
-    private IAuthenticationFacade authenticationFacade;
+    private final AuthenticationFacade authenticationFacade;
+    private final TicketRepository ticketRepository;
+    private final SessionRepository sessionRepository;
+    private final UserRepository userRepository;
+    private final TicketMapper ticketMapper;
 
-    @Autowired
-    TicketRepository ticketRepository;
-
-    @Autowired
-    SessionRepository sessionRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    TicketMapper ticketMapper;
+    public TicketService(AuthenticationFacade authenticationFacade,
+                         TicketRepository ticketRepository,
+                         SessionRepository sessionRepository,
+                         UserRepository userRepository,
+                         TicketMapper ticketMapper) {
+        this.authenticationFacade = authenticationFacade;
+        this.ticketRepository = ticketRepository;
+        this.sessionRepository = sessionRepository;
+        this.userRepository = userRepository;
+        this.ticketMapper = ticketMapper;
+    }
 
     public List<TicketDTO> getTicketsByExample(Map<String, String> requestParam) {
 

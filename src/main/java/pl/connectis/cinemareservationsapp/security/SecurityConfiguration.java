@@ -18,8 +18,8 @@ import pl.connectis.cinemareservationsapp.repository.UserRepository;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private UserPrincipalDetailsService userPrincipalDetailsService;
-    private UserRepository userRepository;
+    private final UserPrincipalDetailsService userPrincipalDetailsService;
+    private final UserRepository userRepository;
 
     public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService, UserRepository userRepository) {
         this.userPrincipalDetailsService = userPrincipalDetailsService;

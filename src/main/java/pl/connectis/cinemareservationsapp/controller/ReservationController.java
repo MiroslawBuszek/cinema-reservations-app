@@ -1,8 +1,6 @@
 package pl.connectis.cinemareservationsapp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.dto.ReservationDTO;
 import pl.connectis.cinemareservationsapp.dto.SeatDTO;
@@ -15,21 +13,20 @@ import java.util.List;
 @RequestMapping
 public class ReservationController {
 
-    @Autowired
-    ReservationService reservationService;
+    private final ReservationService reservationService;
 
-    @GetMapping("/session//seats")
-    public ResponseEntity<List<SeatDTO>> getSeats(@RequestParam Long id) {
-
-        return new ResponseEntity<>(reservationService.getSeats(id), HttpStatus.OK);
-
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
     }
 
-    // TODO: implement adding of multiple tickets with validation
+    @GetMapping("/session//seats")
+    public List<SeatDTO> getSeats(@RequestParam Long id) {
+        return reservationService.getSeats(id);
+    }
+
     @PostMapping("/reservation")
-    public ResponseEntity<List<TicketDTO>> makeReservation(@RequestBody ReservationDTO reservationDTO) {
-
-        return new ResponseEntity<>(reservationService.makeReservation(reservationDTO), HttpStatus.CREATED);
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<TicketDTO> makeReservation(@RequestBody ReservationDTO reservationDTO) {
+        return reservationService.makeReservation(reservationDTO);
     }
 }

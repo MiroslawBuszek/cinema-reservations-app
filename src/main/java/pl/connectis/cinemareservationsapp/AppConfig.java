@@ -11,31 +11,17 @@ public class AppConfig {
 
     @Bean
     public SessionMapper sessionMapper() {
-
         return new SessionMapper();
-
     }
 
     @Bean
     public TicketMapper ticketMapper() {
-
         return new TicketMapper();
-
     }
 
     @Bean
     public UserMapper userMapper() {
-
         return new UserMapper();
-
     }
-
-//    @Bean
-//    public ModelMapper modelMapper() {
-//        ModelMapper modelMapper = new ModelMapper();
-//        modelMapper.getConfiguration()
-//                .setMatchingStrategy(MatchingStrategies.LOOSE);
-//        return modelMapper;
-//    }
 
 }

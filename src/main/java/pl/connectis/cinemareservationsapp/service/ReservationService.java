@@ -1,7 +1,6 @@
 package pl.connectis.cinemareservationsapp.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.ReservationDTO;
@@ -15,7 +14,7 @@ import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import pl.connectis.cinemareservationsapp.repository.TicketRepository;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
-import pl.connectis.cinemareservationsapp.security.IAuthenticationFacade;
+import pl.connectis.cinemareservationsapp.security.AuthenticationFacade;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,20 +25,23 @@ import java.util.Optional;
 @Service
 public class ReservationService {
 
-    @Autowired
-    private IAuthenticationFacade authenticationFacade;
+    private final AuthenticationFacade authenticationFacade;
+    private final SessionRepository sessionRepository;
+    private final TicketRepository ticketRepository;
+    private final UserRepository userRepository;
+    private final TicketMapper ticketMapper;
 
-    @Autowired
-    SessionRepository sessionRepository;
-
-    @Autowired
-    TicketRepository ticketRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    TicketMapper ticketMapper;
+    public ReservationService(AuthenticationFacade authenticationFacade,
+                              SessionRepository sessionRepository,
+                              TicketRepository ticketRepository,
+                              UserRepository userRepository,
+                              TicketMapper ticketMapper) {
+        this.authenticationFacade = authenticationFacade;
+        this.sessionRepository = sessionRepository;
+        this.ticketRepository = ticketRepository;
+        this.userRepository = userRepository;
+        this.ticketMapper = ticketMapper;
+    }
 
     public List<SeatDTO> getSeats(Long sessionId) {
 
@@ -47,7 +49,7 @@ public class ReservationService {
         List<Integer> reservedSeats = getSession(sessionId).getReservedSeats();
         List<Integer> layoutList = getLayoutList(getSession(sessionId).getRoom().getLayout());
 
-        for (int i = 1; i < (layoutList.size() + 1 ); i++) {
+        for (int i = 1; i < (layoutList.size() + 1); i++) {
 
             for (int j = 1; j < (layoutList.get(i - 1) + 1); j++) {
 

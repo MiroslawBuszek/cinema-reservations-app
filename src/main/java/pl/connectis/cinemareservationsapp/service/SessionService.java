@@ -1,7 +1,6 @@
 package pl.connectis.cinemareservationsapp.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,23 +16,29 @@ import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
 public class SessionService {
 
-    @Autowired
-    SessionRepository sessionRepository;
+    private final SessionRepository sessionRepository;
+    private final RoomRepository roomRepository;
+    private final MovieRepository movieRepository;
+    private final SessionMapper sessionMapper;
 
-    @Autowired
-    RoomRepository roomRepository;
-
-    @Autowired
-    MovieRepository movieRepository;
-
-    @Autowired
-    SessionMapper sessionMapper;
+    public SessionService(SessionRepository sessionRepository,
+                          RoomRepository roomRepository,
+                          MovieRepository movieRepository,
+                          SessionMapper sessionMapper) {
+        this.sessionRepository = sessionRepository;
+        this.roomRepository = roomRepository;
+        this.movieRepository = movieRepository;
+        this.sessionMapper = sessionMapper;
+    }
 
     public List<SessionDTO> getSessionsByExample(Map<String, String> requestParams) {
 

@@ -1,7 +1,6 @@
 package pl.connectis.cinemareservationsapp.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,11 @@ import java.util.Optional;
 @Service
 public class MovieService {
 
-    @Autowired
-    MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
+
+    public MovieService(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
 
     public List<Movie> getMovieByExample(Map<String, String> requestParam) {
 

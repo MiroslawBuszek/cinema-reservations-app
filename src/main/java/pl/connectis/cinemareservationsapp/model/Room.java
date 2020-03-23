@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(of = "id")
+@Entity
 public class Room {
 
     @Id

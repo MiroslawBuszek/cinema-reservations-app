@@ -1,14 +1,17 @@
 package pl.connectis.cinemareservationsapp.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(of = "id")
+@Entity
 public class Movie {
 
     @Id

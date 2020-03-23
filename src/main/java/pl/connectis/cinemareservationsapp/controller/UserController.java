@@ -1,8 +1,6 @@
 package pl.connectis.cinemareservationsapp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.service.UserService;
@@ -15,42 +13,37 @@ import java.util.Map;
 @RequestMapping
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDTO> addClient(@Valid @RequestBody UserDTO userDTO) {
-
-        return new ResponseEntity<>(userService.createAccount(userDTO, false), HttpStatus.CREATED);
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDTO addClient(@Valid @RequestBody UserDTO userDTO) {
+        return userService.createAccount(userDTO, false);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> addEmployee(@Valid @RequestBody UserDTO userDTO) {
-
-        return new ResponseEntity<>(userService.createAccount(userDTO, true), HttpStatus.CREATED);
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDTO addEmployee(@Valid @RequestBody UserDTO userDTO) {
+        return userService.createAccount(userDTO, true);
     }
 
     @GetMapping("/myaccount")
-    public ResponseEntity<UserDTO> getLoggedUser() {
-
-        return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
-
+    public UserDTO getLoggedUser() {
+        return userService.getLoggedUser();
     }
 
     @PutMapping("/myaccount")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
-
-        return new ResponseEntity<>(userService.updateUser(userDTO), HttpStatus.OK);
-
+    public UserDTO updateUser(@RequestBody UserDTO userDTO) {
+        return userService.updateUser(userDTO);
     }
 
     @GetMapping("/client")
-    public ResponseEntity<List<UserDTO>> getUserByExample(@RequestParam Map<String, String> requestParam) {
-
-        return new ResponseEntity<>(userService.getClientByExample(requestParam), HttpStatus.OK);
-
+    public List<UserDTO> getUserByExample(@RequestParam Map<String, String> requestParam) {
+        return userService.getClientByExample(requestParam);
     }
 
 }

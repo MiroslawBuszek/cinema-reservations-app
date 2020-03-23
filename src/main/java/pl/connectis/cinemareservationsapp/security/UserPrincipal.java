@@ -1,6 +1,5 @@
 package pl.connectis.cinemareservationsapp.security;
 
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,11 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@ToString
 public class UserPrincipal implements UserDetails {
 
     private static final long serialVersionUID = 1L;
-    private User user;
+    private final User user;
 
     public UserPrincipal(User user) {
         this.user = user;

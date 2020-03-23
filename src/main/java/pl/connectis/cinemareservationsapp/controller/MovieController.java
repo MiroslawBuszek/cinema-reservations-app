@@ -1,8 +1,6 @@
 package pl.connectis.cinemareservationsapp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.service.MovieService;
@@ -15,36 +13,32 @@ import java.util.Map;
 @RequestMapping("/movie")
 public class MovieController {
 
-    @Autowired
-    private MovieService movieService;
+    private final MovieService movieService;
+
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> getMovieByExample(@RequestParam Map<String, String> requestParam) {
-
-        return new ResponseEntity<>(movieService.getMovieByExample(requestParam), HttpStatus.OK);
-
+    public List<Movie> getMovieByExample(@RequestParam Map<String, String> requestParam) {
+        return movieService.getMovieByExample(requestParam);
     }
 
     @PostMapping
-    public ResponseEntity<Movie> addMovie(@Valid @RequestBody Movie movie) {
-
-        return new ResponseEntity<>(movieService.save(movie), HttpStatus.CREATED);
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public Movie addMovie(@Valid @RequestBody Movie movie) {
+        return movieService.save(movie);
     }
 
     @PutMapping
-    public ResponseEntity<Movie> updateMovie(@RequestParam Long id, @Valid @RequestBody Movie movie) {
-
-        return new ResponseEntity<>(movieService.updateById(id, movie), HttpStatus.CREATED);
-
+    public Movie updateMovie(@RequestParam Long id, @Valid @RequestBody Movie movie) {
+        return movieService.updateById(id, movie);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteMovie(@RequestParam Long id) {
-
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteMovie(@RequestParam Long id) {
         movieService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
 
 }

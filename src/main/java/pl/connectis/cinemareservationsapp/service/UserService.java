@@ -1,7 +1,6 @@
 package pl.connectis.cinemareservationsapp.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +11,7 @@ import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.mapper.UserMapper;
 import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
-import pl.connectis.cinemareservationsapp.security.IAuthenticationFacade;
+import pl.connectis.cinemareservationsapp.security.AuthenticationFacade;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,17 +21,20 @@ import java.util.Map;
 @Service
 public class UserService {
 
-    @Autowired
-    private IAuthenticationFacade authenticationFacade;
+    private final AuthenticationFacade authenticationFacade;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    UserMapper userMapper;
+    public UserService(AuthenticationFacade authenticationFacade,
+                       PasswordEncoder passwordEncoder,
+                       UserRepository userRepository,
+                       UserMapper userMapper) {
+        this.authenticationFacade = authenticationFacade;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+    }
 
     public UserDTO createAccount(UserDTO userDTO, boolean isEmployee) {
 
