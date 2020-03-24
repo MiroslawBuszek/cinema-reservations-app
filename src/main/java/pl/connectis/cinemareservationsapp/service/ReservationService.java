@@ -31,6 +31,8 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
 
+    private final int SEAT_ADDRESS_CONSTANT = 1000;
+
     public ReservationService(AuthenticationFacade authenticationFacade,
                               SessionRepository sessionRepository,
                               TicketRepository ticketRepository,
@@ -46,26 +48,27 @@ public class ReservationService {
     public List<SeatDTO> getSeats(Long sessionId) {
 
         List<SeatDTO> seats = new ArrayList<>();
-        List<Integer> reservedSeats = getSession(sessionId).getReservedSeats();
         List<Integer> layoutList = getLayoutList(getSession(sessionId).getRoom().getLayout());
-
-        for (int i = 1; i < (layoutList.size() + 1); i++) {
-
-            for (int j = 1; j < (layoutList.get(i - 1) + 1); j++) {
-
-                int seatAddress = i * 1000 + j;
-
-                if (reservedSeats.contains(seatAddress)) {
-                    seats.add(new SeatDTO(i, j, true));
-                } else {
-                    seats.add(new SeatDTO(i, j, false));
-                }
-
+        for (int row = 1; row < (layoutList.size() + 1); row++) {
+            for (int seat = 1; seat < (layoutList.get(row - 1) + 1); seat++) {
+                seats.add(getSeat(sessionId, row, seat));
             }
-
         }
         return seats;
 
+    }
+
+    private SeatDTO getSeat(Long sessionId, int row, int seat) {
+        List<Integer> reservedSeats = getSession(sessionId).getReservedSeats();
+        SeatDTO seatDTO = new SeatDTO();
+        seatDTO.setRowNumber(row);
+        seatDTO.setSeatNumber(seat);
+        if (reservedSeats.contains(row * SEAT_ADDRESS_CONSTANT + seat)) {
+            seatDTO.setSold(true);
+        } else {
+            seatDTO.setSold(false);
+        }
+        return seatDTO;
     }
 
     private Session getSession(Long sessionId) {
@@ -110,7 +113,7 @@ public class ReservationService {
         ArrayList<Integer> reservedSeats = sessionRepository.findById(reservationDTO.getSessionId()).get().getReservedSeats();
 
         for (SeatDTO seat : seatsFromReservation) {
-            Integer seatNumber = seat.getRowNumber() * 1000 + seat.getSeatNumber();
+            Integer seatNumber = seat.getRowNumber() * SEAT_ADDRESS_CONSTANT + seat.getSeatNumber();
             if (reservedSeats.contains(seatNumber)) {
                 throw new BadRequestException("seat " + seat.getSeatNumber() +
                         " in row " + seat.getRowNumber() + " is reserved");

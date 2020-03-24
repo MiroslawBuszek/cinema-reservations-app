@@ -16,7 +16,6 @@
 	<properties>
         <java.version>1.8</java.version>
         <auth0.version>3.10.1</auth0.version>
-        <lombok.version>1.18.12</lombok.version>
     </properties>
 
 	<dependencies>
@@ -43,7 +42,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>${auth0.version}</version>
+			<version>${auth0.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -53,7 +52,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 		<dependency>
@@ -80,7 +78,7 @@
 				<artifactId>heroku-maven-plugin</artifactId>
 				<version>2.0.13</version>
 				<configuration>
-					<appName>callicoder-heroku-maven-demo</appName>
+					<appName>cinema-reservations-app</appName>
 					<includeTarget>false</includeTarget>
 					<includes>
 						<include>${project.build.directory}/${project.build.finalName}.jar</include>
