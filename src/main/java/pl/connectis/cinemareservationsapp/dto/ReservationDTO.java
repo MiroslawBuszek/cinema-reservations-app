@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.connectis.cinemareservationsapp.model.Seat;
 
 import java.util.List;
 
@@ -15,6 +16,6 @@ public class ReservationDTO {
 
     private Long sessionId;
 
-    private List<SeatDTO> reservedSeats;
+    private List<Seat> reservedSeats;
 
 }

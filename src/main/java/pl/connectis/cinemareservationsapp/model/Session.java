@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,7 +29,9 @@ public class Session {
     @JoinColumn(nullable = false)
     private Room room;
 
-    private ArrayList<Integer> reservedSeats;
+    @ElementCollection
+    @JoinColumn(nullable = false)
+    private Map<String, Seat> seats;
 
     @Column(nullable = false)
     private LocalDate startDate;

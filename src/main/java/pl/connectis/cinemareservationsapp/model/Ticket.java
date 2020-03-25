@@ -26,13 +26,7 @@ public class Ticket {
     @JoinColumn(nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private Integer rowNumber;
-
-    @Column(nullable = false)
-    private Integer seatNumber;
-
-    @Column(nullable = false)
-    private Double price;
+    @Embedded
+    private Seat seat;
 
 }

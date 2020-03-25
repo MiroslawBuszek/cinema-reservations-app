@@ -9,6 +9,7 @@ import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.SessionMapper;
 import pl.connectis.cinemareservationsapp.model.Room;
+import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
@@ -17,10 +18,8 @@ import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -69,9 +68,6 @@ public class SessionService {
         validateRoomExists(sessionDTO.getRoomId());
         validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
         Session session = mapEntityFromDTO(sessionDTO);
-        if (session.getReservedSeats() == null) {
-            session.setReservedSeats(new ArrayList<>());
-        }
         sessionRepository.save(session);
         return sessionMapper.mapDTOFromEntity(session);
 
@@ -81,8 +77,7 @@ public class SessionService {
         Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
         if (roomRepository.findById(session.getRoom().getId()).isPresent()) {
             session.setRoom(roomRepository.findById(session.getRoom().getId()).get());
-        } else {
-            session.setRoom(new Room());
+            session.setSeats(createSeatList(roomRepository.findById(session.getRoom().getId()).get()));
         }
         if (movieRepository.findById(session.getMovie().getId()).isPresent()) {
             session.setMovie(movieRepository.findById(session.getMovie().getId()).get());
@@ -184,6 +179,24 @@ public class SessionService {
 
         return sessionOptional.get();
 
+    }
+
+    private Map<String, Seat> createSeatList(Room room) {
+        Map<String, Seat> sessionSeats = new HashMap<>();
+        String layoutString = room.getLayout();
+        String[] layoutStringArray = layoutString.split(",");
+        int [] layoutIntArray = Stream.of(layoutStringArray).mapToInt(Integer::parseInt).toArray();
+        int row = 0;
+        int seat = 0;
+        for (int i = 0; i < layoutIntArray.length; i++) {
+            row++;
+            for (int j = 0; j < layoutIntArray[i]; j++) {
+                seat++;
+                sessionSeats.put(row + "x" + seat, new Seat(row, seat, false));
+            }
+            seat = 0;
+        }
+        return sessionSeats;
     }
 
 }

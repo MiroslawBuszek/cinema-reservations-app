@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.ReservationDTO;
-import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
-import pl.connectis.cinemareservationsapp.model.Session;
+import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import pl.connectis.cinemareservationsapp.repository.TicketRepository;
@@ -17,9 +16,8 @@ import pl.connectis.cinemareservationsapp.repository.UserRepository;
 import pl.connectis.cinemareservationsapp.security.AuthenticationFacade;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -30,8 +28,6 @@ public class ReservationService {
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
-
-    private final int SEAT_ADDRESS_CONSTANT = 1000;
 
     public ReservationService(AuthenticationFacade authenticationFacade,
                               SessionRepository sessionRepository,
@@ -45,58 +41,9 @@ public class ReservationService {
         this.ticketMapper = ticketMapper;
     }
 
-    public List<SeatDTO> getSeats(Long sessionId) {
-
-        List<SeatDTO> seats = new ArrayList<>();
-        List<Integer> layoutList = getLayoutList(getSession(sessionId).getRoom().getLayout());
-        for (int row = 1; row < (layoutList.size() + 1); row++) {
-            for (int seat = 1; seat < (layoutList.get(row - 1) + 1); seat++) {
-                seats.add(getSeat(sessionId, row, seat));
-            }
-        }
-        return seats;
-
-    }
-
-    private SeatDTO getSeat(Long sessionId, int row, int seat) {
-        List<Integer> reservedSeats = getSession(sessionId).getReservedSeats();
-        SeatDTO seatDTO = new SeatDTO();
-        seatDTO.setRowNumber(row);
-        seatDTO.setSeatNumber(seat);
-        if (reservedSeats.contains(row * SEAT_ADDRESS_CONSTANT + seat)) {
-            seatDTO.setSold(true);
-        } else {
-            seatDTO.setSold(false);
-        }
-        return seatDTO;
-    }
-
-    private Session getSession(Long sessionId) {
-
-        Optional<Session> sessionOptional = sessionRepository.findById(sessionId);
-
-        if (!sessionOptional.isPresent()) {
-            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
-        }
-
-        return sessionOptional.get();
-
-    }
-
-    private List<Integer> getLayoutList(String layout) {
-
-        List<String> layoutStringList;
-        List<Integer> layoutIntegerList = new ArrayList<>();
-        layoutStringList = Arrays.asList(layout.split(","));
-
-        for (String rowCapacityString : layoutStringList) {
-
-            layoutIntegerList.add(Integer.parseInt(rowCapacityString));
-
-        }
-
-        return layoutIntegerList;
-
+    public List<Seat> getSeats(Long sessionId) {
+        validateSessionExists(sessionId);
+        return new ArrayList<>(sessionRepository.findById(sessionId).get().getSeats().values());
     }
 
     public List<TicketDTO> makeReservation(ReservationDTO reservationDTO) {
@@ -106,45 +53,35 @@ public class ReservationService {
 
     @Transactional
     public List<TicketDTO> makeReservation(ReservationDTO reservationDTO, String username) {
-
         validateSessionExists(reservationDTO.getSessionId());
-
-        List<SeatDTO> seatsFromReservation = reservationDTO.getReservedSeats();
-        ArrayList<Integer> reservedSeats = sessionRepository.findById(reservationDTO.getSessionId()).get().getReservedSeats();
-
-        for (SeatDTO seat : seatsFromReservation) {
-            Integer seatNumber = seat.getRowNumber() * SEAT_ADDRESS_CONSTANT + seat.getSeatNumber();
-            if (reservedSeats.contains(seatNumber)) {
-                throw new BadRequestException("seat " + seat.getSeatNumber() +
-                        " in row " + seat.getRowNumber() + " is reserved");
-            }
-        }
-
-
+        validateSeatsAreNotAlreadyReserved(reservationDTO);
+        List<Seat> seatsFromReservation = reservationDTO.getReservedSeats();
+        log.info(seatsFromReservation.toString());
         List<Ticket> ticketsForReservation = mapTicketsFromReservationDTO(reservationDTO, username);
         for (Ticket ticket : ticketsForReservation) {
+            ticket.getSeat().setSold(true);
             log.info(ticket.toString());
-            reserveSeat(ticket);
         }
         return ticketMapper.mapDTOFromEntity(ticketRepository.saveAll(ticketsForReservation));
-
     }
 
-    private void reserveSeat(Ticket ticket) {
-
-        Session session = ticket.getSession();
-        ArrayList<Integer> reservedSeats = session.getReservedSeats();
-        reservedSeats.add(ticket.getRowNumber() * 1000 + ticket.getSeatNumber());
-        session.setReservedSeats(reservedSeats);
-
+    private void validateSeatsAreNotAlreadyReserved(ReservationDTO reservationDTO) {
+        List<Seat> seatsFromReservation = reservationDTO.getReservedSeats();
+        Map<String, Seat> seatsFromSession = sessionRepository.findById(reservationDTO.getSessionId()).get().getSeats();
+        for (Seat seatFromReservation : seatsFromReservation) {
+            String mapKey = seatFromReservation.getRowNumber() + "x" + seatFromReservation.getSeatNumber();
+            Seat seatFromSession = seatsFromSession.get(mapKey);
+            if (seatFromSession.isSold()) {
+                throw new BadRequestException("seat " + seatFromReservation.getSeatNumber() +
+                        " in row " + seatFromReservation.getRowNumber() + " is reserved");
+            }
+        }
     }
 
     private void validateSessionExists(Long sessionId) {
-
         if (!sessionRepository.findById(sessionId).isPresent()) {
             throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
         }
-
     }
 
     private List<Ticket> mapTicketsFromReservationDTO(ReservationDTO reservationDTO, String username) {
@@ -152,9 +89,19 @@ public class ReservationService {
         for (Ticket ticket : tickets) {
             ticket.setUser(userRepository.findByUsername(username));
             ticket.setSession(sessionRepository.findById(ticket.getSession().getId()).get());
-            ticket.setPrice(sessionRepository.findById(ticket.getSession().getId()).get().getTicketPrice());
+            Seat seatFromSession = getSeatFromSession(reservationDTO.getSessionId(), ticket.getSeat());
+            ticket.setSeat(seatFromSession);
         }
         return tickets;
+    }
+
+    private Seat getSeatFromSession(Long sessionId, Seat seatFromReservation) {
+        int row = seatFromReservation.getRowNumber();
+        int seat = seatFromReservation.getSeatNumber();
+        String mapKey = row + "x" + seat;
+        Seat seatFromSession = sessionRepository.findById(sessionId).get().getSeats().get(mapKey);
+        seatFromSession.setSold(true);
+        return seatFromSession;
     }
 
 }

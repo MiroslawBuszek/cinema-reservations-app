@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.dto.ReservationDTO;
-import pl.connectis.cinemareservationsapp.dto.SeatDTO;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.model.Room;
+import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.service.*;
 
 import java.time.LocalDate;
@@ -145,48 +145,48 @@ public class CommandLineRunnerInit implements CommandLineRunner {
     private void addSessions() {
 
         sessionService.save(new SessionDTO(1L, 3L, 1L,
-                LocalDate.of(2020, 4, 10), LocalTime.of(15, 00), 14.99));
+                LocalDate.of(2020, 4, 10), LocalTime.of(15, 0), 14.99));
         sessionService.save(new SessionDTO(2L, 2L, 2L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(16, 00), 14.99));
+                LocalDate.of(2020, 4, 2), LocalTime.of(16, 0), 14.99));
         sessionService.save(new SessionDTO(3L, 1L, 4L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(17, 00), 14.99));
+                LocalDate.of(2020, 4, 2), LocalTime.of(17, 0), 14.99));
         sessionService.save(new SessionDTO(4L, 4L, 1L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(18, 00), 14.99));
+                LocalDate.of(2020, 4, 2), LocalTime.of(18, 0), 14.99));
         sessionService.save(new SessionDTO(5L, 2L, 3L,
                 LocalDate.of(2020, 4, 2), LocalTime.of(18, 30), 14.99));
         sessionService.save(new SessionDTO(6L, 2L, 2L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(21, 00), 14.99));
+                LocalDate.of(2020, 4, 2), LocalTime.of(21, 0), 14.99));
         sessionService.save(new SessionDTO(7L, 2L, 3L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(21, 00), 14.99));
+                LocalDate.of(2020, 4, 2), LocalTime.of(21, 0), 14.99));
 
     }
 
     private void addTickets() {
 
         reservationService.makeReservation(new ReservationDTO(4L, new ArrayList<>(Arrays.asList(
-                new SeatDTO(4, 10, false)))), "adrian.budny@poczta.pl");
+                new Seat(4, 10, false)))), "adrian.budny@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(4L, new ArrayList<>(Arrays.asList(
-                new SeatDTO(3, 10, false),
-                new SeatDTO(3, 11, false)))), "filip.chmielewski@poczta.pl");
+                new Seat(3, 10, false),
+                new Seat(3, 11, false)))), "filip.chmielewski@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(2L, new ArrayList<>(Arrays.asList(
-                new SeatDTO(5, 8, false),
-                new SeatDTO(5, 9, false)))), "boleslaw.sniegowski@poczta.pl");
+                new Seat(5, 8, false),
+                new Seat(5, 9, false)))), "boleslaw.sniegowski@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(1L, new ArrayList<>(Arrays.asList(
-                new SeatDTO(2, 5, false),
-                new SeatDTO(2, 6, false),
-                new SeatDTO(2, 7, false)))), "sylwester.lis@poczta.pl");
+                new Seat(2, 5, false),
+                new Seat(2, 6, false),
+                new Seat(2, 7, false)))), "sylwester.lis@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(1L, new ArrayList<>(Arrays.asList(
-                new SeatDTO(4, 10, false)))), "boleslaw.sniegowski@poczta.pl");
+                new Seat(4, 10, false)))), "boleslaw.sniegowski@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(6L, new ArrayList<>(Arrays.asList(
-                new SeatDTO(3, 6, false)))), "marta.fabian@poczta.pl");
+                new Seat(3, 6, false)))), "marta.fabian@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(7L, new ArrayList<>(Arrays.asList(
-                new SeatDTO(6, 16, false),
-                new SeatDTO(6, 17, false)))), "diana.czajka@poczta.pl");
+                new Seat(6, 16, false),
+                new Seat(6, 17, false)))), "diana.czajka@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(5L, new ArrayList<>(Arrays.asList(
-                new SeatDTO(7, 14, false),
-                new SeatDTO(7, 15, false)))), "filip.chmielewski@poczta.pl");
+                new Seat(7, 14, false),
+                new Seat(7, 15, false)))), "filip.chmielewski@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(1L, new ArrayList<>(Arrays.asList(
-                new SeatDTO(4, 11, false)))), "marta.fabian@poczta.pl");
+                new Seat(4, 11, false)))), "marta.fabian@poczta.pl");
 
     }
 

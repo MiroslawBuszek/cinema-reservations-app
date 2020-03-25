@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.connectis.cinemareservationsapp.model.Seat;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,10 +18,6 @@ public class TicketDTO {
 
     private String client;
 
-    private Integer rowNumber;
-
-    private Integer seatNumber;
-
-    private Double price;
+    private Seat seat;
 
 }
