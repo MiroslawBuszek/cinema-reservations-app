@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.connectis.cinemareservationsapp.dto.ReservationDTO;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
-import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.service.ReservationService;
 
 import java.util.List;
@@ -17,11 +16,6 @@ public class ReservationController {
 
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
-    }
-
-    @GetMapping("/reservation/seats")
-    public List<Seat> getSeats(@RequestParam Long id) {
-        return reservationService.getSeats(id);
     }
 
     @PostMapping("/reservation")

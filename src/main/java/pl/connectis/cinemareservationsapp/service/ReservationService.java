@@ -15,7 +15,6 @@ import pl.connectis.cinemareservationsapp.repository.TicketRepository;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
 import pl.connectis.cinemareservationsapp.security.AuthenticationFacade;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +38,6 @@ public class ReservationService {
         this.ticketRepository = ticketRepository;
         this.userRepository = userRepository;
         this.ticketMapper = ticketMapper;
-    }
-
-    public List<Seat> getSeats(Long sessionId) {
-        validateSessionExists(sessionId);
-        return new ArrayList<>(sessionRepository.findById(sessionId).get().getSeats().values());
     }
 
     public List<TicketDTO> makeReservation(ReservationDTO reservationDTO) {

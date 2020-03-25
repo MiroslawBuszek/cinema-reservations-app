@@ -63,6 +63,11 @@ public class SessionService {
         return sessionMapper.mapDTOFromEntity(sessionRepository.findAll(sessionExample));
     }
 
+    public List<Seat> getSeats(Long sessionId) {
+        validateSessionExists(sessionId);
+        return new ArrayList<>(sessionRepository.findById(sessionId).get().getSeats().values());
+    }
+
     public SessionDTO save(SessionDTO sessionDTO) {
         validateMovieExists(sessionDTO.getMovieId());
         validateRoomExists(sessionDTO.getRoomId());
@@ -70,8 +75,8 @@ public class SessionService {
         Session session = mapEntityFromDTO(sessionDTO);
         sessionRepository.save(session);
         return sessionMapper.mapDTOFromEntity(session);
-
     }
+
 
     private Session mapEntityFromDTO(SessionDTO sessionDTO) {
         Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
