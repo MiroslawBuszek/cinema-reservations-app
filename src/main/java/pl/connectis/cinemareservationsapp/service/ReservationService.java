@@ -54,9 +54,11 @@ public class ReservationService {
         List<Ticket> ticketsForReservation = mapTicketsFromReservationDTO(reservationDTO, username);
         for (Ticket ticket : ticketsForReservation) {
             ticket.getSeat().setSold(true);
-            log.info(ticket.toString());
         }
-        return ticketMapper.mapDTOFromEntity(ticketRepository.saveAll(ticketsForReservation));
+        List<Ticket> savedTickets = ticketRepository.saveAll(ticketsForReservation);
+        savedTickets.forEach(savedTicket ->
+                log.info("ticket {id=" + savedTicket.getId() + "} was added: " + savedTicket.toString()));
+        return ticketMapper.mapDTOFromEntity(savedTickets);
     }
 
     private void validateSeatsAreNotAlreadyReserved(ReservationDTO reservationDTO) {

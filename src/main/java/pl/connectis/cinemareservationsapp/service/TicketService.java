@@ -62,21 +62,13 @@ public class TicketService {
     public void deleteById(Long id) {
         validateTicketExists(id);
         ticketRepository.deleteById(id);
+        log.info("ticket {id=" + id + "} was deleted");
     }
 
     private void validateTicketExists(Long ticketId) {
         if (!ticketRepository.findById(ticketId).isPresent()) {
             throw new ResourceNotFoundException("ticket {id=" + ticketId + "} was not found");
         }
-    }
-
-    private Ticket mapEntityFromDTO(TicketDTO ticketDTO) {
-        Ticket ticket = ticketMapper.mapEntityFromDTO(ticketDTO);
-        ticket.setUser(userRepository.findByUsername(ticketDTO.getClient()));
-        if (sessionRepository.findById(ticketDTO.getSessionId()).isPresent()) {
-            ticket.setSession(sessionRepository.findById(ticketDTO.getSessionId()).get());
-        }
-        return ticket;
     }
 
 }

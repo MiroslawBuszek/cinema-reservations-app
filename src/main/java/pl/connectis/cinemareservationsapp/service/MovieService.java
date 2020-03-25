@@ -36,14 +36,15 @@ public class MovieService {
         if (requestParam.containsKey("ageLimit")) {
             movie.setAgeLimit(Integer.parseInt(requestParam.get("ageLimit")));
         }
-        log.info(movie.toString());
         ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
         Example<Movie> movieExample = Example.of(movie, caseInsensitiveExampleMatcher);
         return movieRepository.findAll(movieExample);
     }
 
     public Movie save(Movie movie) {
-        return movieRepository.save(movie);
+        Movie savedMovie = movieRepository.save(movie);
+        log.info("movie {id=" + savedMovie.getId() + "} was added" + savedMovie.toString());
+        return savedMovie;
     }
 
     @Transactional
@@ -64,7 +65,9 @@ public class MovieService {
         if (movie.getAgeLimit() != null) {
             existingMovie.setAgeLimit(movie.getAgeLimit());
         }
-        return movieRepository.save(existingMovie);
+        movieRepository.save(existingMovie);
+        log.info("movie {id=" + id + "} was updated: " + existingMovie.toString());
+        return existingMovie;
     }
 
     private Movie getMovie(Long id) {
@@ -78,6 +81,7 @@ public class MovieService {
     public void deleteById(Long id) {
         validateMovieExists(id);
         movieRepository.deleteById(id);
+        log.info("movie {id=" + id + "} was deleted");
     }
 
     private void validateMovieExists(Long id) {

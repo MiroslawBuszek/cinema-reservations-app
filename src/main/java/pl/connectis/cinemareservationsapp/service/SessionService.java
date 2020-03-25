@@ -73,8 +73,9 @@ public class SessionService {
         validateRoomExists(sessionDTO.getRoomId());
         validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
         Session session = mapEntityFromDTO(sessionDTO);
-        sessionRepository.save(session);
-        return sessionMapper.mapDTOFromEntity(session);
+        Session savedSession = sessionRepository.save(session);
+        log.info("session {id= " + savedSession.getId() + "} was added: " + savedSession.toString());
+        return sessionMapper.mapDTOFromEntity(savedSession);
     }
 
 
@@ -92,31 +93,25 @@ public class SessionService {
 
     @Transactional
     public SessionDTO updateById(Long id, SessionDTO sessionDTO) {
-
         Session existingSession = getSession(id);
-
         if (sessionDTO.getRoomId() != null) {
             validateRoomExists(sessionDTO.getRoomId());
             existingSession.setRoom(roomRepository.findById(sessionDTO.getRoomId()).get());
         }
-
         if (sessionDTO.getMovieId() != null) {
             validateMovieExists(sessionDTO.getMovieId());
             existingSession.setMovie(movieRepository.findById(sessionDTO.getMovieId()).get());
         }
-
         if (validateStartDate(sessionDTO)) {
             existingSession.setStartDate(sessionDTO.getStartDate());
         }
-
         if (validateStartTime(sessionDTO)) {
             existingSession.setStartTime(sessionDTO.getStartTime());
         }
-
         if (sessionDTO.getTicketPrice() != null) {
             existingSession.setTicketPrice(sessionDTO.getTicketPrice());
         }
-
+        log.info("session {id=" + id + "} was updated: " + existingSession.toString());
         return sessionMapper.mapDTOFromEntity(existingSession);
     }
 
@@ -147,6 +142,7 @@ public class SessionService {
     public void deleteById(Long sessionId) {
         validateSessionExists(sessionId);
         sessionRepository.deleteById(sessionId);
+        log.info("session {id=" + sessionId + "} was deleted");
     }
 
     private void validateSessionExists(Long sessionId) {

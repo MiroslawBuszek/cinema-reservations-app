@@ -34,33 +34,33 @@ public class RoomService {
     }
 
     public boolean roomExists(Long id) {
-
         return roomRepository.findById(id).isPresent();
-
     }
 
     public Room save(Room room) {
         validateRoom(room);
-        return roomRepository.save(room);
+        Room savedRoom = roomRepository.save(room);
+        log.info("room {id=" + savedRoom.getId() + "} was added: " + room);
+        return savedRoom;
     }
 
     @Transactional
     public Room updateById(Long id, Room room) {
-
         validateRoomExists(id);
         validateRoom(room);
-
         Room existingRoom = getRoom(id);
         if (room.getLayout() != null) {
             existingRoom.setLayout(room.getLayout());
         }
         setCapacityFromLayout(existingRoom);
+        log.info("room {id=" + id + "} was updated :" + existingRoom);
         return existingRoom;
     }
 
     public void deleteById(Long id) {
         validateRoomExists(id);
         roomRepository.deleteById(id);
+        log.info("movie {id=" + id + "} was deleted");
     }
 
     private void validateRoomExists(Long id) {
@@ -70,13 +70,11 @@ public class RoomService {
     }
 
     private void validateRoom(Room room) {
-
         if (!validateCapacity(room)) {
             throw new BadRequestException("capacity does not correspond to layout");
         } else if (room.getCapacity() == null) {
             setCapacityFromLayout(room);
         }
-
     }
 
     private boolean validateCapacity(Room room) {
@@ -93,40 +91,26 @@ public class RoomService {
     }
 
     private List<Integer> getLayoutAsList(String layout) {
-
         List<String> layoutStringList;
         List<Integer> layoutIntegerList = new ArrayList<>();
-
         try {
-
             layoutStringList = Arrays.asList(layout.split(","));
-
             for (String rowCapacityString : layoutStringList) {
-
                 layoutIntegerList.add(Integer.parseInt(rowCapacityString));
-
             }
-
         } catch (Exception exception) {
-
             throw new BadRequestException("inappropriate layout format");
-
         }
-
         return layoutIntegerList;
 
     }
 
     private Room getRoom(Long id) {
-
         Optional<Room> roomOptional = roomRepository.findById(id);
-
         if (!roomOptional.isPresent()) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
-
         return roomOptional.get();
-
     }
 
 }
