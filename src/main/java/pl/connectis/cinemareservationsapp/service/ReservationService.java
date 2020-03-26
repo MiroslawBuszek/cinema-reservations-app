@@ -9,12 +9,15 @@ import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
 import pl.connectis.cinemareservationsapp.model.Seat;
+import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
+import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import pl.connectis.cinemareservationsapp.repository.TicketRepository;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
 import pl.connectis.cinemareservationsapp.security.AuthenticationFacade;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -25,17 +28,19 @@ public class ReservationService {
     private final AuthenticationFacade authenticationFacade;
     private final SessionRepository sessionRepository;
     private final TicketRepository ticketRepository;
+    private final MovieRepository movieRepository;
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
 
     public ReservationService(AuthenticationFacade authenticationFacade,
                               SessionRepository sessionRepository,
                               TicketRepository ticketRepository,
-                              UserRepository userRepository,
+                              MovieRepository movieRepository, UserRepository userRepository,
                               TicketMapper ticketMapper) {
         this.authenticationFacade = authenticationFacade;
         this.sessionRepository = sessionRepository;
         this.ticketRepository = ticketRepository;
+        this.movieRepository = movieRepository;
         this.userRepository = userRepository;
         this.ticketMapper = ticketMapper;
     }
@@ -49,6 +54,7 @@ public class ReservationService {
     public List<TicketDTO> makeReservation(ReservationDTO reservationDTO, String username) {
         validateSessionExists(reservationDTO.getSessionId());
         validateSeatsAreNotAlreadyReserved(reservationDTO);
+        validateClientAge(reservationDTO, username);
         List<Seat> seatsFromReservation = reservationDTO.getReservedSeats();
         log.info(seatsFromReservation.toString());
         List<Ticket> ticketsForReservation = mapTicketsFromReservationDTO(reservationDTO, username);
@@ -77,6 +83,17 @@ public class ReservationService {
     private void validateSessionExists(Long sessionId) {
         if (!sessionRepository.findById(sessionId).isPresent()) {
             throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+        }
+    }
+
+    private void validateClientAge(ReservationDTO reservationDTO, String username) {
+        Session session = sessionRepository.findById(reservationDTO.getSessionId()).get();
+        LocalDate sessionDate = session.getStartDate();
+                LocalDate birthDate = userRepository.findByUsername(username).getBirthDate();
+        int ageLimit = movieRepository.findById(session.getMovie().getId()).get().getAgeLimit();
+        log.info(username + " " + birthDate.toString() + " " + sessionDate.toString() + " " + birthDate.plusYears(ageLimit));
+        if (birthDate.plusYears(ageLimit).isAfter(sessionDate)) {
+            throw new BadRequestException("the user does not meet the age requirements");
         }
     }
 

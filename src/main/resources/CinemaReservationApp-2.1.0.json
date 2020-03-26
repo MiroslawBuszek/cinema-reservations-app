@@ -2381,6 +2381,104 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "/login as marta.fabian@poczta.pl (CLIENT)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "daa0eb28-7138-470c-846d-46fee654a93b",
+								"exec": [
+									"pm.test(\"Set JWT\", function() {\r",
+									"    let headerValue = pm.response.headers.get(\"Authorization\")\r",
+									"    pm.globals.set(\"token\", headerValue);\r",
+									"});\r",
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"marta.fabian@poczta.pl\",\n\t\"password\": \"martafabian\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reservation [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f38c8146-c0f0-4127-b529-874c31f154c0",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"the user does not meet the age requirements\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sessionId\": 4,\n\t\"reservedSeats\": [\n\t\t\t{\n\t\t\t\t\"rowNumber\": 6,\n\t\t\t\t\"seatNumber\": 11,\n\t\t\t\t\"sold\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"rowNumber\": 6,\n\t\t\t\t\"seatNumber\": 12,\n\t\t\t\t\"sold\": false\n\t\t\t}\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reservation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}

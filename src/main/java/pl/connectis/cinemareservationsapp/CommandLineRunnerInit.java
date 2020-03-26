@@ -170,23 +170,23 @@ public class CommandLineRunnerInit implements CommandLineRunner {
                 new Seat(3, 11, false)))), "filip.chmielewski@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(2L, new ArrayList<>(Arrays.asList(
                 new Seat(5, 8, false),
-                new Seat(5, 9, false)))), "boleslaw.sniegowski@poczta.pl");
+                new Seat(5, 9, false)))), "diana.czajka@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(1L, new ArrayList<>(Arrays.asList(
                 new Seat(2, 5, false),
                 new Seat(2, 6, false),
                 new Seat(2, 7, false)))), "sylwester.lis@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(1L, new ArrayList<>(Arrays.asList(
-                new Seat(4, 10, false)))), "boleslaw.sniegowski@poczta.pl");
+                new Seat(4, 10, false)))), "mateusz.wlodarczyk@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(6L, new ArrayList<>(Arrays.asList(
-                new Seat(3, 6, false)))), "marta.fabian@poczta.pl");
+                new Seat(3, 6, false)))), "gracjan.pakulski@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(7L, new ArrayList<>(Arrays.asList(
                 new Seat(6, 16, false),
-                new Seat(6, 17, false)))), "diana.czajka@poczta.pl");
+                new Seat(6, 17, false)))), "mateusz.wlodarczyk@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(5L, new ArrayList<>(Arrays.asList(
                 new Seat(7, 14, false),
                 new Seat(7, 15, false)))), "filip.chmielewski@poczta.pl");
         reservationService.makeReservation(new ReservationDTO(1L, new ArrayList<>(Arrays.asList(
-                new Seat(4, 11, false)))), "marta.fabian@poczta.pl");
+                new Seat(4, 11, false)))), "gracjan.pakulski@poczta.pl");
 
     }
 
