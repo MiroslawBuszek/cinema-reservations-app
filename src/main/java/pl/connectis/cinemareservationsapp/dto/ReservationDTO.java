@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.connectis.cinemareservationsapp.model.Seat;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @NoArgsConstructor
@@ -14,8 +16,10 @@ import java.util.List;
 @Getter
 public class ReservationDTO {
 
+    @Positive
     private Long sessionId;
 
+    @NotEmpty
     private List<Seat> reservedSeats;
 
 }

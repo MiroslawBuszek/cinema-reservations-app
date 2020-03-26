@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +17,7 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Positive
     private Long id;
 
     @Column(nullable = false)
@@ -24,11 +26,13 @@ public class Movie {
     private String category;
 
     @Column(nullable = false)
+    @Positive
     private Integer length;
 
     private String description;
 
     @Column(nullable = false)
+    @Positive
     private Integer ageLimit;
 
 }
