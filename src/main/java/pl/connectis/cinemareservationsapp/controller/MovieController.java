@@ -31,8 +31,8 @@ public class MovieController {
     }
 
     @PutMapping
-    public Movie updateMovie(@RequestParam Long id, @Valid @RequestBody Movie movie) {
-        return movieService.updateById(id, movie);
+    public Movie updateMovie(@Valid @RequestBody Movie movie) {
+        return movieService.updateById(movie);
     }
 
     @DeleteMapping

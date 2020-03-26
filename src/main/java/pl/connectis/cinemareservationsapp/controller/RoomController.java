@@ -31,8 +31,8 @@ public class RoomController {
     }
 
     @PutMapping
-    public Room updateById(@RequestParam Long id, @Valid @RequestBody Room room) {
-        return roomService.updateById(id, room);
+    public Room updateById(@Valid @RequestBody Room room) {
+        return roomService.updateById(room);
     }
 
     @DeleteMapping

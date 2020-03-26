@@ -10,7 +10,7 @@ import java.util.List;
 public class UserMapper {
 
     public User mapClientFromDTO(UserDTO userDTO) {
-        User user = mapEntityFromDTO(userDTO);
+        User user = mapUserFromDTO(userDTO);
         user.setRole(Role.CLIENT);
         user.setPermissions("CLIENT_ACCESS");
         user.setActive(1);
@@ -18,14 +18,14 @@ public class UserMapper {
     }
 
     public User mapEmployeeFromDTO(UserDTO userDTO) {
-        User user = mapEntityFromDTO(userDTO);
+        User user = mapUserFromDTO(userDTO);
         user.setRole(Role.EMPLOYEE);
         user.setPermissions("EMPLOYEE_ACCESS");
         user.setActive(1);
         return user;
     }
 
-    private User mapEntityFromDTO(UserDTO userDTO) {
+    public User mapUserFromDTO(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getEncodedPassword());

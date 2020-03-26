@@ -6,6 +6,7 @@ import pl.connectis.cinemareservationsapp.dto.ReservationDTO;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
 import pl.connectis.cinemareservationsapp.service.ReservationService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class ReservationController {
 
     @PostMapping("/reservation")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<TicketDTO> makeReservation(@RequestBody ReservationDTO reservationDTO) {
+    public List<TicketDTO> makeReservation(@Valid @RequestBody ReservationDTO reservationDTO) {
         return reservationService.makeReservation(reservationDTO);
     }
 }

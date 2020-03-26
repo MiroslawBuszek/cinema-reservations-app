@@ -3,7 +3,6 @@ package pl.connectis.cinemareservationsapp.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
@@ -91,28 +90,15 @@ public class SessionService {
         return session;
     }
 
-    @Transactional
-    public SessionDTO updateById(Long id, SessionDTO sessionDTO) {
-        Session existingSession = getSession(id);
-        if (sessionDTO.getRoomId() != null) {
-            validateRoomExists(sessionDTO.getRoomId());
-            existingSession.setRoom(roomRepository.findById(sessionDTO.getRoomId()).get());
-        }
-        if (sessionDTO.getMovieId() != null) {
-            validateMovieExists(sessionDTO.getMovieId());
-            existingSession.setMovie(movieRepository.findById(sessionDTO.getMovieId()).get());
-        }
-        if (validateStartDate(sessionDTO)) {
-            existingSession.setStartDate(sessionDTO.getStartDate());
-        }
-        if (validateStartTime(sessionDTO)) {
-            existingSession.setStartTime(sessionDTO.getStartTime());
-        }
-        if (sessionDTO.getTicketPrice() != null) {
-            existingSession.setTicketPrice(sessionDTO.getTicketPrice());
-        }
-        log.info("session {id=" + id + "} was updated: " + existingSession.toString());
-        return sessionMapper.mapDTOFromEntity(existingSession);
+    public SessionDTO updateById(SessionDTO sessionDTO) {
+        validateSessionExists(sessionDTO.getId());
+        validateMovieExists(sessionDTO.getMovieId());
+        validateRoomExists(sessionDTO.getRoomId());
+        validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
+        Session session = mapEntityFromDTO(sessionDTO);
+        Session savedSession = sessionRepository.save(session);
+        log.info("session {id=" + savedSession.getId() + "} was updated: " + savedSession.toString());
+        return sessionMapper.mapDTOFromEntity(savedSession);
     }
 
     private boolean validateStartDate(SessionDTO sessionDTO) {

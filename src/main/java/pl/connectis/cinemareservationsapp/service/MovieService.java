@@ -4,14 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -47,35 +45,11 @@ public class MovieService {
         return savedMovie;
     }
 
-    @Transactional
-    public Movie updateById(Long id, Movie movie) {
-        Movie existingMovie = getMovie(id);
-        if (movie.getTitle() != null) {
-            existingMovie.setTitle(movie.getTitle());
-        }
-        if (movie.getCategory() != null) {
-            existingMovie.setCategory(movie.getCategory());
-        }
-        if (movie.getLength() != null) {
-            existingMovie.setLength(movie.getLength());
-        }
-        if (movie.getDescription() != null) {
-            existingMovie.setDescription(movie.getDescription());
-        }
-        if (movie.getAgeLimit() != null) {
-            existingMovie.setAgeLimit(movie.getAgeLimit());
-        }
-        movieRepository.save(existingMovie);
-        log.info("movie {id=" + id + "} was updated: " + existingMovie.toString());
-        return existingMovie;
-    }
-
-    private Movie getMovie(Long id) {
-        Optional<Movie> movieOptional = movieRepository.findById(id);
-        if (!movieOptional.isPresent()) {
-            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
-        }
-        return movieOptional.get();
+    public Movie updateById(Movie movie) {
+        validateMovieExists(movie.getId());
+        Movie savedMovie = movieRepository.save(movie);
+        log.info("movie {id=" + savedMovie.getId() + "} was updated: " + savedMovie.toString());
+        return savedMovie;
     }
 
     public void deleteById(Long id) {
@@ -89,4 +63,5 @@ public class MovieService {
             throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
         }
     }
+
 }

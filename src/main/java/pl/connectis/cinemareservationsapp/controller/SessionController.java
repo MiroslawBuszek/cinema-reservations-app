@@ -6,6 +6,7 @@ import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.service.SessionService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -31,13 +32,13 @@ public class SessionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SessionDTO createSession(@RequestBody SessionDTO sessionDTO) {
+    public SessionDTO createSession(@Valid @RequestBody SessionDTO sessionDTO) {
         return sessionService.save(sessionDTO);
     }
 
     @PutMapping
-    public SessionDTO updateSession(@RequestParam Long id, @RequestBody SessionDTO sessionDTO) {
-        return sessionService.updateById(id, sessionDTO);
+    public SessionDTO updateSession(@Valid @RequestBody SessionDTO sessionDTO) {
+        return sessionService.updateById(sessionDTO);
     }
 
     @DeleteMapping

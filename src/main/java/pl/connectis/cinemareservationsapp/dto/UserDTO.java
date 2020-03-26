@@ -20,7 +20,6 @@ public class UserDTO {
     @NotBlank(message="Email is required")
     private String username;
 
-    @NotBlank(message="Password is required")
     @Size(min=8, max=32)
     private CharSequence password;
 

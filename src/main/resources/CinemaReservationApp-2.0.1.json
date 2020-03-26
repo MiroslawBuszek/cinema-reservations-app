@@ -461,7 +461,7 @@
 					"response": []
 				},
 				{
-					"name": "/movie?id=5 [403]",
+					"name": "/movie [403]",
 					"event": [
 						{
 							"listen": "test",
@@ -489,22 +489,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
+							"raw": "{\n    \"id\": 5,\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/movie?id=5",
+							"raw": "localhost:8080/movie",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"movie"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "5"
-								}
 							]
 						}
 					},
@@ -626,7 +620,7 @@
 					"response": []
 				},
 				{
-					"name": "/room?id=3 [403]",
+					"name": "/room [403]",
 					"event": [
 						{
 							"listen": "test",
@@ -653,21 +647,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"capacity\": 55,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}"
+							"raw": "{\n    \"id\": 3,\n    \"capacity\": 55,\n    \"layout\": \"11,11,11,11,11\"\n}"
 						},
 						"url": {
-							"raw": "{{url}}/room?id=3",
+							"raw": "{{url}}/room",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"room"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "3"
-								}
 							]
 						}
 					},
@@ -1029,6 +1017,20 @@
 				},
 				{
 					"name": "/reservation [403]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a4c900f0-5d15-444c-a92d-14231da1a0ff",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1255,7 +1257,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"filip.chmielewski@mail.com\",\r\n    \"birthDate\": \"1921-08-08\"\r\n}",
+							"raw": "{\r\n    \"username\": \"filip.chmielewski@mail.com\",\r\n    \"password\": null,\r\n    \"encodedPassword\": null,\r\n    \"firstName\": \"Filip\",\r\n    \"lastName\": \"Chmielewski\",\r\n    \"birthDate\": \"1921-08-08\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1315,7 +1317,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"birthDate\": \"1996-10-10\"\r\n}",
+							"raw": "{\r\n    \"username\": \"filip.chmielewski@poczta.pl\",\r\n    \"password\": null,\r\n    \"encodedPassword\": null,\r\n    \"firstName\": \"Filip\",\r\n    \"lastName\": \"Chmielewski\",\r\n    \"birthDate\": \"1996-10-10\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1636,7 +1638,7 @@
 					"response": []
 				},
 				{
-					"name": "/movie?id=5 [403]",
+					"name": "/movie [403]",
 					"event": [
 						{
 							"listen": "test",
@@ -1664,22 +1666,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
+							"raw": "{\n    \"id\": 5,\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/movie?id=5",
+							"raw": "localhost:8080/movie",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"movie"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "5"
-								}
 							]
 						}
 					},
@@ -1801,7 +1797,7 @@
 					"response": []
 				},
 				{
-					"name": "/room?id=3 [403]",
+					"name": "/room [403]",
 					"event": [
 						{
 							"listen": "test",
@@ -1828,21 +1824,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"capacity\": 55,\n    \"layout\": [\n        11,\n        11,\n        11,\n        11,\n        11\n    ]\n}"
+							"raw": "{\n    \"id\": 3,\n    \"capacity\": 55,\n    \"layout\": \"11,11,11,11,11\"\n}"
 						},
 						"url": {
-							"raw": "{{url}}/room?id=3",
+							"raw": "{{url}}/room",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"room"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "3"
-								}
 							]
 						}
 					},
@@ -2544,7 +2534,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin@cinema.pl\",\r\n\t\"birthDate\": \"1980-02-20\"\r\n}",
+							"raw": "{\r\n    \"username\": \"admin@cinema.pl\",\r\n    \"password\": null,\r\n    \"encodedPassword\": null,\r\n    \"firstName\": \"Piotr\",\r\n    \"lastName\": \"Krakowski\",\r\n\t\"birthDate\": \"1980-02-20\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2608,7 +2598,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"birthDate\": \"1986-06-09\"\r\n}",
+							"raw": "{\r\n    \"username\": \"piotr.krakowski@kino.pl\",\r\n    \"password\": null,\r\n    \"encodedPassword\": null,\r\n    \"firstName\": \"Piotr\",\r\n    \"lastName\": \"Krakowski\",    \r\n    \"birthDate\": \"1986-06-09\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3031,7 +3021,7 @@
 					"response": []
 				},
 				{
-					"name": "/movie?id=6 [404]",
+					"name": "/movie [404]",
 					"event": [
 						{
 							"listen": "test",
@@ -3062,29 +3052,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
+							"raw": "{\n    \"id\": 6,\n    \"title\": \"Jumanji: Przygoda w dżungli\",\n    \"category\": \"Familijny\",\n    \"length\": 123,\n    \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n    \"ageLimit\": 8\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/movie?id=6",
+							"raw": "localhost:8080/movie",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"movie"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "6"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/movie?id=5",
+					"name": "/movie",
 					"event": [
 						{
 							"listen": "test",
@@ -3092,7 +3076,7 @@
 								"id": "a770ede7-dba3-493f-abcd-6c360ca4ca92",
 								"exec": [
 									"pm.test(\"Status test\", function () {",
-									"    pm.response.to.have.status(201);",
+									"    pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Age limit changed\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -3116,22 +3100,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ageLimit\": 8\n}"
+							"raw": "{\n        \"id\": 5,\n        \"title\": \"Jumanji: Przygoda w dżungli\",\n        \"category\": \"Familijny\",\n        \"length\": 123,\n        \"description\": \"Wielki powrót bohaterów „Jumanji: Przygoda w dżungli”! Pierwsza część filmu stała się międzynarodowym przebojem, zarabiając na całym świecie ponad 960 milionów dolarów.\",\n        \"ageLimit\": 8\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/movie?id=5",
+							"raw": "localhost:8080/movie",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"movie"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "5"
-								}
 							]
 						}
 					},
@@ -3430,7 +3408,7 @@
 					"response": []
 				},
 				{
-					"name": "/room?id=5 [404]",
+					"name": "/room [404]",
 					"event": [
 						{
 							"listen": "test",
@@ -3461,28 +3439,22 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"capacity\": 55,\n    \"layout\": \"11,11,11,11,11\"\n}"
+							"raw": "{\n    \"id\": 5,\n    \"capacity\": 55,\n    \"layout\": \"11,11,11,11,11\"\n}"
 						},
 						"url": {
-							"raw": "{{url}}/room?id=5",
+							"raw": "{{url}}/room",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"room"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "5"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/room?id=3",
+					"name": "/room",
 					"event": [
 						{
 							"listen": "test",
@@ -3490,7 +3462,7 @@
 								"id": "e6c1a788-4a81-4762-a660-fa6eff9f3792",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
+									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"pm.test(\"Layout matches\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -3513,21 +3485,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"capacity\": 55,\n    \"layout\": \"11,11,11,11,11\"\n}"
+							"raw": "{\n    \"id\": 3,\n    \"capacity\": 55,\n    \"layout\": \"11,11,11,11,11\"\n}"
 						},
 						"url": {
-							"raw": "{{url}}/room?id=3",
+							"raw": "{{url}}/room",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"room"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "3"
-								}
 							]
 						}
 					},
@@ -3884,7 +3850,7 @@
 					"response": []
 				},
 				{
-					"name": "/session?id=9 [404]",
+					"name": "/session [404]",
 					"event": [
 						{
 							"listen": "test",
@@ -3915,28 +3881,22 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startDate\": \"2020-04-02\"\n}"
+							"raw": "{\n        \"id\": 9,\n        \"movieId\": 1,\n        \"roomId\": 4,\n        \"startDate\": \"2020-04-02\",\n        \"startTime\": \"17:00:00\",\n        \"ticketPrice\": 14.99\n}"
 						},
 						"url": {
-							"raw": "{{url}}/session?id=9",
+							"raw": "{{url}}/session",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "9"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?id=1",
+					"name": "/session",
 					"event": [
 						{
 							"listen": "test",
@@ -3944,7 +3904,7 @@
 								"id": "5b647176-46e7-4941-b5a5-b2fe6473173f",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
+									"    pm.response.to.have.status(200);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -3963,28 +3923,22 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"startDate\": \"2020-04-02\"\n}"
+							"raw": "{\n    \"id\": 1,\n    \"movieId\": 3,\n    \"roomId\": 1,\n    \"startDate\": \"2020-04-02\",\n    \"startTime\": \"15:00:00\",\n    \"ticketPrice\": 14.99\n}"
 						},
 						"url": {
-							"raw": "{{url}}/session?id=1",
+							"raw": "{{url}}/session",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?id=3 [404]",
+					"name": "/session [404]",
 					"event": [
 						{
 							"listen": "test",
@@ -4015,28 +3969,22 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"roomId\": 5\n}"
+							"raw": "{\n    \"id\": 3,\n    \"movieId\": 1,\n    \"roomId\": 5,\n    \"startDate\": \"2020-04-02\",\n    \"startTime\": \"17:00:00\",\n    \"ticketPrice\": 14.99\n}"
 						},
 						"url": {
-							"raw": "{{url}}/session?id=3",
+							"raw": "{{url}}/session",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "3"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/session?id=3 [404]",
+					"name": "/session [404]",
 					"event": [
 						{
 							"listen": "test",
@@ -4067,21 +4015,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"movieId\": 7\n}"
+							"raw": "{\n    \"id\": 3,\n    \"movieId\": 7,\n    \"roomId\": 4,\n    \"startDate\": \"2020-04-02\",\n    \"startTime\": \"17:00:00\",\n    \"ticketPrice\": 14.99\n}"
 						},
 						"url": {
-							"raw": "{{url}}/session?id=3",
+							"raw": "{{url}}/session",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"session"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "3"
-								}
 							]
 						}
 					},

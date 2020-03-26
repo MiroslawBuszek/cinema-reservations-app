@@ -5,7 +5,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.mapper.UserMapper;
@@ -60,25 +59,23 @@ public class UserService {
         return userDTO;
     }
 
-    @Transactional
     public UserDTO updateUser(UserDTO userDTO) {
-        if (userDTO.getUsername() != null &&
-                !userDTO.getUsername().equals(authenticationFacade.getAuthentication().getName())) {
+        if (!userDTO.getUsername().equals(authenticationFacade.getAuthentication().getName())) {
             throw new BadRequestException(
                     "{username=" + userDTO.getUsername() + "} does not correspond to the logged user");
         }
-        User existingUser = userRepository.findByUsername(authenticationFacade.getAuthentication().getName());
-        if (userDTO.getFirstName() != null) {
-            existingUser.setFirstName(userDTO.getFirstName());
-        }
-        if (userDTO.getLastName() != null) {
-            existingUser.setLastName(userDTO.getLastName());
-        }
-        if (userDTO.getBirthDate() != null) {
-            existingUser.setBirthDate(userDTO.getBirthDate());
-        }
-        log.info("user {id=" + authenticationFacade.getAuthentication().getName() + "} was updated: " + existingUser);
-        return userMapper.mapDTOFromEntity(existingUser);
+        User savedUser = userRepository.save(mapUserFromDTO(userDTO));
+        log.info("user {id=" + savedUser.getUsername() + "} was updated: " + savedUser.toString());
+        return userMapper.mapDTOFromEntity(savedUser);
+    }
+
+    private User mapUserFromDTO(UserDTO userDTO) {
+        User user = userMapper.mapUserFromDTO(userDTO);
+        user.setPassword(userRepository.findByUsername(user.getUsername()).getPassword());
+        user.setActive(userRepository.findByUsername(user.getUsername()).getActive());
+        user.setRole(userRepository.findByUsername(user.getUsername()).getRole());
+        user.setPermissions(userRepository.findByUsername(user.getUsername()).getPermissions());
+        return user;
     }
 
     public List<UserDTO> getClientByExample(Map<String, String> requestParam) {

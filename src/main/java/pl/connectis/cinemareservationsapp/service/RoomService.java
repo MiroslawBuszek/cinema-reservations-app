@@ -3,7 +3,6 @@ package pl.connectis.cinemareservationsapp.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Room;
@@ -38,23 +37,18 @@ public class RoomService {
     }
 
     public Room save(Room room) {
-        validateRoom(room);
+        validateCapacityMatchesLayout(room);
         Room savedRoom = roomRepository.save(room);
         log.info("room {id=" + savedRoom.getId() + "} was added: " + room);
         return savedRoom;
     }
 
-    @Transactional
-    public Room updateById(Long id, Room room) {
-        validateRoomExists(id);
-        validateRoom(room);
-        Room existingRoom = getRoom(id);
-        if (room.getLayout() != null) {
-            existingRoom.setLayout(room.getLayout());
-        }
-        setCapacityFromLayout(existingRoom);
-        log.info("room {id=" + id + "} was updated :" + existingRoom);
-        return existingRoom;
+    public Room updateById(Room room) {
+        validateRoomExists(room.getId());
+        validateCapacityMatchesLayout(room);
+        Room savedRoom = roomRepository.save(room);
+        log.info("room {id=" + savedRoom.getId() + "} was updated :" + savedRoom.toString());
+        return savedRoom;
     }
 
     public void deleteById(Long id) {
@@ -69,7 +63,7 @@ public class RoomService {
         }
     }
 
-    private void validateRoom(Room room) {
+    private void validateCapacityMatchesLayout(Room room) {
         if (!validateCapacity(room)) {
             throw new BadRequestException("capacity does not correspond to layout");
         } else if (room.getCapacity() == null) {
