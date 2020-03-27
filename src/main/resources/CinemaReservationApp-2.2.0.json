@@ -2332,6 +2332,138 @@
 					"response": []
 				},
 				{
+					"name": "/reservation [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f38c8146-c0f0-4127-b529-874c31f154c0",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"reserved seat does not correspond to room layout\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sessionId\": 6,\n\t\"reservedSeats\": [\n\t\t\t{\n\t\t\t\t\"rowNumber\": 6,\n\t\t\t\t\"seatNumber\": 5,\n\t\t\t\t\"sold\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"rowNumber\": 6,\n\t\t\t\t\"seatNumber\": 6,\n\t\t\t\t\"sold\": false\n\t\t\t}\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reservation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reservation [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f38c8146-c0f0-4127-b529-874c31f154c0",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"reserved seats should be in the same row\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sessionId\": 6,\n\t\"reservedSeats\": [\n\t\t\t{\n\t\t\t\t\"rowNumber\": 1,\n\t\t\t\t\"seatNumber\": 5,\n\t\t\t\t\"sold\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"rowNumber\": 3,\n\t\t\t\t\"seatNumber\": 5,\n\t\t\t\t\"sold\": false\n\t\t\t}\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reservation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reservation [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f38c8146-c0f0-4127-b529-874c31f154c0",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"reserved seats should be next to each other\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sessionId\": 6,\n\t\"reservedSeats\": [\n\t\t\t{\n\t\t\t\t\"rowNumber\": 5,\n\t\t\t\t\"seatNumber\": 5,\n\t\t\t\t\"sold\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"rowNumber\": 5,\n\t\t\t\t\"seatNumber\": 7,\n\t\t\t\t\"sold\": false\n\t\t\t}\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reservation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/mytickets",
 					"event": [
 						{

@@ -11,15 +11,15 @@ import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
 import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
-import pl.connectis.cinemareservationsapp.repository.MovieRepository;
-import pl.connectis.cinemareservationsapp.repository.SessionRepository;
-import pl.connectis.cinemareservationsapp.repository.TicketRepository;
-import pl.connectis.cinemareservationsapp.repository.UserRepository;
+import pl.connectis.cinemareservationsapp.repository.*;
 import pl.connectis.cinemareservationsapp.security.AuthenticationFacade;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -35,7 +35,8 @@ public class ReservationService {
     public ReservationService(AuthenticationFacade authenticationFacade,
                               SessionRepository sessionRepository,
                               TicketRepository ticketRepository,
-                              MovieRepository movieRepository, UserRepository userRepository,
+                              MovieRepository movieRepository,
+                              UserRepository userRepository,
                               TicketMapper ticketMapper) {
         this.authenticationFacade = authenticationFacade;
         this.sessionRepository = sessionRepository;
@@ -53,6 +54,7 @@ public class ReservationService {
     @Transactional
     public List<TicketDTO> makeReservation(ReservationDTO reservationDTO, String username) {
         validateSessionExists(reservationDTO.getSessionId());
+        validateSeats(reservationDTO);
         validateSeatsAreNotAlreadyReserved(reservationDTO);
         validateClientAge(reservationDTO, username);
         List<Seat> seatsFromReservation = reservationDTO.getReservedSeats();
@@ -91,10 +93,37 @@ public class ReservationService {
         LocalDate sessionDate = session.getStartDate();
                 LocalDate birthDate = userRepository.findByUsername(username).getBirthDate();
         int ageLimit = movieRepository.findById(session.getMovie().getId()).get().getAgeLimit();
-        log.info(username + " " + birthDate.toString() + " " + sessionDate.toString() + " " + birthDate.plusYears(ageLimit));
         if (birthDate.plusYears(ageLimit).isAfter(sessionDate)) {
             throw new BadRequestException("the user does not meet the age requirements");
         }
+    }
+
+    private void validateSeats(ReservationDTO reservationDTO) {
+        List<Seat> reservedSeats = reservationDTO.getReservedSeats();
+        int[] roomLayout = getRoomLayout(reservationDTO.getSessionId());
+        List<Integer> seatNumbers = new ArrayList<>(reservedSeats.size());
+        int row = 0;
+        for (Seat seat : reservedSeats) {
+            if (seat.getRowNumber() > roomLayout.length || seat.getSeatNumber() > roomLayout[seat.getRowNumber()-1]) {
+                throw new BadRequestException("reserved seat does not correspond to room layout");
+            } else if (row == 0) {
+                row = seat.getRowNumber();
+            } else if (row != seat.getRowNumber()){
+                throw new BadRequestException("reserved seats should be in the same row");
+            }
+            seatNumbers.add(seat.getSeatNumber());
+        }
+        Collections.sort(seatNumbers);
+        if (seatNumbers.get(0) + seatNumbers.size() - 1 != seatNumbers.get(seatNumbers.size() - 1))  {
+            throw new BadRequestException("reserved seats should be next to each other");
+        }
+    }
+
+    private int[] getRoomLayout(Long sessionId) {
+        String layoutString = sessionRepository.findById(sessionId).get().getRoom().getLayout();
+        String[] layoutStringArray = layoutString.split(",");
+        int [] layoutIntArray = Stream.of(layoutStringArray).mapToInt(Integer::parseInt).toArray();
+        return layoutIntArray;
     }
 
     private List<Ticket> mapTicketsFromReservationDTO(ReservationDTO reservationDTO, String username) {
