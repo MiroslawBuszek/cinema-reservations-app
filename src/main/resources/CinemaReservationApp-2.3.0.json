@@ -3519,6 +3519,52 @@
 					"response": []
 				},
 				{
+					"name": "/room [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9872c99f-8fb4-458a-bb3d-8820270763fa",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"inappropriate layout format\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"capacity\": 200,\n    \"layout\": \"25 25 25 25 25 25 25 25\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/room",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/room?id=5",
 					"event": [
 						{
