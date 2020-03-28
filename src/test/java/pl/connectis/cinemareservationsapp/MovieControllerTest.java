@@ -40,8 +40,8 @@ public class MovieControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/addNewMovie.csv", delimiter = ';')
-    public void addNewMovie(String expectedJson) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/movie").content(expectedJson)
+    public void addNewMovie(String content) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/movie").content(content)
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
