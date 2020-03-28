@@ -3,6 +3,7 @@ package pl.connectis.cinemareservationsapp.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
@@ -28,6 +29,8 @@ public class SessionService {
     private final RoomRepository roomRepository;
     private final MovieRepository movieRepository;
     private final SessionMapper sessionMapper;
+
+    private final long ADS_AND_MAINTENANCE_TIME = 30;
 
     public SessionService(SessionRepository sessionRepository,
                           RoomRepository roomRepository,
@@ -67,16 +70,16 @@ public class SessionService {
         return new ArrayList<>(sessionRepository.findById(sessionId).get().getSeats().values());
     }
 
+    @Transactional
     public SessionDTO save(SessionDTO sessionDTO) {
         validateMovieExists(sessionDTO.getMovieId());
         validateRoomExists(sessionDTO.getRoomId());
-        validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
+        validateStartTime(sessionDTO);
         Session session = mapEntityFromDTO(sessionDTO);
         Session savedSession = sessionRepository.save(session);
         log.info("session {id= " + savedSession.getId() + "} was added: " + savedSession.toString());
         return sessionMapper.mapDTOFromEntity(savedSession);
     }
-
 
     private Session mapEntityFromDTO(SessionDTO sessionDTO) {
         Session session = sessionMapper.mapEntityFromDTO(sessionDTO);
@@ -94,35 +97,11 @@ public class SessionService {
         validateSessionExists(sessionDTO.getId());
         validateMovieExists(sessionDTO.getMovieId());
         validateRoomExists(sessionDTO.getRoomId());
-        validateStartTime(sessionDTO.getStartDate(), sessionDTO.getStartTime());
+        validateStartTime(sessionDTO);
         Session session = mapEntityFromDTO(sessionDTO);
         Session savedSession = sessionRepository.save(session);
         log.info("session {id=" + savedSession.getId() + "} was updated: " + savedSession.toString());
         return sessionMapper.mapDTOFromEntity(savedSession);
-    }
-
-    private boolean validateStartDate(SessionDTO sessionDTO) {
-        return sessionDTO.getStartDate() != null && sessionDTO.getStartDate().isAfter(LocalDate.now());
-    }
-
-    private boolean validateStartTime(SessionDTO sessionDTO) {
-
-        LocalTime startTime = sessionDTO.getStartTime();
-
-        if (startTime == null) {
-            return false;
-        }
-
-        LocalDate startDate = sessionDTO.getStartDate();
-
-        if (startDate == null) {
-            startDate = getSession(sessionDTO.getId()).getStartDate();
-        }
-
-        LocalDateTime startDataTime = LocalDateTime.of(startDate, startTime);
-
-        return startDataTime.isAfter(LocalDateTime.now());
-
     }
 
     public void deleteById(Long sessionId) {
@@ -149,23 +128,61 @@ public class SessionService {
         }
     }
 
-    private void validateStartTime(LocalDate startDate, LocalTime startTime) {
-        LocalDateTime startDataTime = LocalDateTime.of(startDate, startTime);
-        if (startDataTime.isBefore(LocalDateTime.now())) {
+    private void validateStartTime(SessionDTO validatedSession) {
+        LocalDate validatedStartDate = validatedSession.getStartDate();
+        LocalTime validatedStartTime = validatedSession.getStartTime();
+        LocalDateTime validatedStartDateTime = LocalDateTime.of(validatedStartDate, validatedStartTime);
+        if (validatedStartDateTime.isBefore(LocalDateTime.now())) {
             throw new BadRequestException("start time should be in future");
         }
+        Map<LocalDateTime, LocalDateTime> contiguousSessions = getContiguousSessionsStartAndEndTimes(validatedSession);
+        if (contiguousSessions.isEmpty()) {
+            return;
+        }
+        int validatedSessionMovieLength = movieRepository.findById(validatedSession.getMovieId()).get().getLength();
+        LocalDateTime validatedEndDateTime = validatedStartDateTime.plusMinutes(validatedSessionMovieLength)
+                .plusMinutes(ADS_AND_MAINTENANCE_TIME);
+        contiguousSessions.forEach((sessionStart, sessionEnd) ->
+                validateSessionsOverlapping(validatedStartDateTime, validatedEndDateTime, sessionStart, sessionEnd));
     }
 
-    private Session getSession(Long sessionId) {
+    private Map<LocalDateTime, LocalDateTime> getContiguousSessionsStartAndEndTimes(SessionDTO validatedSessionDTO) {
+        Map<LocalDateTime, Session> contiguousSessions = getSessionsStartDateTimesMap(
+                validatedSessionDTO.getRoomId(), validatedSessionDTO.getStartDate());
+        contiguousSessions.putAll(getSessionsStartDateTimesMap(
+                validatedSessionDTO.getRoomId(), validatedSessionDTO.getStartDate().minusDays(1)));
+        contiguousSessions.putAll(getSessionsStartDateTimesMap(
+                validatedSessionDTO.getRoomId(), validatedSessionDTO.getStartDate().plusDays(1)));
+        Map<LocalDateTime, LocalDateTime> startAndEndDateTimes = new HashMap<>();
+        contiguousSessions.forEach((startDateTime, session) -> startAndEndDateTimes.put(startDateTime, startDateTime
+                .plusMinutes(contiguousSessions.get(startDateTime).getMovie().getLength())
+                .plusMinutes(ADS_AND_MAINTENANCE_TIME)));
+        return startAndEndDateTimes;
+    }
 
-        Optional<Session> sessionOptional = sessionRepository.findById(sessionId);
+    private Map<LocalDateTime, Session> getSessionsStartDateTimesMap(Long roomId, LocalDate sessionStartDate) {
+        Room sessionRoom = roomRepository.findById(roomId).get();
+        Example<Session> sessionExample = Example.of(
+                new Session(null,null, sessionRoom,
+                        null, sessionStartDate,
+                        null,null));
+        List<Session> sessionsList = sessionRepository.findAll(sessionExample);
+        Map<LocalDateTime, Session> sessionsMap = new HashMap<>();
+        sessionsList.forEach(session -> sessionsMap.put(
+                LocalDateTime.of(session.getStartDate(), session.getStartTime()), session));
+        return sessionsMap;
+    }
 
-        if (!sessionOptional.isPresent()) {
-            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+    private void validateSessionsOverlapping(LocalDateTime validatedStart,
+                                             LocalDateTime validatedEnd,
+                                             LocalDateTime sessionStart,
+                                             LocalDateTime sessionEnd) {
+        if (!validatedStart.isBefore(sessionStart) && validatedStart.isBefore(sessionEnd)) {
+            throw new BadRequestException("session start is before end of previous session");
         }
-
-        return sessionOptional.get();
-
+        if (validatedStart.isBefore(sessionStart) && !validatedEnd.isBefore(sessionStart)) {
+            throw new BadRequestException("session end is after start of next session");
+        }
     }
 
     private Map<String, Seat> createSeatList(Room room) {

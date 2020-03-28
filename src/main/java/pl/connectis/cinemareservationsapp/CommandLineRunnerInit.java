@@ -157,7 +157,7 @@ public class CommandLineRunnerInit implements CommandLineRunner {
         sessionService.save(new SessionDTO(6L, 2L, 2L,
                 LocalDate.of(2020, 4, 2), LocalTime.of(21, 0), 14.99));
         sessionService.save(new SessionDTO(7L, 2L, 3L,
-                LocalDate.of(2020, 4, 2), LocalTime.of(21, 0), 14.99));
+                LocalDate.of(2020, 4, 2), LocalTime.of(21, 30), 14.99));
 
     }
 
