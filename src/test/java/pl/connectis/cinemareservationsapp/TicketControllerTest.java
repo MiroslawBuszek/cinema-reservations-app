@@ -25,15 +25,15 @@ public class TicketControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/findTicketById.csv", delimiter = ';')
-    public void findTicketById(long id, String expectedJson) throws Exception {
+    public void findTicketById(long id, String content) throws Exception {
         mockMvc.perform(get("/ticket/{id}", id).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(matchAll(status().is2xxSuccessful(), content().json(expectedJson)));
+                .andExpect(matchAll(status().is2xxSuccessful(), content().json(content)));
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/addNewTicket.csv", delimiter = ';')
-    public void addNewTicket(String expectedJson) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/ticket").content(expectedJson)
+    public void addNewTicket(String content) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/ticket").content(content)
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());

@@ -31,8 +31,8 @@ public class SessionControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/addNewSession.csv", delimiter = ';')
-    public void addNewSession(String expectedJson) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/session").content(expectedJson)
+    public void addNewSession(String content) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/session").content(content)
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
@@ -40,10 +40,10 @@ public class SessionControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/updateSession.csv", delimiter = ';')
-    public void updateSession(String expectedJson) throws Exception {
+    public void updateSession(String content) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .put("/session")
-                .content(expectedJson)
+                .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());

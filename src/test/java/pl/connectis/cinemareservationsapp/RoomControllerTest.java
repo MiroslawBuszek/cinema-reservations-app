@@ -26,22 +26,22 @@ public class RoomControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/allRoom.csv", delimiter = ';')
-    public void findAllRoom(String expectedJson) throws Exception {
+    public void findAllRoom(String content) throws Exception {
         mockMvc.perform(get("/room/all").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(matchAll(status().is2xxSuccessful(), content().json(expectedJson)));
+                .andExpect(matchAll(status().is2xxSuccessful(), content().json(content)));
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/findRoomById.csv", delimiter = ';')
-    public void findRoomById(long id, String expectedJson) throws Exception {
+    public void findRoomById(long id, String content) throws Exception {
         mockMvc.perform(get("/room/?id={id}", id).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(matchAll(status().is2xxSuccessful(), content().json(expectedJson)));
+                .andExpect(matchAll(status().is2xxSuccessful(), content().json(content)));
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/addNewRoom.csv", delimiter = ';')
-    public void addNewRoom(String expectedJson) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/room").content(expectedJson)
+    public void addNewRoom(String content) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/room").content(content)
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
@@ -49,18 +49,18 @@ public class RoomControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/addListOfNewRoom.csv", delimiter = ';')
-    public void addListOfNewRoom(String expectedJson) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/room/many").content(expectedJson)
+    public void addListOfNewRoom(String content) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/room/many").content(content)
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/updateRoom.csv", delimiter = ';')
-    public void updateRoom(long id, String expectedJson) throws Exception {
+    public void updateRoom(long id, String content) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .put("/room/?id={id}", id)
-                .content(expectedJson)
+                .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
