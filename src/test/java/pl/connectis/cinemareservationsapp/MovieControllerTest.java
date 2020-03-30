@@ -26,22 +26,22 @@ public class MovieControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/allMovie.csv", delimiter = ';')
-    public void findAllMovie(String expectedJson) throws Exception {
+    public void findAllMovie(String content) throws Exception {
         mockMvc.perform(get("/movie/all").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(matchAll(status().is2xxSuccessful(), content().json(expectedJson)));
+                .andExpect(matchAll(status().is2xxSuccessful(), content().json(content)));
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/findMovieById.csv", delimiter = ';')
-    public void findMovieById(long id, String expectedJson) throws Exception {
+    public void findMovieById(long id, String content) throws Exception {
         mockMvc.perform(get("/movie/?id={id}", id).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(matchAll(status().is2xxSuccessful(), content().json(expectedJson)));
+                .andExpect(matchAll(status().is2xxSuccessful(), content().json(content)));
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/addNewMovie.csv", delimiter = ';')
-    public void addNewMovie(String expectedJson) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/movie").content(expectedJson)
+    public void addNewMovie(String content) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/movie").content(content)
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
@@ -49,18 +49,18 @@ public class MovieControllerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/addListOfNewMovie.csv", delimiter = ';')
-    public void addListOfNewMovie(String expectedJson) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/movie/many").content(expectedJson)
+    public void addListOfNewMovie(String content) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/movie/many").content(content)
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/updateMovie.csv", delimiter = ';')
-    public void updateMovie(long id, String expectedJson) throws Exception {
+    public void updateMovie(long id, String content) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .put("/movie/?id={id}", id)
-                .content(expectedJson)
+                .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())

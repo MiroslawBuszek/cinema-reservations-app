@@ -8,7 +8,10 @@ import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -37,7 +40,7 @@ public class RoomService {
     }
 
     public Room save(Room room) {
-        validateCapacityMatchesLayout(room);
+        validateRoomLayout(room);
         Room savedRoom = roomRepository.save(room);
         log.info("room {id=" + savedRoom.getId() + "} was added: " + room);
         return savedRoom;
@@ -45,7 +48,7 @@ public class RoomService {
 
     public Room updateById(Room room) {
         validateRoomExists(room.getId());
-        validateCapacityMatchesLayout(room);
+        validateRoomLayout(room);
         Room savedRoom = roomRepository.save(room);
         log.info("room {id=" + savedRoom.getId() + "} was updated :" + savedRoom.toString());
         return savedRoom;
@@ -57,54 +60,25 @@ public class RoomService {
         log.info("movie {id=" + id + "} was deleted");
     }
 
+
     private void validateRoomExists(Long id) {
         if (!roomExists(id)) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
     }
 
-    private void validateCapacityMatchesLayout(Room room) {
-        if (!validateCapacity(room)) {
-            throw new BadRequestException("capacity does not correspond to layout");
-        } else if (room.getCapacity() == null) {
-            setCapacityFromLayout(room);
-        }
-    }
-
-    private boolean validateCapacity(Room room) {
-        return getCapacityFromLayout(room) == room.getCapacity();
-    }
-
-    private int getCapacityFromLayout(Room room) {
-        List<Integer> layoutIntegerList = getLayoutAsList(room.getLayout());
-        return layoutIntegerList.stream().mapToInt(Integer::intValue).sum();
-    }
-
-    private void setCapacityFromLayout(Room room) {
-        room.setCapacity(getCapacityFromLayout(room));
-    }
-
-    private List<Integer> getLayoutAsList(String layout) {
-        List<String> layoutStringList;
-        List<Integer> layoutIntegerList = new ArrayList<>();
+    private void validateRoomLayout(Room room) {
+        String[] layoutStringArray = room.getLayout().split(",");
+        int roomCapacity = 0;
         try {
-            layoutStringList = Arrays.asList(layout.split(","));
-            for (String rowCapacityString : layoutStringList) {
-                layoutIntegerList.add(Integer.parseInt(rowCapacityString));
-            }
+            int [] layoutIntArray = Stream.of(layoutStringArray).mapToInt(Integer::parseInt).toArray();
+            roomCapacity = Arrays.stream(layoutIntArray).sum();
         } catch (Exception exception) {
             throw new BadRequestException("inappropriate layout format");
         }
-        return layoutIntegerList;
-
-    }
-
-    private Room getRoom(Long id) {
-        Optional<Room> roomOptional = roomRepository.findById(id);
-        if (!roomOptional.isPresent()) {
-            throw new ResourceNotFoundException("room {id=" + id + "} was not found");
+        if (roomCapacity != room.getCapacity()) {
+            throw new BadRequestException("capacity does not correspond to layout");
         }
-        return roomOptional.get();
     }
 
 }

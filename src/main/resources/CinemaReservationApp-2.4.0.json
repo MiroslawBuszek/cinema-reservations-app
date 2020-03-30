@@ -2332,6 +2332,138 @@
 					"response": []
 				},
 				{
+					"name": "/reservation [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f38c8146-c0f0-4127-b529-874c31f154c0",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"reserved seat does not correspond to room layout\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sessionId\": 6,\n\t\"reservedSeats\": [\n\t\t\t{\n\t\t\t\t\"rowNumber\": 6,\n\t\t\t\t\"seatNumber\": 5,\n\t\t\t\t\"sold\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"rowNumber\": 6,\n\t\t\t\t\"seatNumber\": 6,\n\t\t\t\t\"sold\": false\n\t\t\t}\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reservation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reservation [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f38c8146-c0f0-4127-b529-874c31f154c0",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"reserved seats should be in the same row\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sessionId\": 6,\n\t\"reservedSeats\": [\n\t\t\t{\n\t\t\t\t\"rowNumber\": 1,\n\t\t\t\t\"seatNumber\": 5,\n\t\t\t\t\"sold\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"rowNumber\": 3,\n\t\t\t\t\"seatNumber\": 5,\n\t\t\t\t\"sold\": false\n\t\t\t}\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reservation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reservation [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f38c8146-c0f0-4127-b529-874c31f154c0",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"reserved seats should be next to each other\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sessionId\": 6,\n\t\"reservedSeats\": [\n\t\t\t{\n\t\t\t\t\"rowNumber\": 5,\n\t\t\t\t\"seatNumber\": 5,\n\t\t\t\t\"sold\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"rowNumber\": 5,\n\t\t\t\t\"seatNumber\": 7,\n\t\t\t\t\"sold\": false\n\t\t\t}\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reservation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/mytickets",
 					"event": [
 						{
@@ -3387,6 +3519,52 @@
 					"response": []
 				},
 				{
+					"name": "/room [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9872c99f-8fb4-458a-bb3d-8820270763fa",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"inappropriate layout format\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"capacity\": 200,\n    \"layout\": \"25 25 25 25 25 25 25 25\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/room",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/room?id=5",
 					"event": [
 						{
@@ -3857,6 +4035,104 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 3,\n\t\"startDate\": \"2000-04-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/session",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9813dec6-e2bf-42d9-8e55-b3411d5854cf",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"session start is before end of previous session\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"movieId\": 2,\r\n    \"roomId\": 4,\r\n    \"startDate\": \"2020-04-02\",\r\n    \"startTime\": \"18:30:00\",\r\n    \"ticketPrice\": 14.99\r\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/session",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/session [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9813dec6-e2bf-42d9-8e55-b3411d5854cf",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"session end is after start of next session\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"movieId\": 2,\r\n    \"roomId\": 4,\r\n    \"startDate\": \"2020-04-02\",\r\n    \"startTime\": \"14:30:00\",\r\n    \"ticketPrice\": 14.99\r\n}",
 							"options": {
 								"raw": {}
 							}
