@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .addFilter(new JwtAuthenticationFilter(authenticationManager(), this.secret, expirationTime))
+            .addFilter(new JwtAuthenticationFilter(authenticationManager(), this.secret, this.expirationTime))
             .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository, this.secret))
             .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/movie", "/session")
