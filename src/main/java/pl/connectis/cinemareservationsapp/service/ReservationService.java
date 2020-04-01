@@ -101,20 +101,32 @@ public class ReservationService {
     private void validateSeats(ReservationDTO reservationDTO) {
         List<Seat> reservedSeats = reservationDTO.getReservedSeats();
         int[] roomLayout = getRoomLayout(reservationDTO.getSessionId());
-        List<Integer> seatNumbers = new ArrayList<>(reservedSeats.size());
-        int row = 0;
+        List<Integer> seatsNumbers = new ArrayList<>(reservedSeats.size());
+        int rowNumberOfFirstSeat = reservedSeats.get(0).getRowNumber();
         for (Seat seat : reservedSeats) {
-            if (seat.getRowNumber() > roomLayout.length || seat.getSeatNumber() > roomLayout[seat.getRowNumber()-1]) {
-                throw new BadRequestException("reserved seat does not correspond to room layout");
-            } else if (row == 0) {
-                row = seat.getRowNumber();
-            } else if (row != seat.getRowNumber()){
-                throw new BadRequestException("reserved seats should be in the same row");
-            }
-            seatNumbers.add(seat.getSeatNumber());
+            validateReservedSeatFitsRoomLayout(seat, roomLayout, rowNumberOfFirstSeat);
+            seatsNumbers.add(seat.getSeatNumber());
         }
+        validateReservedSeatsAreNextToEachOther(seatsNumbers);
+    }
+
+    private void validateReservedSeatFitsRoomLayout(Seat seat, int[] roomLayout, int row) {
+        if (seat.getRowNumber() > roomLayout.length) {
+            throw new BadRequestException("reserved seat does not correspond to room layout; row " +
+                    seat.getRowNumber() + " out of " + roomLayout.length);
+        }
+        if (seat.getSeatNumber() > roomLayout[seat.getRowNumber()-1]) {
+            throw new BadRequestException("reserved seat does not correspond to room layout; seat " +
+                    seat.getSeatNumber() + " out of " + roomLayout[seat.getRowNumber()-1]);
+        }
+        if (row != seat.getRowNumber()){
+            throw new BadRequestException("reserved seats should be in the same row");
+        }
+    }
+
+    private void validateReservedSeatsAreNextToEachOther(List<Integer> seatNumbers) {
         Collections.sort(seatNumbers);
-        if (seatNumbers.get(0) + seatNumbers.size() - 1 != seatNumbers.get(seatNumbers.size() - 1))  {
+        if (seatNumbers.get(seatNumbers.size() - 1) - seatNumbers.get(0) != seatNumbers.size() - 1)  {
             throw new BadRequestException("reserved seats should be next to each other");
         }
     }

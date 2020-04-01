@@ -2293,6 +2293,46 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "6831adf2-a5d6-4dbb-9e48-d7ebd4411b08",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sessionId\": 6,\n\t\"reservedSeats\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reservation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reservation [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
 								"id": "f38c8146-c0f0-4127-b529-874c31f154c0",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
@@ -2344,7 +2384,7 @@
 									"});\r",
 									"pm.test(\"Appropriate message\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message).to.eql(\"reserved seat does not correspond to room layout\");\r",
+									"    pm.expect(jsonData.message).to.eql(\"reserved seat does not correspond to room layout; row 6 out of 5\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2357,6 +2397,50 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"sessionId\": 6,\n\t\"reservedSeats\": [\n\t\t\t{\n\t\t\t\t\"rowNumber\": 6,\n\t\t\t\t\"seatNumber\": 5,\n\t\t\t\t\"sold\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"rowNumber\": 6,\n\t\t\t\t\"seatNumber\": 6,\n\t\t\t\t\"sold\": false\n\t\t\t}\n\t\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reservation",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reservation [400]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f38c8146-c0f0-4127-b529-874c31f154c0",
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Appropriate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"reserved seat does not correspond to room layout; seat 11 out of 10\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sessionId\": 6,\n\t\"reservedSeats\": [\n\t\t\t{\n\t\t\t\t\"rowNumber\": 3,\n\t\t\t\t\"seatNumber\": 11,\n\t\t\t\t\"sold\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"rowNumber\": 3,\n\t\t\t\t\"seatNumber\": 12,\n\t\t\t\t\"sold\": false\n\t\t\t}\n\t\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
