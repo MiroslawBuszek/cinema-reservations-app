@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
-import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.SessionMapper;
-import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.model.Session;
@@ -75,13 +73,13 @@ public class SessionService {
 
     @Transactional
     public List<Seat> getSeats(Long sessionId) {
-        return new ArrayList<>(getSessionById(sessionId).getSeats().values());
+        return new ArrayList<>(sessionRepository.findOrThrow(sessionId).getSeats().values());
     }
 
     @Transactional
     public SessionDTO save(SessionDTO sessionDTO) {
-        validateMovieExists(sessionDTO.getMovieId());
-        validateRoomExists(sessionDTO.getRoomId());
+        movieRepository.existsOrThrow(sessionDTO.getMovieId());
+        roomRepository.existsOrThrow(sessionDTO.getRoomId());
         validateStartTime(sessionDTO);
         Session session = mapEntityFromDTO(sessionDTO);
         Session savedSession = sessionRepository.save(session);
@@ -103,9 +101,9 @@ public class SessionService {
 
     @Transactional
     public SessionDTO updateById(SessionDTO sessionDTO) {
-        validateSessionExists(sessionDTO.getId());
-        validateMovieExists(sessionDTO.getMovieId());
-        validateRoomExists(sessionDTO.getRoomId());
+        sessionRepository.existsOrThrow(sessionDTO.getId());
+        movieRepository.existsOrThrow(sessionDTO.getMovieId());
+        roomRepository.existsOrThrow(sessionDTO.getRoomId());
         validateStartTime(sessionDTO);
         Session session = mapEntityFromDTO(sessionDTO);
         Session savedSession = sessionRepository.save(session);
@@ -114,48 +112,9 @@ public class SessionService {
     }
 
     public void deleteById(Long sessionId) {
-        validateSessionExists(sessionId);
+        sessionRepository.existsOrThrow(sessionId);
         sessionRepository.deleteById(sessionId);
         log.info("session {id=" + sessionId + "} was deleted");
-    }
-
-    private void validateSessionExists(Long sessionId) {
-        if (!sessionRepository.existsById(sessionId)) {
-            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
-        }
-    }
-
-    private Session getSessionById(Long sessionId) {
-        if (sessionRepository.findById(sessionId).isPresent()) {
-            return sessionRepository.findById(sessionId).get();
-        }
-        throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
-    }
-
-    private void validateRoomExists(Long roomId) {
-        if (!roomRepository.existsById(roomId)) {
-            throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
-        }
-    }
-
-    private Room getRoomById(Long roomId) {
-        if (roomRepository.findById(roomId).isPresent()) {
-            return roomRepository.findById(roomId).get();
-        }
-        throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
-    }
-
-    private void validateMovieExists(Long movieId) {
-        if (!movieRepository.existsById(movieId)) {
-            throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
-        }
-    }
-
-    private Movie getMovieById(Long movieId) {
-        if (movieRepository.findById(movieId).isPresent()) {
-            return movieRepository.findById(movieId).get();
-        }
-        throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
     }
 
     private void validateStartTime(SessionDTO validatedSession) {
@@ -169,7 +128,7 @@ public class SessionService {
         if (contiguousSessions.isEmpty()) {
             return;
         }
-        int validatedSessionMovieLength = getMovieById(validatedSession.getMovieId()).getLength();
+        int validatedSessionMovieLength = movieRepository.findOrThrow(validatedSession.getMovieId()).getLength();
         LocalDateTime validatedEndDateTime = validatedStartDateTime.plusMinutes(validatedSessionMovieLength)
                 .plusMinutes(ADS_AND_MAINTENANCE_TIME);
         contiguousSessions.forEach((sessionStart, sessionEnd) ->
@@ -191,7 +150,7 @@ public class SessionService {
     }
 
     private Map<LocalDateTime, Session> getSessionsStartDateTimesMap(Long roomId, LocalDate sessionStartDate) {
-        Room sessionRoom = getRoomById(roomId);
+        Room sessionRoom = roomRepository.findOrThrow(roomId);
         Example<Session> sessionExample = Example.of(
                 new Session(null,null, sessionRoom,
                         null, sessionStartDate,
