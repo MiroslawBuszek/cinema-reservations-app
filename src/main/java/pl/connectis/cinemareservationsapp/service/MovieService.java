@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
@@ -45,6 +46,7 @@ public class MovieService {
         return savedMovie;
     }
 
+    @Transactional
     public Movie updateById(Movie movie) {
         validateMovieExists(movie.getId());
         Movie savedMovie = movieRepository.save(movie);

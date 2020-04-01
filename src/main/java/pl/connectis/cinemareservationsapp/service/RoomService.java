@@ -8,6 +8,7 @@ import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +36,6 @@ public class RoomService {
         return roomRepository.findAll(roomExample);
     }
 
-    public boolean roomExists(Long id) {
-        return roomRepository.findById(id).isPresent();
-    }
-
     public Room save(Room room) {
         validateRoomLayout(room);
         Room savedRoom = roomRepository.save(room);
@@ -46,6 +43,7 @@ public class RoomService {
         return savedRoom;
     }
 
+    @Transactional
     public Room updateById(Room room) {
         validateRoomExists(room.getId());
         validateRoomLayout(room);
@@ -62,14 +60,14 @@ public class RoomService {
 
 
     private void validateRoomExists(Long id) {
-        if (!roomExists(id)) {
+        if (!roomRepository.findById(id).isPresent()) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
     }
 
     private void validateRoomLayout(Room room) {
         String[] layoutStringArray = room.getLayout().split(",");
-        int roomCapacity = 0;
+        int roomCapacity;
         try {
             int [] layoutIntArray = Stream.of(layoutStringArray).mapToInt(Integer::parseInt).toArray();
             roomCapacity = Arrays.stream(layoutIntArray).sum();

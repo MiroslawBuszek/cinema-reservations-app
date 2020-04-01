@@ -9,12 +9,12 @@ import pl.connectis.cinemareservationsapp.service.UserService;
 import java.time.LocalDate;
 
 @Component
-@Profile("main")
-public class MainInitializer implements CommandLineRunner {
+@Profile("prod")
+public class ProdDatabaseInitializer implements CommandLineRunner {
 
     private final UserService userService;
 
-    public MainInitializer(UserService userService) {
+    public ProdDatabaseInitializer(UserService userService) {
         this.userService = userService;
     }
 

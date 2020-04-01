@@ -5,6 +5,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.UserDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.mapper.UserMapper;
@@ -35,18 +36,14 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
+    @Transactional
     public UserDTO createAccount(UserDTO userDTO, boolean isEmployee) {
         if (userRepository.findByUsername(userDTO.getUsername()) != null) {
             throw new BadRequestException("user {username=" + userDTO.getUsername() + "} was found");
         }
         userDTO.setEncodedPassword(passwordEncoder.encode(userDTO.getPassword()));
         userDTO.setPassword(null);
-        User user;
-        if (isEmployee) {
-            user = userMapper.mapEmployeeFromDTO(userDTO);
-        } else {
-            user = userMapper.mapClientFromDTO(userDTO);
-        }
+        User user = isEmployee ? userMapper.mapEmployeeFromDTO(userDTO) : userMapper.mapClientFromDTO(userDTO);
         userDTO.setEncodedPassword(null);
         User savedUser = userRepository.save(user);
         log.info("user {username=" + savedUser.getUsername() + "} was added: " + savedUser.toString());
@@ -55,10 +52,10 @@ public class UserService {
 
     public UserDTO getLoggedUser() {
         User user = userRepository.findByUsername(authenticationFacade.getAuthentication().getName());
-        UserDTO userDTO = userMapper.mapDTOFromEntity(user);
-        return userDTO;
+        return userMapper.mapDTOFromEntity(user);
     }
 
+    @Transactional
     public UserDTO updateUser(UserDTO userDTO) {
         if (!userDTO.getUsername().equals(authenticationFacade.getAuthentication().getName())) {
             throw new BadRequestException(

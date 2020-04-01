@@ -43,6 +43,11 @@ public class SessionService {
     }
 
     public List<SessionDTO> getSessionsByExample(Map<String, String> requestParams) {
+        return sessionMapper.mapDTOFromEntity(
+                sessionRepository.findAll(getSessionExampleFromRequestParams(requestParams)));
+    }
+
+    private Example<Session> getSessionExampleFromRequestParams(Map<String, String> requestParams) {
         Session session = new Session();
         if (requestParams.containsKey("movie") &&
                 movieRepository.findById(Long.parseLong(requestParams.get("movie"))).isPresent()) {
@@ -61,10 +66,10 @@ public class SessionService {
         if (requestParams.containsKey("price")) {
             session.setTicketPrice(Double.parseDouble(requestParams.get("price")));
         }
-        Example<Session> sessionExample = Example.of(session);
-        return sessionMapper.mapDTOFromEntity(sessionRepository.findAll(sessionExample));
+        return Example.of(session);
     }
 
+    @Transactional
     public List<Seat> getSeats(Long sessionId) {
         validateSessionExists(sessionId);
         return new ArrayList<>(sessionRepository.findById(sessionId).get().getSeats().values());
@@ -93,6 +98,7 @@ public class SessionService {
         return session;
     }
 
+    @Transactional
     public SessionDTO updateById(SessionDTO sessionDTO) {
         validateSessionExists(sessionDTO.getId());
         validateMovieExists(sessionDTO.getMovieId());
