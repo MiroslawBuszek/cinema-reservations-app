@@ -10,10 +10,7 @@ import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
 import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
-import pl.connectis.cinemareservationsapp.repository.MovieRepository;
-import pl.connectis.cinemareservationsapp.repository.SessionRepository;
-import pl.connectis.cinemareservationsapp.repository.TicketRepository;
-import pl.connectis.cinemareservationsapp.repository.UserRepository;
+import pl.connectis.cinemareservationsapp.repository.*;
 import pl.connectis.cinemareservationsapp.security.AuthenticationFacade;
 
 import java.time.LocalDate;

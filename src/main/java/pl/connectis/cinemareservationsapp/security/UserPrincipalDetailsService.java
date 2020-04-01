@@ -1,6 +1,5 @@
 package pl.connectis.cinemareservationsapp.security;
 
-import lombok.ToString;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.model.User;
 import pl.connectis.cinemareservationsapp.repository.UserRepository;
 
-@ToString
 @Service
 public class UserPrincipalDetailsService implements UserDetailsService {
 
@@ -24,4 +22,5 @@ public class UserPrincipalDetailsService implements UserDetailsService {
         UserPrincipal userPrincipal = new UserPrincipal(user);
         return userPrincipal;
     }
+
 }
