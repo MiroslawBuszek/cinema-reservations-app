@@ -61,7 +61,7 @@ public class MovieService {
     }
 
     private void validateMovieExists(Long id) {
-        if (!movieRepository.findById(id).isPresent()) {
+        if (!movieRepository.existsById(id)) {
             throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
         }
     }

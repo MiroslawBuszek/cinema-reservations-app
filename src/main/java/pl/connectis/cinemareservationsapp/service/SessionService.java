@@ -8,6 +8,7 @@ import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.SessionMapper;
+import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.model.Session;
@@ -18,7 +19,10 @@ import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -71,8 +75,7 @@ public class SessionService {
 
     @Transactional
     public List<Seat> getSeats(Long sessionId) {
-        validateSessionExists(sessionId);
-        return new ArrayList<>(sessionRepository.findById(sessionId).get().getSeats().values());
+        return new ArrayList<>(getSessionById(sessionId).getSeats().values());
     }
 
     @Transactional
@@ -117,21 +120,42 @@ public class SessionService {
     }
 
     private void validateSessionExists(Long sessionId) {
-        if (!sessionRepository.findById(sessionId).isPresent()) {
+        if (!sessionRepository.existsById(sessionId)) {
             throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
         }
     }
 
+    private Session getSessionById(Long sessionId) {
+        if (sessionRepository.findById(sessionId).isPresent()) {
+            return sessionRepository.findById(sessionId).get();
+        }
+        throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
+    }
+
     private void validateRoomExists(Long roomId) {
-        if (!roomRepository.findById(roomId).isPresent()) {
+        if (!roomRepository.existsById(roomId)) {
             throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
         }
     }
 
+    private Room getRoomById(Long roomId) {
+        if (roomRepository.findById(roomId).isPresent()) {
+            return roomRepository.findById(roomId).get();
+        }
+        throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
+    }
+
     private void validateMovieExists(Long movieId) {
-        if (!movieRepository.findById(movieId).isPresent()) {
+        if (!movieRepository.existsById(movieId)) {
             throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
         }
+    }
+
+    private Movie getMovieById(Long movieId) {
+        if (movieRepository.findById(movieId).isPresent()) {
+            return movieRepository.findById(movieId).get();
+        }
+        throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
     }
 
     private void validateStartTime(SessionDTO validatedSession) {
@@ -145,7 +169,7 @@ public class SessionService {
         if (contiguousSessions.isEmpty()) {
             return;
         }
-        int validatedSessionMovieLength = movieRepository.findById(validatedSession.getMovieId()).get().getLength();
+        int validatedSessionMovieLength = getMovieById(validatedSession.getMovieId()).getLength();
         LocalDateTime validatedEndDateTime = validatedStartDateTime.plusMinutes(validatedSessionMovieLength)
                 .plusMinutes(ADS_AND_MAINTENANCE_TIME);
         contiguousSessions.forEach((sessionStart, sessionEnd) ->
@@ -167,7 +191,7 @@ public class SessionService {
     }
 
     private Map<LocalDateTime, Session> getSessionsStartDateTimesMap(Long roomId, LocalDate sessionStartDate) {
-        Room sessionRoom = roomRepository.findById(roomId).get();
+        Room sessionRoom = getRoomById(roomId);
         Example<Session> sessionExample = Example.of(
                 new Session(null,null, sessionRoom,
                         null, sessionStartDate,
@@ -198,9 +222,9 @@ public class SessionService {
         int [] layoutIntArray = Stream.of(layoutStringArray).mapToInt(Integer::parseInt).toArray();
         int row = 0;
         int seat = 0;
-        for (int i = 0; i < layoutIntArray.length; i++) {
+        for (int value : layoutIntArray) {
             row++;
-            for (int j = 0; j < layoutIntArray[i]; j++) {
+            for (int j = 0; j < value; j++) {
                 seat++;
                 sessionSeats.put(row + "x" + seat, new Seat(row, seat, false));
             }

@@ -60,7 +60,7 @@ public class RoomService {
 
 
     private void validateRoomExists(Long id) {
-        if (!roomRepository.findById(id).isPresent()) {
+        if (!roomRepository.existsById(id)) {
             throw new ResourceNotFoundException("room {id=" + id + "} was not found");
         }
     }

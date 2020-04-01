@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
 import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
+import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import pl.connectis.cinemareservationsapp.repository.TicketRepository;
@@ -45,7 +46,7 @@ public class TicketService {
         }
         ticket.setUser(userRepository.findByUsername(requestParam.get("client")));
         if (requestParam.containsKey("session")) {
-            ticket.setSession(sessionRepository.findById(Long.parseLong(requestParam.get("session"))).get());
+            ticket.setSession(getSessionById(Long.parseLong(requestParam.get("session"))));
         }
         ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
         Example<Ticket> ticketExample = Example.of(ticket, caseInsensitiveExampleMatcher);
@@ -66,9 +67,16 @@ public class TicketService {
     }
 
     private void validateTicketExists(Long ticketId) {
-        if (!ticketRepository.findById(ticketId).isPresent()) {
+        if (!ticketRepository.existsById(ticketId)) {
             throw new ResourceNotFoundException("ticket {id=" + ticketId + "} was not found");
         }
+    }
+
+    private Session getSessionById(Long sessionId) {
+        if (sessionRepository.findById(sessionId).isPresent()) {
+            return sessionRepository.findById(sessionId).get();
+        }
+        throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
     }
 
 }
