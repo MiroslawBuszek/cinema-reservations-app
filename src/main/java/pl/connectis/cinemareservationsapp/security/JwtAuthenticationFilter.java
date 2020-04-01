@@ -2,6 +2,7 @@ package pl.connectis.cinemareservationsapp.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
-
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -37,7 +38,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             credentials = new ObjectMapper().readValue(request.getInputStream(), LoginDTO.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Authorization failed on parsing request to LoginDTO object ");
         }
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

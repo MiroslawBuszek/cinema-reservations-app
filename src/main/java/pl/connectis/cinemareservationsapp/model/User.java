@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +32,8 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    private String permissions = "";
+    @Column(nullable = false)
+    private Permissions permissions;
 
     @Column(nullable = false)
     private String firstName;
@@ -46,20 +46,15 @@ public class User {
 
     @Transient
     private List<String> permissionsList;
+
     @Transient
     private List<String> roleList;
 
-    public List<String> getPermissionsList() {
-        if (this.permissions.length() > 0) {
-            return Arrays.asList(this.permissions.split(","));
-        }
-        return new ArrayList<>();
+    public List<Permissions> getPermissionsList() {
+        return Arrays.asList(permissions);
     }
 
     public List<Role> getRoleList() {
-
         return Arrays.asList(role);
-
     }
-
 }
