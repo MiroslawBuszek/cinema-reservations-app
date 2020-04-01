@@ -1,5 +1,6 @@
 package pl.connectis.cinemareservationsapp.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,10 +21,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserPrincipalDetailsService userPrincipalDetailsService;
     private final UserRepository userRepository;
+    private final String secret;
+    private final int expirationTime;
 
-    public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService, UserRepository userRepository) {
+    public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService, UserRepository userRepository, @Value("${jwt.secret}") String secret, @Value("${jwt.expiration.time}") int expirationTime) {
         this.userPrincipalDetailsService = userPrincipalDetailsService;
         this.userRepository = userRepository;
+        this.secret = secret;
+        this.expirationTime = expirationTime;
     }
 
     @Override
@@ -39,8 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-            .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository))
+            .addFilter(new JwtAuthenticationFilter(authenticationManager(), this.secret, this.expirationTime))
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository, this.secret))
             .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/movie", "/session")
                     .hasRole(String.valueOf(Role.EMPLOYEE))

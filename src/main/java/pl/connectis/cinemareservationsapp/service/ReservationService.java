@@ -12,10 +12,7 @@ import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.model.Session;
 import pl.connectis.cinemareservationsapp.model.Ticket;
-import pl.connectis.cinemareservationsapp.repository.MovieRepository;
-import pl.connectis.cinemareservationsapp.repository.SessionRepository;
-import pl.connectis.cinemareservationsapp.repository.TicketRepository;
-import pl.connectis.cinemareservationsapp.repository.UserRepository;
+import pl.connectis.cinemareservationsapp.repository.*;
 import pl.connectis.cinemareservationsapp.security.AuthenticationFacade;
 
 import java.time.LocalDate;
@@ -110,6 +107,7 @@ public class ReservationService {
         Session session = getSessionById(reservationDTO.getSessionId());
         LocalDate sessionDate = session.getStartDate();
                 LocalDate birthDate = userRepository.findByUsername(username).getBirthDate();
+
         int ageLimit = getMovieById(session.getMovie().getId()).getAgeLimit();
         if (birthDate.plusYears(ageLimit).isAfter(sessionDate)) {
             throw new BadRequestException("the user does not meet the age requirements");

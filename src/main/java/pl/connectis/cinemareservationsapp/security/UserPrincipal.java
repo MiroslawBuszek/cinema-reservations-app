@@ -23,7 +23,7 @@ public class UserPrincipal implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         this.user.getPermissionsList().forEach(p -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority(p);
+            GrantedAuthority authority = new SimpleGrantedAuthority(p.getAuthority());
             authorities.add(authority);
         });
 

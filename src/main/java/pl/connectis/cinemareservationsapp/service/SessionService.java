@@ -157,7 +157,7 @@ public class SessionService {
         }
         throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
     }
-
+  
     private void validateStartTime(SessionDTO validatedSession) {
         LocalDate validatedStartDate = validatedSession.getStartDate();
         LocalTime validatedStartTime = validatedSession.getStartTime();
