@@ -10,4 +10,5 @@ public interface SessionRepository extends CustomJpaRepository<Session, Long> {
     default String entityName() {
         return "session";
     }
+
 }

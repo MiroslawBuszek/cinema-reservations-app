@@ -12,4 +12,5 @@ public interface UserRepository extends CustomJpaRepository<User, String> {
     default String entityName() {
         return "user";
     }
+
 }

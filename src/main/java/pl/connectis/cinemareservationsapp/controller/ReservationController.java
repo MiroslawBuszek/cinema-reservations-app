@@ -24,4 +24,5 @@ public class ReservationController {
     public List<TicketDTO> makeReservation(@Valid @RequestBody ReservationDTO reservationDTO) {
         return reservationService.makeReservation(reservationDTO);
     }
+
 }

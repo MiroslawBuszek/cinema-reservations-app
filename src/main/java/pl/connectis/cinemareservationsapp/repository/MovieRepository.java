@@ -10,4 +10,5 @@ public interface MovieRepository extends CustomJpaRepository<Movie, Long> {
     default String entityName() {
         return "movie";
     }
+
 }

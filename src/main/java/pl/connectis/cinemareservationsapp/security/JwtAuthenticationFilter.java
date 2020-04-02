@@ -56,4 +56,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(HMAC512(secret));
         response.addHeader("Authorization", "Bearer " + token);
     }
+
 }

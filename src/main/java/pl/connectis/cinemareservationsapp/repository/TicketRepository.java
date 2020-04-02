@@ -10,4 +10,5 @@ public interface TicketRepository extends CustomJpaRepository<Ticket, Long> {
     default String entityName() {
         return "ticket";
     }
+
 }
