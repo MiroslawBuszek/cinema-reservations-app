@@ -41,8 +41,4 @@ public class RoomController {
         roomService.deleteById(id);
     }
 
-
-
-
-
 }

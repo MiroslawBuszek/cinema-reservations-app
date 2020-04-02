@@ -8,4 +8,9 @@ public interface UserRepository extends CustomJpaRepository<User, String> {
 
     User findByUsername(String username);
 
+    @Override
+    default String entityName() {
+        return "user";
+    }
+
 }

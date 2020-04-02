@@ -7,15 +7,19 @@ import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 @NoRepositoryBean
 public interface CustomJpaRepository<T, ID> extends JpaRepository<T, ID> {
 
-    default T findByIdOrThrow(ID id, String objectName) {
+    default T findOrThrow(ID id) {
         return findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(objectName + " {id=" + id + "} was not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(entityName() + " {id=" + id + "} was not found"));
     }
 
-    default void existsByIdOrThrow(ID id, String objectName) {
+    default void existsOrThrow(ID id) {
         if (!existsById(id)) {
-            throw new ResourceNotFoundException(objectName + " {id=" + id + "} was not found");
+            throw new ResourceNotFoundException(entityName() + " {id=" + id + "} was not found");
         }
+    }
+
+    default String entityName() {
+        return "resource";
     }
 
 }

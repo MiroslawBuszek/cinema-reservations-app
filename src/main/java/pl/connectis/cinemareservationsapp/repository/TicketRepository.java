@@ -6,8 +6,9 @@ import pl.connectis.cinemareservationsapp.model.Ticket;
 @Repository
 public interface TicketRepository extends CustomJpaRepository<Ticket, Long> {
 
-    default void existsOrThrow(Long id) {
-        existsByIdOrThrow(id, "ticket");
+    @Override
+    default String entityName() {
+        return "ticket";
     }
 
 }

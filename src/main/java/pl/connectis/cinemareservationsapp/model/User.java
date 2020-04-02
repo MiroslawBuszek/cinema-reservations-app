@@ -48,4 +48,5 @@ public class User {
     public List<Role> getRoleList() {
         return Arrays.asList(role);
     }
+
 }
