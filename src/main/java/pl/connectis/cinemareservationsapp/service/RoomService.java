@@ -4,10 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
-import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +35,6 @@ public class RoomService {
         return roomRepository.findAll(roomExample);
     }
 
-    public boolean roomExists(Long id) {
-        return roomRepository.findById(id).isPresent();
-    }
-
     public Room save(Room room) {
         validateRoomLayout(room);
         Room savedRoom = roomRepository.save(room);
@@ -46,8 +42,9 @@ public class RoomService {
         return savedRoom;
     }
 
+    @Transactional
     public Room updateById(Room room) {
-        validateRoomExists(room.getId());
+        roomRepository.existsOrThrow(room.getId());
         validateRoomLayout(room);
         Room savedRoom = roomRepository.save(room);
         log.info("room {id=" + savedRoom.getId() + "} was updated :" + savedRoom.toString());
@@ -55,21 +52,14 @@ public class RoomService {
     }
 
     public void deleteById(Long id) {
-        validateRoomExists(id);
+        roomRepository.existsOrThrow(id);
         roomRepository.deleteById(id);
         log.info("movie {id=" + id + "} was deleted");
     }
 
-
-    private void validateRoomExists(Long id) {
-        if (!roomExists(id)) {
-            throw new ResourceNotFoundException("room {id=" + id + "} was not found");
-        }
-    }
-
     private void validateRoomLayout(Room room) {
         String[] layoutStringArray = room.getLayout().split(",");
-        int roomCapacity = 0;
+        int roomCapacity;
         try {
             int [] layoutIntArray = Stream.of(layoutStringArray).mapToInt(Integer::parseInt).toArray();
             roomCapacity = Arrays.stream(layoutIntArray).sum();

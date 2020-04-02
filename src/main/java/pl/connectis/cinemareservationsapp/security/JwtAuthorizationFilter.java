@@ -38,23 +38,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
-
         Authentication authentication = getUsernamePasswordAuthentication(request);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         chain.doFilter(request, response);
     }
 
     private Authentication getUsernamePasswordAuthentication(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER)
                 .replace(TOKEN_PREFIX, "");
-
         if (token != null) {
             String userName = JWT.require(HMAC512(secret))
                     .build()
                     .verify(token)
                     .getSubject();
-
             if (userName != null) {
                 User user = userRepository.findByUsername(userName);
                 UserPrincipal principal = new UserPrincipal(user);

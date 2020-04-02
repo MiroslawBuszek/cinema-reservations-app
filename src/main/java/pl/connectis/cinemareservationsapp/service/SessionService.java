@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
-import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.SessionMapper;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.model.Seat;
@@ -18,7 +17,10 @@ import pl.connectis.cinemareservationsapp.repository.SessionRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -43,6 +45,11 @@ public class SessionService {
     }
 
     public List<SessionDTO> getSessionsByExample(Map<String, String> requestParams) {
+        return sessionMapper.mapDTOFromEntity(
+                sessionRepository.findAll(getSessionExampleFromRequestParams(requestParams)));
+    }
+
+    private Example<Session> getSessionExampleFromRequestParams(Map<String, String> requestParams) {
         Session session = new Session();
         if (requestParams.containsKey("movie") &&
                 movieRepository.findById(Long.parseLong(requestParams.get("movie"))).isPresent()) {
@@ -61,19 +68,18 @@ public class SessionService {
         if (requestParams.containsKey("price")) {
             session.setTicketPrice(Double.parseDouble(requestParams.get("price")));
         }
-        Example<Session> sessionExample = Example.of(session);
-        return sessionMapper.mapDTOFromEntity(sessionRepository.findAll(sessionExample));
+        return Example.of(session);
     }
 
+    @Transactional
     public List<Seat> getSeats(Long sessionId) {
-        validateSessionExists(sessionId);
-        return new ArrayList<>(sessionRepository.findById(sessionId).get().getSeats().values());
+        return new ArrayList<>(sessionRepository.findOrThrow(sessionId).getSeats().values());
     }
 
     @Transactional
     public SessionDTO save(SessionDTO sessionDTO) {
-        validateMovieExists(sessionDTO.getMovieId());
-        validateRoomExists(sessionDTO.getRoomId());
+        movieRepository.existsOrThrow(sessionDTO.getMovieId());
+        roomRepository.existsOrThrow(sessionDTO.getRoomId());
         validateStartTime(sessionDTO);
         Session session = mapEntityFromDTO(sessionDTO);
         Session savedSession = sessionRepository.save(session);
@@ -93,10 +99,11 @@ public class SessionService {
         return session;
     }
 
+    @Transactional
     public SessionDTO updateById(SessionDTO sessionDTO) {
-        validateSessionExists(sessionDTO.getId());
-        validateMovieExists(sessionDTO.getMovieId());
-        validateRoomExists(sessionDTO.getRoomId());
+        sessionRepository.existsOrThrow(sessionDTO.getId());
+        movieRepository.existsOrThrow(sessionDTO.getMovieId());
+        roomRepository.existsOrThrow(sessionDTO.getRoomId());
         validateStartTime(sessionDTO);
         Session session = mapEntityFromDTO(sessionDTO);
         Session savedSession = sessionRepository.save(session);
@@ -105,27 +112,9 @@ public class SessionService {
     }
 
     public void deleteById(Long sessionId) {
-        validateSessionExists(sessionId);
+        sessionRepository.existsOrThrow(sessionId);
         sessionRepository.deleteById(sessionId);
         log.info("session {id=" + sessionId + "} was deleted");
-    }
-
-    private void validateSessionExists(Long sessionId) {
-        if (!sessionRepository.findById(sessionId).isPresent()) {
-            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
-        }
-    }
-
-    private void validateRoomExists(Long roomId) {
-        if (!roomRepository.findById(roomId).isPresent()) {
-            throw new ResourceNotFoundException("room {id=" + roomId + "} was not found");
-        }
-    }
-
-    private void validateMovieExists(Long movieId) {
-        if (!movieRepository.findById(movieId).isPresent()) {
-            throw new ResourceNotFoundException("movie {id=" + movieId + "} was not found");
-        }
     }
 
     private void validateStartTime(SessionDTO validatedSession) {
@@ -139,7 +128,7 @@ public class SessionService {
         if (contiguousSessions.isEmpty()) {
             return;
         }
-        int validatedSessionMovieLength = movieRepository.findById(validatedSession.getMovieId()).get().getLength();
+        int validatedSessionMovieLength = movieRepository.findOrThrow(validatedSession.getMovieId()).getLength();
         LocalDateTime validatedEndDateTime = validatedStartDateTime.plusMinutes(validatedSessionMovieLength)
                 .plusMinutes(ADS_AND_MAINTENANCE_TIME);
         contiguousSessions.forEach((sessionStart, sessionEnd) ->
@@ -161,7 +150,7 @@ public class SessionService {
     }
 
     private Map<LocalDateTime, Session> getSessionsStartDateTimesMap(Long roomId, LocalDate sessionStartDate) {
-        Room sessionRoom = roomRepository.findById(roomId).get();
+        Room sessionRoom = roomRepository.findOrThrow(roomId);
         Example<Session> sessionExample = Example.of(
                 new Session(null,null, sessionRoom,
                         null, sessionStartDate,
@@ -192,9 +181,9 @@ public class SessionService {
         int [] layoutIntArray = Stream.of(layoutStringArray).mapToInt(Integer::parseInt).toArray();
         int row = 0;
         int seat = 0;
-        for (int i = 0; i < layoutIntArray.length; i++) {
+        for (int value : layoutIntArray) {
             row++;
-            for (int j = 0; j < layoutIntArray[i]; j++) {
+            for (int j = 0; j < value; j++) {
                 seat++;
                 sessionSeats.put(row + "x" + seat, new Seat(row, seat, false));
             }

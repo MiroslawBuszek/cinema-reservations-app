@@ -5,7 +5,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
-import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
 import pl.connectis.cinemareservationsapp.model.Ticket;
 import pl.connectis.cinemareservationsapp.repository.SessionRepository;
@@ -45,7 +44,7 @@ public class TicketService {
         }
         ticket.setUser(userRepository.findByUsername(requestParam.get("client")));
         if (requestParam.containsKey("session")) {
-            ticket.setSession(sessionRepository.findById(Long.parseLong(requestParam.get("session"))).get());
+            ticket.setSession(sessionRepository.findOrThrow(Long.parseLong(requestParam.get("session"))));
         }
         ExampleMatcher caseInsensitiveExampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
         Example<Ticket> ticketExample = Example.of(ticket, caseInsensitiveExampleMatcher);
@@ -60,15 +59,9 @@ public class TicketService {
     }
 
     public void deleteById(Long id) {
-        validateTicketExists(id);
+        ticketRepository.existsOrThrow(id);
         ticketRepository.deleteById(id);
         log.info("ticket {id=" + id + "} was deleted");
-    }
-
-    private void validateTicketExists(Long ticketId) {
-        if (!ticketRepository.findById(ticketId).isPresent()) {
-            throw new ResourceNotFoundException("ticket {id=" + ticketId + "} was not found");
-        }
     }
 
 }

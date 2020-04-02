@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.repository.MovieRepository;
 
@@ -45,23 +45,18 @@ public class MovieService {
         return savedMovie;
     }
 
+    @Transactional
     public Movie updateById(Movie movie) {
-        validateMovieExists(movie.getId());
+        movieRepository.existsOrThrow(movie.getId());
         Movie savedMovie = movieRepository.save(movie);
         log.info("movie {id=" + savedMovie.getId() + "} was updated: " + savedMovie.toString());
         return savedMovie;
     }
 
-    public void deleteById(Long id) {
-        validateMovieExists(id);
-        movieRepository.deleteById(id);
-        log.info("movie {id=" + id + "} was deleted");
-    }
-
-    private void validateMovieExists(Long id) {
-        if (!movieRepository.findById(id).isPresent()) {
-            throw new ResourceNotFoundException("movie {id=" + id + "} was not found");
-        }
+    public void deleteById(Long movieId) {
+        movieRepository.existsOrThrow(movieId);
+        movieRepository.deleteById(movieId);
+        log.info("movie {id=" + movieId + "} was deleted");
     }
 
 }

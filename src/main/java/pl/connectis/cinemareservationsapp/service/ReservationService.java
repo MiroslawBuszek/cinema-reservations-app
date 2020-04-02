@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.connectis.cinemareservationsapp.dto.ReservationDTO;
 import pl.connectis.cinemareservationsapp.dto.TicketDTO;
 import pl.connectis.cinemareservationsapp.exceptions.BadRequestException;
-import pl.connectis.cinemareservationsapp.exceptions.ResourceNotFoundException;
 import pl.connectis.cinemareservationsapp.mapper.TicketMapper;
 import pl.connectis.cinemareservationsapp.model.Seat;
 import pl.connectis.cinemareservationsapp.model.Session;
@@ -53,7 +52,7 @@ public class ReservationService {
 
     @Transactional
     public List<TicketDTO> makeReservation(ReservationDTO reservationDTO, String username) {
-        validateSessionExists(reservationDTO.getSessionId());
+        sessionRepository.existsOrThrow(reservationDTO.getSessionId());
         validateSeats(reservationDTO);
         validateSeatsAreNotAlreadyReserved(reservationDTO);
         validateClientAge(reservationDTO, username);
@@ -71,7 +70,7 @@ public class ReservationService {
 
     private void validateSeatsAreNotAlreadyReserved(ReservationDTO reservationDTO) {
         List<Seat> seatsFromReservation = reservationDTO.getReservedSeats();
-        Map<String, Seat> seatsFromSession = sessionRepository.findById(reservationDTO.getSessionId()).get().getSeats();
+        Map<String, Seat> seatsFromSession = sessionRepository.findOrThrow(reservationDTO.getSessionId()).getSeats();
         for (Seat seatFromReservation : seatsFromReservation) {
             String mapKey = seatFromReservation.getRowNumber() + "x" + seatFromReservation.getSeatNumber();
             Seat seatFromSession = seatsFromSession.get(mapKey);
@@ -82,17 +81,11 @@ public class ReservationService {
         }
     }
 
-    private void validateSessionExists(Long sessionId) {
-        if (!sessionRepository.findById(sessionId).isPresent()) {
-            throw new ResourceNotFoundException("session {id=" + sessionId + "} was not found");
-        }
-    }
-
     private void validateClientAge(ReservationDTO reservationDTO, String username) {
-        Session session = sessionRepository.findById(reservationDTO.getSessionId()).get();
+        Session session = sessionRepository.findOrThrow(reservationDTO.getSessionId());
         LocalDate sessionDate = session.getStartDate();
                 LocalDate birthDate = userRepository.findByUsername(username).getBirthDate();
-        int ageLimit = movieRepository.findById(session.getMovie().getId()).get().getAgeLimit();
+        int ageLimit = movieRepository.findOrThrow(session.getMovie().getId()).getAgeLimit();
         if (birthDate.plusYears(ageLimit).isAfter(sessionDate)) {
             throw new BadRequestException("the user does not meet the age requirements");
         }
@@ -101,36 +94,47 @@ public class ReservationService {
     private void validateSeats(ReservationDTO reservationDTO) {
         List<Seat> reservedSeats = reservationDTO.getReservedSeats();
         int[] roomLayout = getRoomLayout(reservationDTO.getSessionId());
-        List<Integer> seatNumbers = new ArrayList<>(reservedSeats.size());
-        int row = 0;
+        List<Integer> seatsNumbers = new ArrayList<>(reservedSeats.size());
+        int rowNumberOfFirstSeat = reservedSeats.get(0).getRowNumber();
         for (Seat seat : reservedSeats) {
-            if (seat.getRowNumber() > roomLayout.length || seat.getSeatNumber() > roomLayout[seat.getRowNumber()-1]) {
-                throw new BadRequestException("reserved seat does not correspond to room layout");
-            } else if (row == 0) {
-                row = seat.getRowNumber();
-            } else if (row != seat.getRowNumber()){
-                throw new BadRequestException("reserved seats should be in the same row");
-            }
-            seatNumbers.add(seat.getSeatNumber());
+            validateReservedSeatFitsRoomLayout(seat, roomLayout, rowNumberOfFirstSeat);
+            seatsNumbers.add(seat.getSeatNumber());
         }
+        validateReservedSeatsAreNextToEachOther(seatsNumbers);
+    }
+
+    private void validateReservedSeatFitsRoomLayout(Seat seat, int[] roomLayout, int row) {
+        if (seat.getRowNumber() > roomLayout.length) {
+            throw new BadRequestException("reserved seat does not correspond to room layout; row " +
+                    seat.getRowNumber() + " out of " + roomLayout.length);
+        }
+        if (seat.getSeatNumber() > roomLayout[seat.getRowNumber()-1]) {
+            throw new BadRequestException("reserved seat does not correspond to room layout; seat " +
+                    seat.getSeatNumber() + " out of " + roomLayout[seat.getRowNumber()-1]);
+        }
+        if (row != seat.getRowNumber()){
+            throw new BadRequestException("reserved seats should be in the same row");
+        }
+    }
+
+    private void validateReservedSeatsAreNextToEachOther(List<Integer> seatNumbers) {
         Collections.sort(seatNumbers);
-        if (seatNumbers.get(0) + seatNumbers.size() - 1 != seatNumbers.get(seatNumbers.size() - 1))  {
+        if (seatNumbers.get(seatNumbers.size() - 1) - seatNumbers.get(0) != seatNumbers.size() - 1)  {
             throw new BadRequestException("reserved seats should be next to each other");
         }
     }
 
     private int[] getRoomLayout(Long sessionId) {
-        String layoutString = sessionRepository.findById(sessionId).get().getRoom().getLayout();
+        String layoutString = sessionRepository.findOrThrow(sessionId).getRoom().getLayout();
         String[] layoutStringArray = layoutString.split(",");
-        int [] layoutIntArray = Stream.of(layoutStringArray).mapToInt(Integer::parseInt).toArray();
-        return layoutIntArray;
+        return Stream.of(layoutStringArray).mapToInt(Integer::parseInt).toArray();
     }
 
     private List<Ticket> mapTicketsFromReservationDTO(ReservationDTO reservationDTO, String username) {
         List<Ticket> tickets = ticketMapper.mapTicketsFromReservationDTO(reservationDTO, username);
         for (Ticket ticket : tickets) {
             ticket.setUser(userRepository.findByUsername(username));
-            ticket.setSession(sessionRepository.findById(ticket.getSession().getId()).get());
+            ticket.setSession(sessionRepository.findOrThrow(ticket.getSession().getId()));
             Seat seatFromSession = getSeatFromSession(reservationDTO.getSessionId(), ticket.getSeat());
             ticket.setSeat(seatFromSession);
         }
@@ -141,7 +145,7 @@ public class ReservationService {
         int row = seatFromReservation.getRowNumber();
         int seat = seatFromReservation.getSeatNumber();
         String mapKey = row + "x" + seat;
-        Seat seatFromSession = sessionRepository.findById(sessionId).get().getSeats().get(mapKey);
+        Seat seatFromSession = sessionRepository.findOrThrow(sessionId).getSeats().get(mapKey);
         seatFromSession.setSold(true);
         return seatFromSession;
     }

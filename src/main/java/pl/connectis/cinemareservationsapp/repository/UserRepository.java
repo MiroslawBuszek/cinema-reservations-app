@@ -1,11 +1,10 @@
 package pl.connectis.cinemareservationsapp.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.connectis.cinemareservationsapp.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends CustomJpaRepository<User, String> {
 
     User findByUsername(String username);
 

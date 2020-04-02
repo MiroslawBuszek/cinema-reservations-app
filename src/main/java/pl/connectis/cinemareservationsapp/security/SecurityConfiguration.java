@@ -24,7 +24,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final String secret;
     private final int expirationTime;
 
-    public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService, UserRepository userRepository, @Value("${jwt.secret}") String secret, @Value("${jwt.expiration.time}") int expirationTime) {
+    public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService,
+                                 UserRepository userRepository,
+                                 @Value("${jwt.secret}") String secret,
+                                 @Value("${jwt.expiration.time}") int expirationTime) {
         this.userPrincipalDetailsService = userPrincipalDetailsService;
         this.userRepository = userRepository;
         this.secret = secret;

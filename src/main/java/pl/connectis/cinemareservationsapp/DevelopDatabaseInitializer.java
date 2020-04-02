@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @Component
-@Profile("development")
-public class DevelopmentInitializer implements CommandLineRunner {
+@Profile("develop")
+public class DevelopDatabaseInitializer implements CommandLineRunner {
 
     private final UserService userService;
     private final MovieService movieService;
@@ -26,7 +26,7 @@ public class DevelopmentInitializer implements CommandLineRunner {
     private final SessionService sessionService;
     private final ReservationService reservationService;
 
-    public DevelopmentInitializer(UserService userService, MovieService movieService, RoomService roomService, SessionService sessionService, ReservationService reservationService) {
+    public DevelopDatabaseInitializer(UserService userService, MovieService movieService, RoomService roomService, SessionService sessionService, ReservationService reservationService) {
         this.userService = userService;
         this.movieService = movieService;
         this.roomService = roomService;

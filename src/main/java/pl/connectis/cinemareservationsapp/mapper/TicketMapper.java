@@ -29,21 +29,6 @@ public class TicketMapper {
         return ticketDTOs;
     }
 
-    public Ticket mapEntityFromDTO(TicketDTO ticketDTO) {
-        Ticket ticket = new Ticket();
-        if (ticketDTO.getClient() != null) {
-            User user = new User();
-            user.setUsername(ticketDTO.getClient());
-            ticket.setUser(user);
-        }
-        if (ticketDTO.getSessionId() != null) {
-            Session session = new Session();
-            session.setId(ticketDTO.getSessionId());
-            ticket.setSession(session);
-        }
-        return ticket;
-    }
-
     public List<Ticket> mapTicketsFromReservationDTO(ReservationDTO reservationDTO, String username) {
         List<Ticket> tickets = new ArrayList<>();
         List<Seat> reservedSeats = reservationDTO.getReservedSeats();

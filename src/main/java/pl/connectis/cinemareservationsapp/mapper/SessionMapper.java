@@ -1,23 +1,14 @@
 package pl.connectis.cinemareservationsapp.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import pl.connectis.cinemareservationsapp.dto.SessionDTO;
 import pl.connectis.cinemareservationsapp.model.Movie;
 import pl.connectis.cinemareservationsapp.model.Room;
 import pl.connectis.cinemareservationsapp.model.Session;
-import pl.connectis.cinemareservationsapp.repository.MovieRepository;
-import pl.connectis.cinemareservationsapp.repository.RoomRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SessionMapper {
-
-    @Autowired
-    RoomRepository roomRepository;
-
-    @Autowired
-    MovieRepository movieRepository;
 
     public SessionDTO mapDTOFromEntity(Session session) {
         SessionDTO sessionDTO = new SessionDTO();
@@ -47,14 +38,12 @@ public class SessionMapper {
         if (sessionDTO.getMovieId() != null) {
             Movie movie = new Movie();
             movie.setId(sessionDTO.getMovieId());
-//            session.setMovie(movieRepository.findById(sessionDTO.getMovieId()).get());
             session.setMovie(movie);
 
         }
         if (sessionDTO.getRoomId() != null) {
             Room room = new Room();
             room.setId(sessionDTO.getRoomId());
-//            session.setRoom(roomRepository.findById(sessionDTO.getRoomId()).get());
             session.setRoom(room);
         }
         session.setStartTime(sessionDTO.getStartTime());

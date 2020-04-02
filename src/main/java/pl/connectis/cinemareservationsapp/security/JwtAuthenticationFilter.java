@@ -33,33 +33,27 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
         LoginDTO credentials = null;
         try {
             credentials = new ObjectMapper().readValue(request.getInputStream(), LoginDTO.class);
         } catch (IOException e) {
-            log.error("Authorization failed on parsing request to LoginDTO object ");
+            log.error("Authorization failed on parsing request to LoginDTO object");
         }
-
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 credentials.getUsername(),
                 credentials.getPassword(),
                 new ArrayList<>());
-
         Authentication auth = authenticationManager.authenticate(authenticationToken);
-
         return auth;
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserPrincipal principal = (UserPrincipal) authResult.getPrincipal();
-
         String token = JWT.create()
                 .withSubject(principal.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
                 .sign(HMAC512(secret));
-
         response.addHeader("Authorization", "Bearer " + token);
     }
 }
