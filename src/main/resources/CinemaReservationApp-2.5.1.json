@@ -697,7 +697,7 @@
 					"response": []
 				},
 				{
-					"name": "/session?date=2020-04-10",
+					"name": "/session?date=2020-07-10",
 					"event": [
 						{
 							"listen": "test",
@@ -720,7 +720,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/session?date=2020-04-10",
+							"raw": "{{url}}/session?date=2020-07-10",
 							"host": [
 								"{{url}}"
 							],
@@ -730,7 +730,7 @@
 							"query": [
 								{
 									"key": "date",
-									"value": "2020-04-10"
+									"value": "2020-07-10"
 								}
 							]
 						}
@@ -765,7 +765,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 3,\n\t\"startDate\": \"2020-04-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
+							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 3,\n\t\"startDate\": \"2020-07-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
 							"options": {
 								"raw": {}
 							}
@@ -847,7 +847,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\" : 1,\n\t\"startDate\": \"2020-04-02\"\n}"
+							"raw": "{\n\t\"id\" : 1,\n\t\"startDate\": \"2020-07-02\"\n}"
 						},
 						"url": {
 							"raw": "{{url}}/session",
@@ -1874,7 +1874,7 @@
 					"response": []
 				},
 				{
-					"name": "/session?date=2020-04-10",
+					"name": "/session?date=2020-07-10",
 					"event": [
 						{
 							"listen": "test",
@@ -1897,7 +1897,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/session?date=2020-04-10",
+							"raw": "{{url}}/session?date=2020-07-10",
 							"host": [
 								"{{url}}"
 							],
@@ -1907,7 +1907,7 @@
 							"query": [
 								{
 									"key": "date",
-									"value": "2020-04-10"
+									"value": "2020-07-10"
 								}
 							]
 						}
@@ -1942,7 +1942,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 3,\n\t\"startDate\": \"2020-04-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
+							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 3,\n\t\"startDate\": \"2020-07-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
 							"options": {
 								"raw": {}
 							}
@@ -2024,7 +2024,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\" : 1,\n\t\"startDate\": \"2020-04-02\"\n}"
+							"raw": "{\n\t\"id\" : 1,\n\t\"startDate\": \"2020-07-02\"\n}"
 						},
 						"url": {
 							"raw": "{{url}}/session",
@@ -3895,7 +3895,7 @@
 					"response": []
 				},
 				{
-					"name": "/session?date=2020-04-10",
+					"name": "/session?date=2020-07-10",
 					"event": [
 						{
 							"listen": "test",
@@ -3918,7 +3918,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/session?date=2020-04-10",
+							"raw": "{{url}}/session?date=2020-07-10",
 							"host": [
 								"{{url}}"
 							],
@@ -3928,7 +3928,7 @@
 							"query": [
 								{
 									"key": "date",
-									"value": "2020-04-10"
+									"value": "2020-07-10"
 								}
 							]
 						}
@@ -3971,7 +3971,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 3,\n\t\"startDate\": \"2020-04-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
+							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 3,\n\t\"startDate\": \"2020-07-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
 							"options": {
 								"raw": {}
 							}
@@ -4020,7 +4020,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 8,\n\t\"startDate\": \"2020-04-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
+							"raw": "{\n\t\"roomId\": 1,\n\t\"movieId\": 8,\n\t\"startDate\": \"2020-07-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
 							"options": {
 								"raw": {}
 							}
@@ -4069,7 +4069,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"roomId\": 9,\n\t\"movieId\": 3,\n\t\"startDate\": \"2020-04-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
+							"raw": "{\n\t\"roomId\": 9,\n\t\"movieId\": 3,\n\t\"startDate\": \"2020-07-10\",\n\t\"startTime\": \"21:00:00\",\n\t\"ticketPrice\": 14.99\n}",
 							"options": {
 								"raw": {}
 							}
@@ -4167,7 +4167,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 3,\r\n    \"movieId\": 2,\r\n    \"roomId\": 4,\r\n    \"startDate\": \"2020-04-02\",\r\n    \"startTime\": \"18:30:00\",\r\n    \"ticketPrice\": 14.99\r\n}",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"movieId\": 2,\r\n    \"roomId\": 4,\r\n    \"startDate\": \"2020-07-02\",\r\n    \"startTime\": \"18:30:00\",\r\n    \"ticketPrice\": 14.99\r\n}",
 							"options": {
 								"raw": {}
 							}
@@ -4216,7 +4216,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 3,\r\n    \"movieId\": 2,\r\n    \"roomId\": 4,\r\n    \"startDate\": \"2020-04-02\",\r\n    \"startTime\": \"14:30:00\",\r\n    \"ticketPrice\": 14.99\r\n}",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"movieId\": 2,\r\n    \"roomId\": 4,\r\n    \"startDate\": \"2020-07-02\",\r\n    \"startTime\": \"14:30:00\",\r\n    \"ticketPrice\": 14.99\r\n}",
 							"options": {
 								"raw": {}
 							}
@@ -4339,7 +4339,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"id\": 9,\n        \"movieId\": 1,\n        \"roomId\": 4,\n        \"startDate\": \"2020-04-02\",\n        \"startTime\": \"17:00:00\",\n        \"ticketPrice\": 14.99\n}"
+							"raw": "{\n        \"id\": 9,\n        \"movieId\": 1,\n        \"roomId\": 4,\n        \"startDate\": \"2020-07-02\",\n        \"startTime\": \"17:00:00\",\n        \"ticketPrice\": 14.99\n}"
 						},
 						"url": {
 							"raw": "{{url}}/session",
@@ -4381,7 +4381,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"movieId\": 3,\n    \"roomId\": 1,\n    \"startDate\": \"2020-04-02\",\n    \"startTime\": \"15:00:00\",\n    \"ticketPrice\": 14.99\n}"
+							"raw": "{\n    \"id\": 1,\n    \"movieId\": 3,\n    \"roomId\": 1,\n    \"startDate\": \"2020-07-02\",\n    \"startTime\": \"15:00:00\",\n    \"ticketPrice\": 14.99\n}"
 						},
 						"url": {
 							"raw": "{{url}}/session",
@@ -4427,7 +4427,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 3,\n    \"movieId\": 1,\n    \"roomId\": 5,\n    \"startDate\": \"2020-04-02\",\n    \"startTime\": \"17:00:00\",\n    \"ticketPrice\": 14.99\n}"
+							"raw": "{\n    \"id\": 3,\n    \"movieId\": 1,\n    \"roomId\": 5,\n    \"startDate\": \"2020-07-02\",\n    \"startTime\": \"17:00:00\",\n    \"ticketPrice\": 14.99\n}"
 						},
 						"url": {
 							"raw": "{{url}}/session",
@@ -4473,7 +4473,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 3,\n    \"movieId\": 7,\n    \"roomId\": 4,\n    \"startDate\": \"2020-04-02\",\n    \"startTime\": \"17:00:00\",\n    \"ticketPrice\": 14.99\n}"
+							"raw": "{\n    \"id\": 3,\n    \"movieId\": 7,\n    \"roomId\": 4,\n    \"startDate\": \"2020-07-02\",\n    \"startTime\": \"17:00:00\",\n    \"ticketPrice\": 14.99\n}"
 						},
 						"url": {
 							"raw": "{{url}}/session",
