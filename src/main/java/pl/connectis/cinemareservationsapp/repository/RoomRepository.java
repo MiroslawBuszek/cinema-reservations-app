@@ -6,12 +6,8 @@ import pl.connectis.cinemareservationsapp.model.Room;
 @Repository
 public interface RoomRepository extends CustomJpaRepository<Room, Long> {
 
-    default Room findOrThrow(Long id) {
-        return findByIdOrThrow(id, "room");
+    @Override
+    default String entityName() {
+        return "room";
     }
-
-    default void existsOrThrow(Long id) {
-        existsByIdOrThrow(id, "room");
-    }
-
 }
