@@ -33,9 +33,6 @@ public class User {
     private Role role;
 
     @Column(nullable = false)
-    private Permissions permissions;
-
-    @Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
@@ -45,14 +42,8 @@ public class User {
     private LocalDate birthDate;
 
     @Transient
-    private List<String> permissionsList;
-
-    @Transient
     private List<String> roleList;
 
-    public List<Permissions> getPermissionsList() {
-        return Arrays.asList(permissions);
-    }
 
     public List<Role> getRoleList() {
         return Arrays.asList(role);

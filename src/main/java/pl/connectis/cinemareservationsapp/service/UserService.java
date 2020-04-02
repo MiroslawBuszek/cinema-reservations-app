@@ -74,7 +74,6 @@ public class UserService {
         user.setPassword(userRepository.findByUsername(user.getUsername()).getPassword());
         user.setActive(userRepository.findByUsername(user.getUsername()).getActive());
         user.setRole(userRepository.findByUsername(user.getUsername()).getRole());
-        user.setPermissions(userRepository.findByUsername(user.getUsername()).getPermissions());
         return user;
     }
 
