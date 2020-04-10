@@ -13,13 +13,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.Properties;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -45,71 +44,95 @@ public class MovieControllerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/movie/getMovieByExampleAll.csv", delimiter = ';')
     public void getMovieByExampleAll(String response) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/movie")
+        mockMvc.perform(get("/movie")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(response));
+                .andExpect(content().json(response))
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Order(2)
     @ParameterizedTest
     @CsvFileSource(resources = "/movie/getMovieByExampleCategory.csv", delimiter = ';')
     public void getMovieByExampleCategory(String category, String response) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/movie?category={category}", category)
+        mockMvc.perform(get("/movie?category={category}", category)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(response));
+                .andExpect(content().json(response))
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Order(3)
     @ParameterizedTest
     @CsvFileSource(resources = "/movie/getMovieByExampleTitle.csv", delimiter = ';')
     public void getMovieByExampleTitle(String title, String response) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/movie?title={title}", title)
+        mockMvc.perform(get("/movie?title={title}", title)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(response));
+                .andExpect(content().json(response))
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Order(4)
     @ParameterizedTest
     @CsvFileSource(resources = "/movie/addMovie.csv", delimiter = ';')
     public void addMovie(String request, String response) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/movie")
+        mockMvc.perform(post("/movie")
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(response))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+                .andExpect(jsonPath("$.id").exists())
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Order(5)
     @ParameterizedTest
     @CsvFileSource(resources = "/movie/updateMovie.csv", delimiter = ';')
     public void updateMovie(String request, String response) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .put("/movie")
+        mockMvc.perform(put("/movie")
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(response));
+                .andExpect(content().json(response))
+                .andDo(MockMvcResultHandlers.print());
     }
+
 
     @Order(6)
     @ParameterizedTest
     @CsvFileSource(resources = "/movie/deleteMovie.csv", delimiter = ';')
     public void deleteMovie(long id) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .delete("/movie?id={id}", id)
+        mockMvc.perform(delete("/movie?id={id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Order(7)
+    @ParameterizedTest
+    @CsvFileSource(resources = "/movie/deleteMovieDoesntExist.csv", delimiter = ';')
+    public void deleteMovieDoesntExist(long id) throws Exception {
+        mockMvc.perform(delete("/movie?id={id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Order(8)
+    @ParameterizedTest
+    @CsvFileSource(resources = "/movie/updateMovieDoesntExist.csv", delimiter = ';')
+    public void updateMovieDoesntExist(String request) throws Exception {
+        mockMvc.perform(put("/movie")
+                .content(request)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(MockMvcResultHandlers.print());
     }
 
 }
