@@ -1,5 +1,10 @@
 package pl.connectis.cinemareservationsapp;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,55 +12,78 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import java.util.Properties;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @SpringBootTest
+@TestMethodOrder(OrderAnnotation.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class SessionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @ParameterizedTest
-    @CsvFileSource(resources = "/findSessionById.csv", delimiter = ';')
-    public void findSessionById(long id) throws Exception {
-        mockMvc.perform(get("/session/?id={id}", id).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(matchAll(status().is2xxSuccessful()));
+    @BeforeAll
+    public static void setSpringProfile() {
+        Properties properties = System.getProperties();
+        properties.setProperty("spring.profiles.active", "develop");
     }
 
+    @AfterAll
+    public static void resetSpringProfile() {
+        System.clearProperty("spring.profiles.active");
+    }
+
+    @Order(1)
     @ParameterizedTest
-    @CsvFileSource(resources = "/addNewSession.csv", delimiter = ';')
-    public void addNewSession(String content) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/session").content(content)
-                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+    @CsvFileSource(resources = "/session/getSession.csv", delimiter = ';')
+    public void getSession(String response) throws Exception {
+        mockMvc.perform(get("/session")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(response))
+                .andDo(print());
+    }
+
+    @Order(2)
+    @CsvFileSource(resources = "/session/addSession.csv", delimiter = ';')
+    public void addSession(String request, String response) throws Exception {
+        mockMvc.perform(post("/session")
+                .content(request)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+                .andExpect(content().json(response))
+                .andDo(print());
     }
 
+    @Order(3)
     @ParameterizedTest
-    @CsvFileSource(resources = "/updateSession.csv", delimiter = ';')
-    public void updateSession(String content) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .put("/session")
-                .content(content)
+    @CsvFileSource(resources = "/session/updateSession.csv", delimiter = ';')
+    public void updateSession(String request, String response) throws Exception {
+        mockMvc.perform(put("/session")
+                .content(request)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
+                .andExpect(content().json(response))
+                .andDo(print());
     }
 
+    @Order(4)
     @ParameterizedTest
-    @CsvFileSource(resources = "/deleteSessionById.csv", delimiter = ';')
-    public void deleteUser(long id) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .delete("/session/?id={id}", id)
+    @CsvFileSource(resources = "/session/deleteSession.csv", delimiter = ';')
+    public void deleteSession(long id) throws Exception {
+        mockMvc.perform(delete("/session?id={id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(print());
     }
 }
