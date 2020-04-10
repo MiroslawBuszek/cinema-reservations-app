@@ -20,7 +20,7 @@ public class RoomController {
     }
 
     @GetMapping
-    public List<Room> getRooms(@RequestParam Map<String, String> requestParam) {
+    public List<Room> getRoom(@RequestParam Map<String, String> requestParam) {
         return roomService.findRoom(requestParam);
     }
 
@@ -31,7 +31,7 @@ public class RoomController {
     }
 
     @PutMapping
-    public Room updateById(@Valid @RequestBody Room room) {
+    public Room updateRoom(@Valid @RequestBody Room room) {
         return roomService.updateById(room);
     }
 

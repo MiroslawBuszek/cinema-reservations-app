@@ -13,11 +13,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.Properties;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -48,7 +48,7 @@ public class MovieControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(response))
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
     @Order(2)
@@ -59,7 +59,7 @@ public class MovieControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(response))
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
     @Order(3)
@@ -70,7 +70,7 @@ public class MovieControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(response))
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
     @Order(4)
@@ -84,7 +84,7 @@ public class MovieControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().json(response))
                 .andExpect(jsonPath("$.id").exists())
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
     @Order(5)
@@ -97,7 +97,7 @@ public class MovieControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(response))
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
 
@@ -109,7 +109,7 @@ public class MovieControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
     @Order(7)
@@ -120,7 +120,7 @@ public class MovieControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
     @Order(8)
@@ -132,7 +132,7 @@ public class MovieControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
 }

@@ -1,5 +1,10 @@
 package pl.connectis.cinemareservationsapp;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,73 +12,80 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import java.util.Properties;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest
+@TestMethodOrder(OrderAnnotation.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class RoomControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "/allRoom.csv", delimiter = ';')
-    public void findAllRoom(String content) throws Exception {
-        mockMvc.perform(get("/room/all").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(matchAll(status().is2xxSuccessful(), content().json(content)));
+    @BeforeAll
+    public static void setSpringProfile() {
+        Properties properties = System.getProperties();
+        properties.setProperty("spring.profiles.active", "develop");
     }
 
-    @ParameterizedTest
-    @CsvFileSource(resources = "/findRoomById.csv", delimiter = ';')
-    public void findRoomById(long id, String content) throws Exception {
-        mockMvc.perform(get("/room/?id={id}", id).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(matchAll(status().is2xxSuccessful(), content().json(content)));
+    @AfterAll
+    public static void resetSpringProfile() {
+        System.clearProperty("spring.profiles.active");
     }
 
+    @Order(1)
     @ParameterizedTest
-    @CsvFileSource(resources = "/addNewRoom.csv", delimiter = ';')
-    public void addNewRoom(String content) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/room").content(content)
-                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+    @CsvFileSource(resources = "/room/getRoom.csv", delimiter = ';')
+    public void getRoom(String response) throws Exception {
+        mockMvc.perform(get("/room")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(response))
+                .andDo(print());
+    }
+
+    @Order(2)
+    @ParameterizedTest
+    @CsvFileSource(resources = "/room/addRoom.csv", delimiter = ';')
+    public void addRoom(String request, String response) throws Exception {
+        mockMvc.perform(post("/room")
+                .content(request)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+                .andExpect(content().json(response))
+                .andDo(print());
     }
 
+    @Order(3)
     @ParameterizedTest
-    @CsvFileSource(resources = "/addListOfNewRoom.csv", delimiter = ';')
-    public void addListOfNewRoom(String content) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/room/many").content(content)
-                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "/updateRoom.csv", delimiter = ';')
-    public void updateRoom(long id, String content) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .put("/room/?id={id}", id)
-                .content(content)
+    @CsvFileSource(resources = "/room/updateRoom.csv", delimiter = ';')
+    public void updateRoom(String request, String response) throws Exception {
+        mockMvc.perform(put("/room")
+                .content(request)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk())
+                .andExpect(content().json(response))
+                .andDo(print());
     }
 
+    @Order(4)
     @ParameterizedTest
-    @CsvFileSource(resources = "/deleteRoomById.csv", delimiter = ';')
+    @CsvFileSource(resources = "/room/deleteRoom.csv", delimiter = ';')
     public void deleteRoom(long id) throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .delete("/room/?id={id}", id)
+        mockMvc.perform(delete("/room?id={id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(print());
     }
 
 }
